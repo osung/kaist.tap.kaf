@@ -2,7 +2,7 @@ package adapterplace;
 
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.ui.views.properties.IPropertySource;
-import kaist.tap.kaf.views.*;
+import kaist.tap.kaf.component.*;
  
 public class ComponentAdapterFactory implements IAdapterFactory {
  

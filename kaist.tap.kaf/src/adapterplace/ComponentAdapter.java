@@ -1,6 +1,6 @@
 package adapterplace;
 
-import kaist.tap.kaf.views.Component;
+import kaist.tap.kaf.component.Component;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -75,7 +75,8 @@ public class ComponentAdapter implements IPropertySource {
 			component.setName(s);
 		}
 		if (id.equals("position")) {
-			component.setPosition(s);
+			Component.Point p = (Component.Point) value;
+			component.setPosition(p);
 		} /*
 		if (id.equals("width")) {
 			component.setWidth(s);

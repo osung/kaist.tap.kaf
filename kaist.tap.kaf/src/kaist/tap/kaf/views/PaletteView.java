@@ -10,7 +10,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
-
+import kaist.tap.kaf.component.*;
 
 /**
  * This sample class demonstrates how to plug-in a new
@@ -200,17 +200,18 @@ public class PaletteView extends ViewPart {
 		component.setColor("Red");
 		component.setLineStyle("Solid");
 		component.setLineThickness("1.5");
-		component.setPosition("(10, 10, 10)");
-		component.setendPosition("(20, 20, 20");
+		
+		component.setPosition(component.new Point(10, 10));
+		component.setEndPosition(component.new Point(20, 20));
 		components[0] = component;
 		Rectangle rect = new Rectangle();
 		rect.setName("Rectangle");
 		rect.setColor("Red");
 		rect.setLineStyle("Solid");
 		rect.setLineThickness("1.5");
-		rect.setPosition("(10, 10, 10)");
-		rect.setWidth("200");
-		rect.setHeight("100");
+		rect.setPosition(component.new Point(10,10));
+		rect.setWidth(200);
+		rect.setHeight(100);
 		components[1] = rect;
 		return components;
 	}
