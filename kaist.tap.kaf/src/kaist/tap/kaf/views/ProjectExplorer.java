@@ -12,6 +12,8 @@ import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 import org.eclipse.core.runtime.IAdaptable;
+import kaist.tap.kaf.manager.*;
+import kaist.tap.kaf.component.*;
 
 
 /**
@@ -45,6 +47,8 @@ public class ProjectExplorer extends ViewPart {
 	private Action action2;
 	private Action doubleClickAction;
 
+	private ViewManager vm;
+	
 	/*
 	 * The content provider class is responsible for
 	 * providing objects to the view. It can wrap

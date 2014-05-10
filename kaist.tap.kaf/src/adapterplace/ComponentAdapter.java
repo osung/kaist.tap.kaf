@@ -1,6 +1,6 @@
 package adapterplace;
 
-import kaist.tap.kaf.component.Component;
+import kaist.tap.kaf.component.*;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -91,7 +91,8 @@ public class ComponentAdapter implements IPropertySource {
 			component.setLineThickness(s);
 		}
 		if (id.equals("color")) {
-			component.setColor(s);
+			Color c = (Color) value;
+			component.setColor(c);
 		}			
 	}
 }

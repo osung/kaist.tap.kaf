@@ -20,12 +20,17 @@ public class Component {
 
 	protected String mName;
 	protected Point mPosition;
-	protected String mColor;
+	protected Color mColor;
 	protected String mLineThickness;
 	protected String mLineStyle;
 	protected String mPortList;
 	protected String mPortAvailability;
 	protected Point mEndPosition;
+	protected boolean mDrawn;
+	
+	public Component() {
+		mDrawn = false;
+	}
 	
 	public Point getEndPosition() {
 		return mEndPosition;
@@ -48,10 +53,10 @@ public class Component {
 	public void setPosition(Point position) {
 		mPosition = position;
 	}
-	public String getColor() {
+	public Color getColor() {
 		return mColor;
 	}
-	public void setColor(String color) {
+	public void setColor(Color color) {
 		mColor = color;
 	}
 	public String getLineThickness() {

@@ -197,7 +197,7 @@ public class PaletteView extends ViewPart {
 		Component[] components = new Component[2];
 		Component component = new Component();
 		component.setName("Line");
-		component.setColor("Red");
+		component.setColor(new Color("red"));
 		component.setLineStyle("Solid");
 		component.setLineThickness("1.5");
 		
@@ -206,7 +206,7 @@ public class PaletteView extends ViewPart {
 		components[0] = component;
 		Rectangle rect = new Rectangle();
 		rect.setName("Rectangle");
-		rect.setColor("Red");
+		rect.setColor(new Color("blue"));
 		rect.setLineStyle("Solid");
 		rect.setLineThickness("1.5");
 		rect.setPosition(component.new Point(10,10));

@@ -9,11 +9,13 @@ public class Rectangle extends Component {
 	}
 	public void setWidth(int width) {
 		mWidth = width;
+		//mEndPosition.x = mPosition.x + mWidth;
 	}
 	public int getHeight() {
 		return mHeight;
 	}
 	public void setHeight(int height) {
 		mHeight = height;
+		//mEndPosition.y = mPosition.y + mHeight;
 	}
 }
