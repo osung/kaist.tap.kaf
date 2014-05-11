@@ -31,6 +31,7 @@ public class ComponentRepository {
 	public void Register(Component comp)
 	{
 		mComponents.add(comp);	
+		
 	}
 	
 	public void Remove(Component comp)

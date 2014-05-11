@@ -41,6 +41,8 @@ public class PaletteView extends ViewPart {
 	private Action action1;
 	private Action action2;
 	private Action doubleClickAction;
+	private ComponentSelectionListener selectionListener;
+	
 
 	/*
 	 * The content provider class is responsible for
@@ -88,6 +90,8 @@ public class PaletteView extends ViewPart {
 	 * This is a callback that will allow us
 	 * to create the viewer and initialize it.
 	 */
+	
+	
 	public void createPartControl(Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		//viewer.setContentProvider(new ViewContentProvider());
@@ -104,8 +108,19 @@ public class PaletteView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		
+		selectionListener = new ComponentSelectionListener(viewer, getSite().getPart());
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 
+	public void dispose() {
+		if (selectionListener != null) {
+			getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(selectionListener);
+			selectionListener = null;
+		}
+		super.dispose();
+	}
+	
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);

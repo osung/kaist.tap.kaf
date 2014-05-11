@@ -1,6 +1,7 @@
 package adapterplace;
 
 import kaist.tap.kaf.component.*;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -85,10 +86,10 @@ public class ComponentAdapter implements IPropertySource {
 			component.setHeight(s);
 		} */
 		if (id.equals("linestyle")) {
-			component.setLineStyle(s);
+			component.setLineStyle((int) value);
 		}
 		if (id.equals("linethickness")) {
-			component.setLineThickness(s);
+			component.setLineThickness((int) value);
 		}
 		if (id.equals("color")) {
 			Color c = (Color) value;

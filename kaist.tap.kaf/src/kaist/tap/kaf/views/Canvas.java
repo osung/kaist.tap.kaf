@@ -16,6 +16,7 @@ public class Canvas extends ViewPart {
 
 	public static final String ID = "kaist.tap.kaf.views.Canvas"; //$NON-NLS-1$
 	protected ComponentRepository mRep;
+	private ComponentSelectionListener selectionListener;
 	
 	public Canvas() {
 		mRep = new ComponentRepository();
@@ -31,7 +32,7 @@ public class Canvas extends ViewPart {
 		container.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		{
 			org.eclipse.swt.widgets.Canvas canvas = new org.eclipse.swt.widgets.Canvas(container, SWT.H_SCROLL | SWT.V_SCROLL);
-			canvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_RED));
+			//canvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_RED));
 			//canvas.setBounds(0, 0, 594, 469);
 		}
 
@@ -45,7 +46,7 @@ public class Canvas extends ViewPart {
 				if (mRep.GetNumberOfComponents() > 0) {
 					mRep.draw(e.gc);
 				}
-				e.gc.dispose();
+				//e.gc.dispose();
 			}
 		}); 
 		
@@ -69,10 +70,14 @@ public class Canvas extends ViewPart {
 				
 				Rectangle rect = new Rectangle(x, y, w, h);
 				rect.setColor(SWTResourceManager.getColor(SWT.COLOR_RED));
-				mRep.Register(rect);
+				mRep.Register(rect);		
+				
 				Display.getCurrent().update();
 			}			
 		});
+		
+		selectionListener = new ComponentSelectionListener(, getSite().getPart());
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 	
 		

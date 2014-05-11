@@ -69,6 +69,9 @@ public class Line extends Component {
 			if (mColor != null) {
 				gc.setBackground(mColor);
 			}
+			
+			gc.setLineWidth(mLineThickness);
+			gc.setLineStyle(mLineStyle);
 			gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
 		}
 }

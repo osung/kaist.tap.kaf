@@ -1,5 +1,6 @@
 package kaist.tap.kaf.component;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
 
 public abstract class Component {
@@ -21,8 +22,8 @@ public abstract class Component {
 	protected String mName;
 	protected Point mPosition;
 	protected Color mColor;
-	protected String mLineThickness;
-	protected String mLineStyle;
+	protected int mLineThickness;
+	protected int mLineStyle;
 	protected String mPortList;
 	protected String mPortAvailability;
 	protected Point mEndPosition;
@@ -32,6 +33,9 @@ public abstract class Component {
 		mDrawn = false;
 		mPosition = new Point();
 		mEndPosition = new Point();
+		mLineThickness = 1;
+		mLineStyle = SWT.LINE_SOLID;
+		mColor = null;
 	}
 	
 	public Point getEndPosition() {
@@ -61,16 +65,16 @@ public abstract class Component {
 	public void setColor(Color color) {
 		mColor = color;
 	}
-	public String getLineThickness() {
+	public int getLineThickness() {
 		return mLineThickness;
 	}
-	public void setLineThickness(String lineThickness) {
+	public void setLineThickness(int lineThickness) {
 		mLineThickness = lineThickness;
 	}
-	public String getLineStyle() {
+	public int getLineStyle() {
 		return mLineStyle;
 	}
-	public void setLineStyle(String lineStyle) {
+	public void setLineStyle(int lineStyle) {
 		mLineStyle = lineStyle;
 	}
 	public String getPortList() {

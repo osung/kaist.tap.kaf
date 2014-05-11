@@ -37,6 +37,9 @@ public class Rectangle extends Component {
 		if (mColor != null) {
 			gc.setForeground(mColor);
 		}
+		
+		gc.setLineWidth(mLineThickness);
+		gc.setLineStyle(mLineStyle);
 		gc.drawRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
 	}
 }
