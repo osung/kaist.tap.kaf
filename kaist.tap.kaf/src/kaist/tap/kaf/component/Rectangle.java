@@ -34,6 +34,9 @@ public class Rectangle extends Component {
 	}
 	
 	public void draw(GC gc) {
+		if (mColor != null) {
+			gc.setForeground(mColor);
+		}
 		gc.drawRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
 	}
 }

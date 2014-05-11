@@ -1,8 +1,8 @@
 package kaist.tap.kaf.component;
 
+import org.eclipse.swt.graphics.*;
 
-
-public class Component {
+public abstract class Component {
 
 	public class Point {
 		public int x;
@@ -82,4 +82,5 @@ public class Component {
 	public String getPortAvailability() {
 		return mPortAvailability;
 	}
+	public abstract void draw(GC gc);
 }

@@ -66,6 +66,9 @@ public class Line extends Component {
 		}
 		
 		public void draw(GC gc) {
+			if (mColor != null) {
+				gc.setBackground(mColor);
+			}
 			gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
 		}
 }

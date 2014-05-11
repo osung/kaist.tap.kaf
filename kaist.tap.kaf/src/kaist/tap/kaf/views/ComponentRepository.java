@@ -1,7 +1,10 @@
 package kaist.tap.kaf.views;
 
 import java.util.*;
+
 import kaist.tap.kaf.component.*;
+
+import org.eclipse.swt.graphics.*;
 
 public class ComponentRepository {
 	
@@ -65,5 +68,10 @@ public class ComponentRepository {
 		return true;
 	}
 	
-	
+	public void draw(GC gc)
+	{
+		for (int i = 0; i < mComponents.size(); ++i) {
+			mComponents.get(i).draw(gc);
+		}
+	}
 }

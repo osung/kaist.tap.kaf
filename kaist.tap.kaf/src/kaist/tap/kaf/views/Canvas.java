@@ -5,7 +5,6 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -16,8 +15,10 @@ import kaist.tap.kaf.component.Rectangle;
 public class Canvas extends ViewPart {
 
 	public static final String ID = "kaist.tap.kaf.views.Canvas"; //$NON-NLS-1$
-
+	protected ComponentRepository mRep;
+	
 	public Canvas() {
+		mRep = new ComponentRepository();
 	}
 
 	/**
@@ -37,17 +38,43 @@ public class Canvas extends ViewPart {
 		createActions();
 		initializeToolBar();
 		initializeMenu();
-		
+			
 		container.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
-				Color blue = e.display.getSystemColor(SWT.COLOR_BLUE);
-				e.gc.setBackground(blue);
-				Rectangle rect = new Rectangle(20, 30, 50, 100);
-				rect.draw(e.gc);		
+				System.out.println("draw");
+				if (mRep.GetNumberOfComponents() > 0) {
+					mRep.draw(e.gc);
+				}
+				e.gc.dispose();
 			}
+		}); 
+		
+		container.addMouseListener(new MouseAdapter() {
+			Point sp;
+			
+			public void mouseDown(MouseEvent e) {
+				sp = new Point(e.x, e.y);
+			}
+			
+			public void mouseUp(MouseEvent e) {
+				int x, y, w, h;
+				
+				x = sp.x < e.x ? sp.x : e.x;
+				y = sp.y < e.y ? sp.y : e.y;
+				
+				w = Math.abs(e.x-sp.x);
+				h = Math.abs(e.y-sp.y);
+				w = (w < 5) ? 20 : w;
+				h = (h < 5) ? 20 : h;
+				
+				Rectangle rect = new Rectangle(x, y, w, h);
+				rect.setColor(SWTResourceManager.getColor(SWT.COLOR_RED));
+				mRep.Register(rect);
+				Display.getCurrent().update();
+			}			
 		});
 	}
-
+	
 		
 	/**
 	 * Create the actions.
