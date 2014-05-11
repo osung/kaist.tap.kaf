@@ -146,7 +146,7 @@ public class ProjectExplorer extends ViewPart {
 			TreeObject to1 = new TreeObject("Logical View");
 			TreeObject to2 = new TreeObject("Runtime View");
 		
-			TreeParent root = new TreeParent("SNS System");
+			TreeParent root = new TreeParent("Untitled");
 			root.addChild(to1);
 			root.addChild(to2);
 			

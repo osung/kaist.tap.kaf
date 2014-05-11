@@ -2,10 +2,16 @@ package kaist.tap.kaf.views;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import kaist.tap.kaf.component.*;
+import kaist.tap.kaf.component.Rectangle;
 
 public class Canvas extends ViewPart {
 
@@ -31,8 +37,18 @@ public class Canvas extends ViewPart {
 		createActions();
 		initializeToolBar();
 		initializeMenu();
+		
+		container.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent e) {
+				Color blue = e.display.getSystemColor(SWT.COLOR_BLUE);
+				e.gc.setBackground(blue);
+				Rectangle rect = new Rectangle(20, 30, 50, 100);
+				rect.draw(e.gc);		
+			}
+		});
 	}
 
+		
 	/**
 	 * Create the actions.
 	 */

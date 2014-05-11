@@ -30,6 +30,8 @@ public class Component {
 	
 	public Component() {
 		mDrawn = false;
+		mPosition = new Point();
+		mEndPosition = new Point();
 	}
 	
 	public Point getEndPosition() {

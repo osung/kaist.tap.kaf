@@ -1,5 +1,6 @@
 package kaist.tap.kaf.component;
 
+import org.eclipse.swt.graphics.*;
 import kaist.tap.kaf.component.Component;
 
 public class Line extends Component {
@@ -11,6 +12,8 @@ public class Line extends Component {
 		public Line()
 		{
 			mConnected = false;
+			this.setName("Line");
+			mPosition.x = mPosition.y = mEndPosition.x = mEndPosition.y = 0;
 		}
 		
 		public boolean IsConnected() {
@@ -60,5 +63,9 @@ public class Line extends Component {
 			mid.y = (int) ((mPosition.y + mEndPosition.y) * 0.5);
 		
 			return mid;
+		}
+		
+		public void draw(GC gc) {
+			gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
 		}
 }

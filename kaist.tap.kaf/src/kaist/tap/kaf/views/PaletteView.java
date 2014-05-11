@@ -195,6 +195,10 @@ public class PaletteView extends ViewPart {
 	
 	private Component[] getElements() {
 		Component[] components = new Component[2];
+		Line line = new Line();
+		components[0] = line;
+		
+		/*
 		Component component = new Component();
 		component.setName("Line");
 		component.setColor(new Color("red"));
@@ -202,16 +206,16 @@ public class PaletteView extends ViewPart {
 		component.setLineThickness("1.5");
 		
 		component.setPosition(component.new Point(10, 10));
-		component.setEndPosition(component.new Point(20, 20));
-		components[0] = component;
+		component.setEndPosition(component.new Point(20, 20));*/
+		
 		Rectangle rect = new Rectangle();
-		rect.setName("Rectangle");
-		rect.setColor(new Color("blue"));
+				
+		/*rect.setColor(new Color("blue"));
 		rect.setLineStyle("Solid");
 		rect.setLineThickness("1.5");
 		rect.setPosition(component.new Point(10,10));
 		rect.setWidth(200);
-		rect.setHeight(100);
+		rect.setHeight(100); */
 		components[1] = rect;
 		return components;
 	}
