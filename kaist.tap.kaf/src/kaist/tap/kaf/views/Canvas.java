@@ -28,29 +28,25 @@ public class Canvas extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NONE);
-		container.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		{
-			org.eclipse.swt.widgets.Canvas canvas = new org.eclipse.swt.widgets.Canvas(container, SWT.H_SCROLL | SWT.V_SCROLL);
-			//canvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_RED));
-			//canvas.setBounds(0, 0, 594, 469);
-		}
-
+		//Canvas c2 = new Canvas(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		
+		final org.eclipse.swt.widgets.Canvas canvas = new org.eclipse.swt.widgets.Canvas(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		//Composite container = new Composite(parent, SWT.NONE);
+		canvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
 		createActions();
 		initializeToolBar();
 		initializeMenu();
 			
-		container.addPaintListener(new PaintListener() {
+		canvas.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
-				System.out.println("draw");
 				if (mRep.GetNumberOfComponents() > 0) {
 					mRep.draw(e.gc);
 				}
-				//e.gc.dispose();
 			}
 		}); 
 		
-		container.addMouseListener(new MouseAdapter() {
+		canvas.addMouseListener(new MouseAdapter() {
 			Point sp;
 			
 			public void mouseDown(MouseEvent e) {
@@ -71,13 +67,14 @@ public class Canvas extends ViewPart {
 				Rectangle rect = new Rectangle(x, y, w, h);
 				rect.setColor(SWTResourceManager.getColor(SWT.COLOR_RED));
 				mRep.Register(rect);		
-				
-				Display.getCurrent().update();
+			
+				canvas.redraw();
 			}			
 		});
 		
-		selectionListener = new ComponentSelectionListener(, getSite().getPart());
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
+	//	canvas.add
+	//	selectionListener = new ComponentSelectionListener(canvas, getSite().getPart());
+	//	getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 	
 		
