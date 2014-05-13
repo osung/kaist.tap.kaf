@@ -1,24 +1,13 @@
 package kaist.tap.kaf.component;
 
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
 
-public abstract class Component {
-
-	public class Point {
-		public int x;
-		public int y;
+//public abstract class Component extends ComponentElement implements IAdaptable {
+public abstract class Component { //implements IAdaptable {
 		
-		public Point() {
-			x = y = 0;
-		}
-		
-		public Point(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-	}
-
 	protected String mName;
 	protected Point mPosition;
 	protected Color mColor;
@@ -31,12 +20,16 @@ public abstract class Component {
 	
 	public Component() {
 		mDrawn = false;
-		mPosition = new Point();
-		mEndPosition = new Point();
+		mPosition = new Point(0,0);
+		mEndPosition = new Point(0,0);
 		mLineThickness = 1;
 		mLineStyle = SWT.LINE_SOLID;
 		mColor = null;
 	}
+	/*
+	public Object getAdapter(Class adapter) {
+		return Platform.getAdapterManager().getAdapter(this, adapter);
+	} */
 	
 	public Point getEndPosition() {
 		return mEndPosition;
@@ -58,24 +51,28 @@ public abstract class Component {
 	}
 	public void setPosition(Point position) {
 		mPosition = position;
+//		this.firePropertyChange("POSITION_PROP", null, position);
 	}
 	public Color getColor() {
 		return mColor;
 	}
 	public void setColor(Color color) {
 		mColor = color;
+//		this.firePropertyChange("COLOR_PROP", null, color);
 	}
 	public int getLineThickness() {
 		return mLineThickness;
 	}
 	public void setLineThickness(int lineThickness) {
 		mLineThickness = lineThickness;
+//		this.firePropertyChange("LINETHICK_PROP", null, lineThickness);
 	}
 	public int getLineStyle() {
 		return mLineStyle;
 	}
 	public void setLineStyle(int lineStyle) {
 		mLineStyle = lineStyle;
+//		this.firePropertyChange("LINESTYLE_PROP", null, lineStyle);
 	}
 	public String getPortList() {
 		return mPortList;

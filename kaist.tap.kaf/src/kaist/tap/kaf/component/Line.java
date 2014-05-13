@@ -1,6 +1,8 @@
 package kaist.tap.kaf.component;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.*;
+
 import kaist.tap.kaf.component.Component;
 
 public class Line extends Component {
@@ -15,6 +17,9 @@ public class Line extends Component {
 			this.setName("Line");
 			mPosition.x = mPosition.y = mEndPosition.x = mEndPosition.y = 0;
 		}
+		
+		
+		
 		
 		public boolean IsConnected() {
 			return mConnected;
@@ -57,8 +62,8 @@ public class Line extends Component {
 		}
 		
 		public Point getMidPosition() {
-			Point mid = new Point();
-			
+			Point mid = new Point(0, 0);
+		
 			mid.x = (int) ((mPosition.x + mEndPosition.x) * 0.5);
 			mid.y = (int) ((mPosition.y + mEndPosition.y) * 0.5);
 		

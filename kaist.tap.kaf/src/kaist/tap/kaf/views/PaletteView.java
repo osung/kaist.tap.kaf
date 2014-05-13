@@ -59,11 +59,13 @@ public class PaletteView extends ViewPart {
 		}
 		public void dispose() {
 		}
+		
 		public Object[] getElements(Object parent) {
-			return new String[] { "Rectangle", "Parallelogram", "Line", "Arrow", "Text Label"};
-		}
+			if (parent instanceof )
+		} 
 	}
-	*/
+*/
+	
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			Component component = (Component) obj;
@@ -109,8 +111,8 @@ public class PaletteView extends ViewPart {
 		hookDoubleClickAction();
 		contributeToActionBars();
 		
-		selectionListener = new ComponentSelectionListener(viewer, getSite().getPart());
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
+		//selectionListener = new ComponentSelectionListener(viewer, getSite().getPart());
+		//getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 
 	public void dispose() {
@@ -210,28 +212,10 @@ public class PaletteView extends ViewPart {
 	
 	private Component[] getElements() {
 		Component[] components = new Component[2];
-		Line line = new Line();
-		components[0] = line;
 		
-		/*
-		Component component = new Component();
-		component.setName("Line");
-		component.setColor(new Color("red"));
-		component.setLineStyle("Solid");
-		component.setLineThickness("1.5");
+		components[0] = new Line();
+		components[1] = new Rectangle();
 		
-		component.setPosition(component.new Point(10, 10));
-		component.setEndPosition(component.new Point(20, 20));*/
-		
-		Rectangle rect = new Rectangle();
-				
-		/*rect.setColor(new Color("blue"));
-		rect.setLineStyle("Solid");
-		rect.setLineThickness("1.5");
-		rect.setPosition(component.new Point(10,10));
-		rect.setWidth(200);
-		rect.setHeight(100); */
-		components[1] = rect;
 		return components;
 	}
 }

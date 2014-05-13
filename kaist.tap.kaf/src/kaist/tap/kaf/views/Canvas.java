@@ -38,6 +38,8 @@ public class Canvas extends ViewPart {
 		initializeToolBar();
 		initializeMenu();
 			
+		
+		
 		canvas.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
 				if (mRep.GetNumberOfComponents() > 0) {
@@ -69,10 +71,19 @@ public class Canvas extends ViewPart {
 				mRep.Register(rect);		
 			
 				canvas.redraw();
-			}			
+			}		
 		});
+
 		
-	//	canvas.add
+		
+		/*
+		canvas.addListener(SWT.Selection, Listener() { 
+			public handleEvent(Event e) {
+				notifyListener(SWT.Selection, Event());
+			}
+		}); */
+		
+		
 	//	selectionListener = new ComponentSelectionListener(canvas, getSite().getPart());
 	//	getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
@@ -106,4 +117,7 @@ public class Canvas extends ViewPart {
 		// Set the focus
 	}
 
+	public void addSelectionListener(SelectionListener listener) {
+		this.addListenerObject(listener);
+	}
 }

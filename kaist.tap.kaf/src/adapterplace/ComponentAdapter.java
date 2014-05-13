@@ -1,7 +1,9 @@
 package adapterplace;
 
 import kaist.tap.kaf.component.*;
+
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -28,39 +30,47 @@ public class ComponentAdapter implements IPropertySource {
 	public IPropertyDescriptor[] getPropertyDescriptors() {
  
 		return new IPropertyDescriptor[] {
-				new TextPropertyDescriptor("type", "Type"),
-				new TextPropertyDescriptor("position", "Position"),
-				new TextPropertyDescriptor("width", "Width"),
-				new TextPropertyDescriptor("height", "Height"),
-				new TextPropertyDescriptor("linestyle", "Line Style"),
-				new TextPropertyDescriptor("linethickness", "Line Thickness"),
-				new TextPropertyDescriptor("color", "Color")};
+				new TextPropertyDescriptor("type", "Type"), 
+				new TextPropertyDescriptor("position", "Position")};
+				//new TextPropertyDescriptor("linestyle", "Line Style"),
+				//new TextPropertyDescriptor("linethickness", "Line Thickness"),
+				//new TextPropertyDescriptor("color", "Color")};
 	}
  
 	@Override
 	public Object getPropertyValue(Object id) {
 		if (id.equals("type")) {
+			System.out.println("type type type");
 			return component.getName();
 		}
+		
 		if (id.equals("position")) {
-			return component.getPosition();
-		}
+			System.out.println("pos pos pos");
+			return component.getName(); 
+				
+			//return component.getPosition();
+		} 
 		/*
 		if (id.equals("width")) {
 			return component.getWidth();
 		}
 		if (id.equals("height")) {
 			return component.getHeight();
-		} */
+		} */ /*
 		if (id.equals("linestyle")) {
-			return component.getLineStyle();
+			return "linestyle";
+			//return component.getLineStyle();
 		}
 		if (id.equals("linethickness")) {
-			return component.getLineThickness();
+			return "linkethick"; 
+				
+			//return component.getLineThickness();
 		}
 		if (id.equals("color")) {
-			return component.getColor();
-		}	
+			return "color"; 
+				
+			//return component.getColor();
+		}	 */
 		return null;
 	}
  
@@ -74,17 +84,19 @@ public class ComponentAdapter implements IPropertySource {
 		String s = (String) value;
 		if (id.equals("type")) {
 			component.setName(s);
-		}
+		} 
 		if (id.equals("position")) {
-			Component.Point p = (Component.Point) value;
-			component.setPosition(p);
-		} /*
+			//Point p = (Point) value;
+			//component.setPosition(p);
+		} 
+		/*
 		if (id.equals("width")) {
 			component.setWidth(s);
 		}	
 		if (id.equals("height")) {
 			component.setHeight(s);
 		} */
+		/*
 		if (id.equals("linestyle")) {
 			component.setLineStyle((int) value);
 		}
@@ -94,6 +106,6 @@ public class ComponentAdapter implements IPropertySource {
 		if (id.equals("color")) {
 			Color c = (Color) value;
 			component.setColor(c);
-		}			
+		}		*/	
 	}
 }

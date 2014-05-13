@@ -1,5 +1,6 @@
 package kaist.tap.kaf.component;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.*;
 
 public class Rectangle extends Component {
@@ -21,16 +22,21 @@ public class Rectangle extends Component {
 	public int getWidth() {
 		return mWidth;
 	}
+	
 	public void setWidth(int width) {
 		mWidth = width;
 		mEndPosition.x = mPosition.x + mWidth;
+//		this.firePropertyChange("WIDTH_PROP", null, width);
 	}
+	
 	public int getHeight() {
 		return mHeight;
 	}
+	
 	public void setHeight(int height) {
 		mHeight = height;
 		mEndPosition.y = mPosition.y + mHeight;
+//		this.firePropertyChange("HEIGHT_PROP", null, height);
 	}
 	
 	public void draw(GC gc) {
