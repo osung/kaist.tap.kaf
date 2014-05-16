@@ -3,9 +3,12 @@ package kaist.tap.kaf.views;
 import kaist.tap.kaf.component.Component;
 import kaist.tap.kaf.component.Rectangle;
 
+import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
@@ -15,7 +18,9 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	protected ComponentRepository repo;
-		
+	ListenerList listeners = new ListenerList();
+	private Component selected = null;
+	
 	public ShapeCanvas(Composite parent, int style) {
 		super(parent, style);
 		
@@ -30,43 +35,50 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		}); 
 				
 		addMouseListener(new MouseAdapter() {
-			Point sp;
+			Point sp;	
 			
 			public void mouseDown(MouseEvent e) {
 				for (int i = 0; i < repo.GetNumberOfComponents(); ++i) {
 					Component current = repo.Get(i);
 					if (current.contains(e.x, e.y)) {
-						sp = null;
-						
-					
-						
-						return;
+						selected = current;
+						//getParent().notifyListeners(SWT.Selection, new Event());
+						//getParent().getAccessible().selectionChanged();
+						//getParent().getAccessible().sendEvent(SWT.Selection, current);
+						setSelection(new StructuredSelection(selected));
 					}
 				}
+				
 				sp = new Point(e.x, e.y);
 			}
 			
 			public void mouseUp(MouseEvent e) {
-				int x, y, w, h;
+				int x, y, w, h;	
 				
-				if (sp == null) {		
-					return;
+				if (selected == null) {
+					x = sp.x < e.x ? sp.x : e.x;
+					y = sp.y < e.y ? sp.y : e.y;
+				
+					w = Math.abs(e.x-sp.x);
+					h = Math.abs(e.y-sp.y);
+					w = (w < 5) ? 20 : w;
+					h = (h < 5) ? 20 : h;
+				
+					Rectangle rect = new Rectangle(x, y, w, h);
+					rect.setColor(SWTResourceManager.getColor(SWT.COLOR_RED));
+					repo.Register(rect);		
 				}
-				
-				x = sp.x < e.x ? sp.x : e.x;
-				y = sp.y < e.y ? sp.y : e.y;
-				
-				w = Math.abs(e.x-sp.x);
-				h = Math.abs(e.y-sp.y);
-				w = (w < 5) ? 20 : w;
-				h = (h < 5) ? 20 : h;
-				
-				Rectangle rect = new Rectangle(x, y, w, h);
-				rect.setColor(SWTResourceManager.getColor(SWT.COLOR_RED));
-				repo.Register(rect);		
+				else {
+					selected.move(e.x-sp.x, e.y-sp.y);
+					selected = null;
+				}
 			
 				redraw();
 			}		
+			/*
+			public void mouseMove(MouseEvent e) {
+				
+			} */
 		});
 	}
 	
@@ -79,27 +91,36 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	}
 
 	@Override
-	public void addSelectionChangedListener(ISelectionChangedListener arg0) {
+	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("SelectionChangedListener");
+		listeners.add(listener);
 	}
 
 	@Override
 	public ISelection getSelection() {
 		// TODO Auto-generated method stub
 		System.out.println("ShapeCanvas : getSelection");
+		
+		if (selected != null) {
+			return new StructuredSelection(selected);
+		}
+		
 		return null;
 	}
 
 	@Override
-	public void removeSelectionChangedListener(ISelectionChangedListener arg0) {
+	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
 		// TODO Auto-generated method stub
-		
+		listeners.remove(listener);
 	}
 
 	@Override
-	public void setSelection(ISelection arg0) {
+	public void setSelection(ISelection select) {
 		// TODO Auto-generated method stub
-		
+		Object[] list = listeners.getListeners();
+		for (int i = 0; i < listeners.size(); ++i) {
+			((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, selected));
+		}
 	}
 }

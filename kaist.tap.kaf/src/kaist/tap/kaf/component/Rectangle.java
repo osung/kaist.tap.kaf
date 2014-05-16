@@ -59,6 +59,13 @@ public class Rectangle extends Component {
 		return true;
 	}
 
+	public void move(int x, int y) {
+		mPosition.x += x;
+		mPosition.y += y;
+		mEndPosition.x += x;
+		mEndPosition.y += y;
+	}
+	
 	@Override
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub

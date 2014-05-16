@@ -87,7 +87,13 @@ public class Line extends Component {
 			return false;
 		}
 
-
+		public void move(int x, int y) {
+			mPosition.x += x;
+			mPosition.y += y;
+			
+			mEndPosition.x += x;
+			mEndPosition.y += y;
+		}
 
 
 		@Override

@@ -2,10 +2,14 @@ package kaist.tap.kaf.views;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.*;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 
@@ -14,6 +18,17 @@ public class Canvas extends ViewPart {
 
 	public static final String ID = "kaist.tap.kaf.views.Canvas"; //$NON-NLS-1$
 	protected ShapeCanvas canvas;
+	private ISelectionListener mylistener = new ISelectionListener() {
+
+		@Override
+		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+			// TODO Auto-generated method stub
+			//if (part !=  && selection instanceof IStructuredSelection) {
+				System.out.println("1111111");
+			//}
+		}
+		
+	};
 	
 	public Canvas() {
 		
@@ -33,11 +48,12 @@ public class Canvas extends ViewPart {
 		//Composite container = new Composite(parent, SWT.NONE);
 		canvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		canvas.setFocus();
-		
+		getSite().setSelectionProvider(canvas);
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(mylistener);
+
 		createActions();
 		initializeToolBar();
 		initializeMenu();
-		getSite().setSelectionProvider(canvas);
 		
 		/*
 		canvas.addListener(SWT.Selection, new Listener() { 

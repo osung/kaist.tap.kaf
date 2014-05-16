@@ -118,8 +118,8 @@ public class PaletteView extends ViewPart {
 		hookDoubleClickAction();
 		contributeToActionBars();
 		
-		selectionListener = new ComponentSelectionListener(viewer, getSite().getPart());
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
+		//selectionListener = new ComponentSelectionListener(viewer, getSite().getPart());
+		//getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 
 	public void dispose() {
