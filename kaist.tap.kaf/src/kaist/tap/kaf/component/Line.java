@@ -79,4 +79,20 @@ public class Line extends Component {
 			gc.setLineStyle(mLineStyle);
 			gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
 		}
+		
+		public boolean contains(int x, int y) {
+			
+			
+			
+			return false;
+		}
+
+
+
+
+		@Override
+		public boolean isEmpty() {
+			// TODO Auto-generated method stub
+			return false;
+		}
 }

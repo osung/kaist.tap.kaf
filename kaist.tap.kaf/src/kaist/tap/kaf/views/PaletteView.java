@@ -10,6 +10,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
+
 import kaist.tap.kaf.component.*;
 
 /**
@@ -97,13 +98,19 @@ public class PaletteView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		//viewer.setContentProvider(new ViewContentProvider());
+		viewer.getControl().setFocus();
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setSorter(new NameSorter());
 		//viewer.setInput(getViewSite());
 		viewer.setInput(getElements());
 		getSite().setSelectionProvider(viewer);
-
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(final SelectionChangedEvent event) {
+				System.out.println("Selection changed");
+				//IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+			}
+		});
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "kaist.tap.kaf.viewer");
 		makeActions();
@@ -111,8 +118,8 @@ public class PaletteView extends ViewPart {
 		hookDoubleClickAction();
 		contributeToActionBars();
 		
-		//selectionListener = new ComponentSelectionListener(viewer, getSite().getPart());
-		//getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
+		selectionListener = new ComponentSelectionListener(viewer, getSite().getPart());
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 
 	public void dispose() {

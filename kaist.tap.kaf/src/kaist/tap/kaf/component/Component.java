@@ -2,11 +2,12 @@ package kaist.tap.kaf.component;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
 
 //public abstract class Component extends ComponentElement implements IAdaptable {
-public abstract class Component { //implements IAdaptable {
+public abstract class Component implements IAdaptable, ISelection {
 		
 	protected String mName;
 	protected Point mPosition;
@@ -26,10 +27,10 @@ public abstract class Component { //implements IAdaptable {
 		mLineStyle = SWT.LINE_SOLID;
 		mColor = null;
 	}
-	/*
+	
 	public Object getAdapter(Class adapter) {
 		return Platform.getAdapterManager().getAdapter(this, adapter);
-	} */
+	} 
 	
 	public Point getEndPosition() {
 		return mEndPosition;
@@ -83,5 +84,7 @@ public abstract class Component { //implements IAdaptable {
 	public String getPortAvailability() {
 		return mPortAvailability;
 	}
+	public abstract boolean contains (int x, int y);
+	
 	public abstract void draw(GC gc);
 }

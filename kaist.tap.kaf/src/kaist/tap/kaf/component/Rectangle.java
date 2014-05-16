@@ -17,6 +17,8 @@ public class Rectangle extends Component {
 		mPosition.y = y;
 		mWidth = width;
 		mHeight = height;
+		mEndPosition.x = x + width;
+		mEndPosition.y = y + height;
 	}
 	
 	public int getWidth() {
@@ -47,5 +49,19 @@ public class Rectangle extends Component {
 		gc.setLineWidth(mLineThickness);
 		gc.setLineStyle(mLineStyle);
 		gc.drawRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
+	}
+	
+	public boolean contains(int x, int y) {
+		if (x < mPosition.x || x > mEndPosition.x || y < mPosition.y || y > mEndPosition.y) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
