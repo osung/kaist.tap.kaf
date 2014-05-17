@@ -84,6 +84,12 @@ public abstract class Component implements IAdaptable, ISelection {
 	public String getPortAvailability() {
 		return mPortAvailability;
 	}
+	public boolean getDrawn() {
+		return mDrawn;
+	}
+	public void setDrawn(boolean b) {
+		mDrawn = b;
+	}
 	public abstract boolean contains (int x, int y);
 	
 	public abstract void move(int x, int y);

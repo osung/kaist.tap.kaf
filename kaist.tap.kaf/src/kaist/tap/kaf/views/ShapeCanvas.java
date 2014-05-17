@@ -1,12 +1,14 @@
 package kaist.tap.kaf.views;
 
 import kaist.tap.kaf.component.Component;
+import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Rectangle;
 
 import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -26,6 +28,19 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		
 		repo = new ComponentRepository();
 		
+		this.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(final SelectionChangedEvent event) {
+				System.out.println("4444 : Selection changed");
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				if (selection.isEmpty() == false) {
+					Object select = selection.getFirstElement();
+					if (select instanceof Component) {
+						selected = (Component) select;
+					}
+				}
+			}
+		});
+		
 		addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
 				if (repo.GetNumberOfComponents() > 0) {
@@ -41,11 +56,11 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				for (int i = 0; i < repo.GetNumberOfComponents(); ++i) {
 					Component current = repo.Get(i);
 					if (current.contains(e.x, e.y)) {
-						selected = current;
+						//selected = current;
 						//getParent().notifyListeners(SWT.Selection, new Event());
 						//getParent().getAccessible().selectionChanged();
 						//getParent().getAccessible().sendEvent(SWT.Selection, current);
-						setSelection(new StructuredSelection(selected));
+						setSelection(new StructuredSelection(current));
 					}
 				}
 				
@@ -55,18 +70,25 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			public void mouseUp(MouseEvent e) {
 				int x, y, w, h;	
 				
-				if (selected == null) {
-					x = sp.x < e.x ? sp.x : e.x;
-					y = sp.y < e.y ? sp.y : e.y;
+				if (selected == null || selected.getDrawn() == false) {
+					if (selected instanceof Rectangle) {
+						x = sp.x < e.x ? sp.x : e.x;
+						y = sp.y < e.y ? sp.y : e.y;
 				
-					w = Math.abs(e.x-sp.x);
-					h = Math.abs(e.y-sp.y);
-					w = (w < 5) ? 20 : w;
-					h = (h < 5) ? 20 : h;
+						w = Math.abs(e.x-sp.x);
+						h = Math.abs(e.y-sp.y);
+						w = (w < 5) ? 20 : w;
+						h = (h < 5) ? 20 : h;
 				
-					Rectangle rect = new Rectangle(x, y, w, h);
-					rect.setColor(SWTResourceManager.getColor(SWT.COLOR_RED));
-					repo.Register(rect);		
+						Rectangle rect = new Rectangle(x, y, w, h);
+						rect.setColor(SWTResourceManager.getColor(SWT.COLOR_RED));
+						repo.Register(rect);
+					}
+					else if (selected instanceof Line) {
+						Line line = new Line(sp.x, sp.y, e.x, e.y);
+						line.setColor(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+						repo.Register(line);
+					}
 				}
 				else {
 					selected.move(e.x-sp.x, e.y-sp.y);
@@ -124,7 +146,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		Object[] list = listeners.getListeners();
 		for (int i = 0; i < listeners.size(); ++i) {
 			((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, select));
-			//((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, selected));
 		}
 	}
 	

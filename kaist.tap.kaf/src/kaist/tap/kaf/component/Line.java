@@ -18,7 +18,13 @@ public class Line extends Component {
 			mPosition.x = mPosition.y = mEndPosition.x = mEndPosition.y = 0;
 		}
 		
-		
+		public Line(int x1, int y1, int x2, int y2) {
+			mConnected = false;
+			mPosition.x = x1;
+			mPosition.y = y1;
+			mEndPosition.x = x2;
+			mEndPosition.y = y2;
+		}
 		
 		
 		public boolean IsConnected() {
