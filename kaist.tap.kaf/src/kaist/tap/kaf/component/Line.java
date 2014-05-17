@@ -80,17 +80,21 @@ public class Line extends Component {
 			if (mColor != null) {
 				gc.setBackground(mColor);
 			}
-			
 			gc.setLineWidth(mLineThickness);
 			gc.setLineStyle(mLineStyle);
 			gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
 		}
 		
 		public boolean contains(int x, int y) {
+			double xt, yt;		
 			
+			xt = ((double) x - mPosition.x) / ((double) mEndPosition.x - mPosition.x);
+			yt = ((double) y - mPosition.y) / ((double) mEndPosition.y - mPosition.y);
 			
+			if (xt < 0 || xt > 1 || yt < 0 || yt > 1) return false;
+			if (Math.abs(xt-yt) > 0.05) return false;
 			
-			return false;
+			return true;
 		}
 
 		public void move(int x, int y) {
