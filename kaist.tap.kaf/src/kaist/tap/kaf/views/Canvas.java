@@ -1,5 +1,6 @@
 package kaist.tap.kaf.views;
 
+import kaist.tap.kaf.component.*;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelection;
@@ -18,17 +19,26 @@ public class Canvas extends ViewPart {
 
 	public static final String ID = "kaist.tap.kaf.views.Canvas"; //$NON-NLS-1$
 	protected ShapeCanvas canvas;
+	/*
 	private ISelectionListener mylistener = new ISelectionListener() {
 
 		@Override
 		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 			// TODO Auto-generated method stub
 			//if (part !=  && selection instanceof IStructuredSelection) {
-				System.out.println("1111111");
+				
 			//}
+			
+			if (selection instanceof IStructuredSelection) {
+				if (selection.isEmpty() == false) {
+					canvas.selectComponent((Component) ((IStructuredSelection) selection).getFirstElement());
+					//canvas.setSelection(selection);
+					System.out.println("111111");
+				}
+			}
 		}
 		
-	};
+	}; */
 	
 	public Canvas() {
 		
@@ -49,7 +59,7 @@ public class Canvas extends ViewPart {
 		canvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		canvas.setFocus();
 		getSite().setSelectionProvider(canvas);
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(mylistener);
+		//getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(mylistener);
 
 		createActions();
 		initializeToolBar();
@@ -72,8 +82,8 @@ public class Canvas extends ViewPart {
 			}
 		});
 		
-		//ComponentSelectionListener selectionListener = new ComponentSelectionListener(canvas, getSite().getPart());
-		//getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
+		ComponentSelectionListener selectionListener = new ComponentSelectionListener(canvas, getSite().getPart());
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 	
 		

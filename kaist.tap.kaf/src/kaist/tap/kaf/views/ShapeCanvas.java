@@ -106,7 +106,9 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			return new StructuredSelection(selected);
 		}
 		
-		return null;
+		//return null; 
+		
+		return new StructuredSelection();
 	}
 
 	@Override
@@ -118,9 +120,16 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	@Override
 	public void setSelection(ISelection select) {
 		// TODO Auto-generated method stub
+		System.out.println("22222222");
 		Object[] list = listeners.getListeners();
 		for (int i = 0; i < listeners.size(); ++i) {
-			((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, selected));
+			((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, select));
+			//((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, selected));
 		}
+	}
+	
+	public void selectComponent(Component component) {
+		selected = component;
+		System.out.println("3333333");
 	}
 }
