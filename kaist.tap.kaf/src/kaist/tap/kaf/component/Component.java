@@ -102,7 +102,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	@Override
 	public Object getEditableValue() {
 		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	@Override
@@ -112,7 +112,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 				new TextPropertyDescriptor("Name", "Name"),
 				new TextPropertyDescriptor("Position_X", "Position X"), 
 				new TextPropertyDescriptor("Position_Y", "Position Y"),
-				new TextPropertyDescriptor("Color", "Color")
+				new TextPropertyDescriptor("Color", "Color"),
+				new TextPropertyDescriptor("Line_Thickness", "Line Thickness")
 		};
 	}
 
@@ -120,9 +121,10 @@ public abstract class Component extends ComponentElement implements ISelection {
 	public Object getPropertyValue(Object id) {
 		// TODO Auto-generated method stub
 		if ("Name".equals(id)) return mName;
-		else if ("Position_X".equals(id)) return mPosition.x;
-		else if ("Position_Y".equals(id)) return mPosition.y;
-		else if ("Color".equals(id)) return mColor;
+		else if ("Position_X".equals(id)) return Integer.toString(mPosition.x);
+		else if ("Position_Y".equals(id)) return Integer.toString(mPosition.y);
+		else if ("Color".equals(id)) return mColor.toString();
+		else if ("Line_Thickness".equals(id)) return Integer.toString(mLineThickness);
 		return null;
 	}
 
@@ -141,16 +143,18 @@ public abstract class Component extends ComponentElement implements ISelection {
 	@Override
 	public void setPropertyValue(Object id, Object value) {
 		// TODO Auto-generated method stub
+		String tmp = (String) value;
+		System.out.println("value is" + tmp);
 		if ("Name".equals(id)) mName = (String) value;
 		else if ("Position_X".equals(id)) {
 			if (mPosition == null) mPosition = new Point(0, 0);
-			mPosition.x = (int) value;
-			
+			mPosition.x = Integer.parseInt(tmp);
 		}
 		else if ("Position_Y".equals(id)) {
 			if (mPosition == null) mPosition = new Point(0, 0);
-			mPosition.y = (int) value;
+			mPosition.y = Integer.parseInt(tmp);
 		}
 		else if ("Color".equals(id)) mColor = (Color) value;
+		else if ("Line_Thickness".equals(id)) mLineThickness = Integer.parseInt(tmp);
 	}
 }

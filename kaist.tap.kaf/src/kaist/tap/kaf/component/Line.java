@@ -79,7 +79,7 @@ public class Line extends Component {
 		
 		public void draw(GC gc) {
 			if (mColor != null) {
-				gc.setBackground(mColor);
+				gc.setForeground(mColor);
 			}
 			gc.setLineWidth(mLineThickness);
 			gc.setLineStyle(mLineStyle);
