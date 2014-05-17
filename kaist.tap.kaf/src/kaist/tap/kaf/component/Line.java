@@ -19,6 +19,7 @@ public class Line extends Component {
 		}
 		
 		public Line(int x1, int y1, int x2, int y2) {
+			setName("Line");
 			mConnected = false;
 			mPosition.x = x1;
 			mPosition.y = y1;

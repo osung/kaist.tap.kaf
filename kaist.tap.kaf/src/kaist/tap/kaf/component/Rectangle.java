@@ -4,6 +4,10 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.*;
 
 public class Rectangle extends Component {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int mWidth;
 	protected int mHeight;
 	
@@ -13,6 +17,7 @@ public class Rectangle extends Component {
 	}
 	
 	public Rectangle(int x, int y, int width, int height) {
+		setName("Rectangle");
 		mPosition.x = x;
 		mPosition.y = y;
 		mWidth = width;
@@ -71,4 +76,6 @@ public class Rectangle extends Component {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	
 }

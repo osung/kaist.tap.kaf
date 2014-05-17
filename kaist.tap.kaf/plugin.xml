@@ -66,17 +66,4 @@
             file="contexts.xml">
       </contexts>
    </extension>
-   
-	<extension
-         point="org.eclipse.core.runtime.adapters">
-		<factory
-            adaptableType="kaist.tap.kaf.views.Component"
-            class="adapterplace.ComponentAdapterFactory">
-			<adapter
-            	type="org.eclipse.ui.views.properties.IPropertySource">
-        	</adapter>
-		</factory>
-	</extension>   
-   
-
 </plugin>

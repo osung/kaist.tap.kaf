@@ -9,7 +9,7 @@ import java.io.Serializable;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-public abstract class ComponentElement implements IPropertySource, Serializable {
+public abstract class ComponentElement implements IPropertySource { // , Serializable {
 	
 	private transient PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 	    
@@ -38,40 +38,11 @@ public abstract class ComponentElement implements IPropertySource, Serializable 
 	    }
 	}
 		
-	@Override
-	public Object getEditableValue() {
-		// TODO Auto-generated method stub
-		return null;
+	public void addPropertyChangeListener(String name, PropertyChangeListener l) {
+		pcsDelegate.addPropertyChangeListener(name, l);
 	}
-
-	@Override
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public void removePrepertyChangeListener(String name, PropertyChangeListener l) {
+		pcsDelegate.removePropertyChangeListener(name, l);
 	}
-
-	@Override
-	public Object getPropertyValue(Object arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isPropertySet(Object arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void resetPropertyValue(Object arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setPropertyValue(Object arg0, Object arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
