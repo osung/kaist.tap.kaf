@@ -12,6 +12,7 @@ import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 import org.eclipse.core.runtime.IAdaptable;
+
 import kaist.tap.kaf.manager.*;
 import kaist.tap.kaf.component.*;
 
@@ -47,8 +48,6 @@ public class ProjectExplorer extends ViewPart {
 	private Action action2;
 	private Action doubleClickAction;
 
-	private ViewManager vm;
-	
 	/*
 	 * The content provider class is responsible for
 	 * providing objects to the view. It can wrap
@@ -58,7 +57,8 @@ public class ProjectExplorer extends ViewPart {
 	 * it and always show the same content 
 	 * (like Task List, for example).
 	 */
-	 
+	
+	/*
 	class TreeObject implements IAdaptable {
 		private String name;
 		private TreeParent parent;
@@ -103,65 +103,62 @@ public class ProjectExplorer extends ViewPart {
 		public boolean hasChildren() {
 			return children.size()>0;
 		}
-	}
+	} */
 
 	class ViewContentProvider implements IStructuredContentProvider, 
 										   ITreeContentProvider {
-		private TreeParent invisibleRoot;
-
+		//private String treeName = new String("Untitled");
+		private String[] treeRoot = new String[1];
+		private View[] children;
+		
+		public ViewContentProvider() {
+			super();
+			treeRoot[0] = new String("Untitled");
+		}
+		
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
 		public void dispose() {
 		}
 		public Object[] getElements(Object parent) {
-			if (parent.equals(getViewSite())) {
-				if (invisibleRoot==null) initialize();
-				return getChildren(invisibleRoot);
+			if (parent instanceof View[]) {
+				children = (View[]) parent;
 			}
-			return getChildren(parent);
+			return (String[]) treeRoot;	
 		}
 		public Object getParent(Object child) {
-			if (child instanceof TreeObject) {
-				return ((TreeObject)child).getParent();
+			if (child instanceof View) {
+				return treeRoot[0];
 			}
 			return null;
 		}
 		public Object [] getChildren(Object parent) {
-			if (parent instanceof TreeParent) {
-				return ((TreeParent)parent).getChildren();
+			if (parent instanceof View) {
+				return null;
 			}
-			return new Object[0];
+			else if (parent instanceof String) {
+				return children;
+			}
+			else return null;
 		}
 		public boolean hasChildren(Object parent) {
-			if (parent instanceof TreeParent)
-				return ((TreeParent)parent).hasChildren();
+			if (parent instanceof String)
+				return true;
 			return false;
-		}
-/*
- * We will set up a dummy model to initialize tree heararchy.
- * In a real code, you will connect to a real model and
- * expose its hierarchy.
- */
-		private void initialize() {
-			TreeObject to1 = new TreeObject("Logical View");
-			TreeObject to2 = new TreeObject("Runtime View");
-		
-			TreeParent root = new TreeParent("Untitled");
-			root.addChild(to1);
-			root.addChild(to2);
-			
-			invisibleRoot = new TreeParent("");
-			invisibleRoot.addChild(root);
 		}
 	}
 	class ViewLabelProvider extends LabelProvider {
 
 		public String getText(Object obj) {
-			return obj.toString();
+			if (obj instanceof View) {
+				View v = (View) obj;
+				return v.getName();
+			}
+			else return obj.toString();
 		}
 		public Image getImage(Object obj) {
 			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
-			if (obj instanceof TreeParent)
+			if (obj instanceof String)
 			   imageKey = ISharedImages.IMG_OBJ_FOLDER;
 			return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
 		}
@@ -183,10 +180,19 @@ public class ProjectExplorer extends ViewPart {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ViewContentProvider());
+		//viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setSorter(new NameSorter());
-		viewer.setInput(getViewSite());
+		viewer.setInput(getElements());
+		viewer.expandAll();
 
+		getSite().setSelectionProvider(viewer);
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(final SelectionChangedEvent event) {
+				System.out.println("Tree Selection changed");
+			}
+		});
+		
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "kaist.tap.kaf.viewer");
 		makeActions();
@@ -284,5 +290,14 @@ public class ProjectExplorer extends ViewPart {
 	 */
 	public void setFocus() {
 		viewer.getControl().setFocus();
+	}
+	
+	private View[] getElements() {
+		View[] views = new View[2];
+		
+		views[0] = new LogicalView();
+		views[1] = new RunTimeView();
+		
+		return views;
 	}
 }

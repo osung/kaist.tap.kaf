@@ -3,6 +3,8 @@ package kaist.tap.kaf.views;
 import kaist.tap.kaf.component.Component;
 import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Rectangle;
+import kaist.tap.kaf.manager.*;
+import kaist.tap.kaf.manager.View.viewType;
 
 import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
@@ -20,6 +22,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	protected ComponentRepository repo;
+	protected ViewManager vm;
 	ListenerList listeners = new ListenerList();
 	private Component selected = null;
 	private Component psel = null;
@@ -31,7 +34,13 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	public ShapeCanvas(Composite parent, int style) {
 		super(parent, style);
 		
-		repo = new ComponentRepository();
+		vm = new ViewManager();
+		vm.addView(new LogicalView());
+		vm.addRepo(new ComponentRepository());
+		vm.addView(new RunTimeView());
+		vm.addRepo(new ComponentRepository());
+		
+		repo = vm.getRepo(viewType.LOGICAL_VIEW);
 		
 		this.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(final SelectionChangedEvent event) {
@@ -41,6 +50,10 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					Object select = selection.getFirstElement();
 					if (select instanceof Component) {
 						selected = (Component) select;
+					}
+					else if (select instanceof View) {
+						View v = (View) select;
+						repo = vm.getRepo(v.getViewType());
 					}
 				}
 			}
@@ -167,35 +180,25 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		// TODO Auto-generated method stub
 		System.out.println("SelectionChangedListener");
 		listeners.add(listener);
 	}
 
-	@Override
 	public ISelection getSelection() {
-		// TODO Auto-generated method stub
 		System.out.println("ShapeCanvas : getSelection");
 		
 		if (selected != null) {
 			return new StructuredSelection(selected);
 		}
 		
-		//return null; 
-		
 		return new StructuredSelection();
 	}
 
-	@Override
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
-		// TODO Auto-generated method stub
 		listeners.remove(listener);
 	}
 
-	@Override
 	public void setSelection(ISelection select) {
-		// TODO Auto-generated method stub
-		System.out.println("22222222");
 		Object[] list = listeners.getListeners();
 		for (int i = 0; i < listeners.size(); ++i) {
 			((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, select));
