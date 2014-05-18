@@ -1,6 +1,7 @@
 package kaist.tap.kaf.views;
 
 import kaist.tap.kaf.component.Component;
+import kaist.tap.kaf.manager.View;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.ui.*;
@@ -18,7 +19,7 @@ public class ComponentSelectionListener implements ISelectionListener {
 		if (p != this.part) {
 			ISelection selected = (ISelection) ((IStructuredSelection)sel).getFirstElement();
 			Object current = ((IStructuredSelection) viewer.getSelection()).getFirstElement();
-			if (selected != current && selected instanceof Component) {
+			if (selected != current && (selected instanceof Component || selected instanceof View)) {
 				viewer.setSelection(sel);
 				if (viewer instanceof StructuredViewer) {
 					((StructuredViewer) viewer).reveal(selected);

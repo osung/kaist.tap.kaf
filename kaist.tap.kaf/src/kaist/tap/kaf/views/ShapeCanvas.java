@@ -44,7 +44,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		
 		this.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(final SelectionChangedEvent event) {
-				System.out.println("4444 : Selection changed");
 				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 				if (selection.isEmpty() == false) {
 					Object select = selection.getFirstElement();
@@ -54,6 +53,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					else if (select instanceof View) {
 						View v = (View) select;
 						repo = vm.getRepo(v.getViewType());
+						redraw();
 					}
 				}
 			}
