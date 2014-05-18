@@ -23,7 +23,9 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	ListenerList listeners = new ListenerList();
 	private Component selected = null;
 	private Component psel = null;
+	private Component tmpComp = null;
 	private Point sp = null;
+	
 	
 	public ShapeCanvas(Composite parent, int style) {
 		super(parent, style);
@@ -48,18 +50,22 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				if (repo.GetNumberOfComponents() > 0) {
 					repo.draw(e.gc);
 				}
+				if (tmpComp != null) {
+					tmpComp.draw(e.gc);
+				}
 			}
 		}); 
 				
 		addMouseListener(new MouseAdapter() {	
 			public void mouseDown(MouseEvent e) {
+				Component current = null;	
+						
+				// pick test
 				for (int i = 0; i < repo.GetNumberOfComponents(); ++i) {
-					Component current = repo.Get(i); 
-					if (current.contains(e.x, e.y)) { 
-						if (selected != null && selected.getDrawn() == false) {
-							psel = selected;
-						}					
-						setSelection(new StructuredSelection(current));
+					current = repo.Get(i); 
+					if (current.contains(e.x, e.y)) { 					
+						setSelection(new StructuredSelection(current));	
+						break;
 					}
 				}
 				
@@ -69,10 +75,10 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			public void mouseUp(MouseEvent e) {
 				int x, y, w, h;	
 				
+				tmpComp = null;
 				if (selected == null) {
-					if (psel == null) return;
-					
-					selected = psel;
+					sp = null;
+					return;
 				}
 				
 				if (selected.getDrawn() == false) {
@@ -85,25 +91,25 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						w = (w < 5) ? 20 : w;
 						h = (h < 5) ? 20 : h;
 				
-						Rectangle rect = new Rectangle(x, y, w, h);
-						rect.setColor(SWTResourceManager.getColor(SWT.COLOR_RED));
+						Rectangle src = (Rectangle) selected;
+						Rectangle rect = src.clone();
 						rect.setDrawn(true);
 						repo.Register(rect);
 					}
 					else if (selected instanceof Line) {
-						Line line = new Line(sp.x, sp.y, e.x, e.y);
-						line.setColor(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+						Line src = (Line) selected;
+						Line line = src.clone();
 						line.setDrawn(true);
 						repo.Register(line);
 					}
 				}
 				else {
 					selected.move(e.x-sp.x, e.y-sp.y);
-					selected = null;
 				}
 				
 				redraw();
 				sp = null;
+				selected = null;
 			}		
 		});
 		
@@ -113,12 +119,32 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				if (sp == null) return;
 				
 				if (selected != null) {
+					//System.out.println("get drawn of selected is " + selected.getDrawn());
 					if (selected.getDrawn()==true) {
 						selected.move(e.x-sp.x, e.y-sp.y);
 						sp.x = e.x; sp.y = e.y;
 					}
 					else {
 						// rubber band effect
+						if (selected instanceof Rectangle) {
+							int x, y, w, h;
+							Rectangle rect = (Rectangle) selected;
+							x = sp.x < e.x ? sp.x : e.x;
+							y = sp.y < e.y ? sp.y : e.y;
+					
+							w = Math.abs(e.x-sp.x);
+							h = Math.abs(e.y-sp.y);
+							
+							rect.setPosition(new Point(x, y));
+							rect.setWidth(w);
+							rect.setHeight(h);
+						}
+						else if (selected instanceof Line) {
+							selected.setPosition(sp);
+							selected.setEndPosition(new Point(e.x, e.y));
+						}
+						
+						tmpComp = selected;
 					}
 						
 					redraw();

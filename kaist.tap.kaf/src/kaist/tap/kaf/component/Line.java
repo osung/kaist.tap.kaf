@@ -3,6 +3,7 @@ package kaist.tap.kaf.component;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.*;
 
+
 import kaist.tap.kaf.component.Component;
 
 public class Line extends Component {
@@ -78,9 +79,7 @@ public class Line extends Component {
 		}
 		
 		public void draw(GC gc) {
-			if (mColor != null) {
-				gc.setForeground(mColor);
-			}
+			gc.setForeground(getColor());
 			gc.setLineWidth(mLineThickness);
 			gc.setLineStyle(mLineStyle);
 			gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
@@ -106,6 +105,15 @@ public class Line extends Component {
 			mEndPosition.y += y;
 		}
 
+		public Line clone() {
+			Line line = new Line(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
+			line.setColor(mColor);
+			line.setDrawn(mDrawn);
+			line.setLineThickness(mLineThickness);
+			line.setLineStyle(mLineStyle);
+			
+			return line;
+		}
 
 		@Override
 		public boolean isEmpty() {

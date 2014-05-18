@@ -26,6 +26,19 @@ public class Rectangle extends Component {
 		mEndPosition.y = y + height;
 	}
 	
+	public void setEndPosition(int x, int y) {
+		mEndPosition.x = x;
+		mEndPosition.y = y;
+		mWidth = Math.abs(mEndPosition.x-mPosition.x);
+		mHeight = Math.abs(mEndPosition.y-mPosition.y);
+	}
+	
+	public void setEndPosition(Point p) {
+		mEndPosition = p;
+		mWidth = Math.abs(mEndPosition.x-mPosition.x);
+		mHeight = Math.abs(mEndPosition.y-mPosition.y);
+	}
+	
 	public int getWidth() {
 		return mWidth;
 	}
@@ -43,17 +56,15 @@ public class Rectangle extends Component {
 	public void setHeight(int height) {
 		mHeight = height;
 		mEndPosition.y = mPosition.y + mHeight;
-//		this.firePropertyChange("HEIGHT_PROP", null, height);
 	}
 	
 	public void draw(GC gc) {
-		if (mColor != null) {
-			gc.setForeground(mColor);
-		}
-		
+		gc.setForeground(getColor());		
+		gc.setBackground(getFillColor());
 		gc.setLineWidth(mLineThickness);
 		gc.setLineStyle(mLineStyle);
 		gc.drawRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
+		if (mFill == true) gc.fillRectangle(mPosition.x+1, mPosition.y+1, mWidth-1, mHeight-1);
 	}
 	
 	public boolean contains(int x, int y) {
@@ -69,6 +80,17 @@ public class Rectangle extends Component {
 		mPosition.y += y;
 		mEndPosition.x += x;
 		mEndPosition.y += y;
+	}
+	
+	
+	public Rectangle clone() {
+		Rectangle rect = new Rectangle(mPosition.x, mPosition.y, mWidth, mHeight);
+		rect.setColor(mColor);
+		rect.setDrawn(mDrawn);
+		rect.setLineStyle(mLineStyle);
+		rect.setLineThickness(mLineThickness);
+		
+		return rect;
 	}
 	
 	@Override

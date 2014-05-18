@@ -7,19 +7,27 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 //public abstract class Component extends ComponentElement implements IAdaptable {
 public abstract class Component extends ComponentElement implements ISelection {
-		
+	
+	public enum SelectMode {
+		UNSELECTED, SELECTED
+	}
+	
 	protected String mName;
 	protected Point mPosition;
-	protected Color mColor;
+	protected int mColor;
+	protected boolean mFill;
+	protected int mFillColor;
 	protected int mLineThickness;
 	protected int mLineStyle;
 	protected String mPortList;
 	protected String mPortAvailability;
 	protected Point mEndPosition;
 	protected boolean mDrawn;
+	protected SelectMode mMode;
 	
 	public Component() {
 		mDrawn = false;
@@ -27,13 +35,11 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mEndPosition = new Point(0,0);
 		mLineThickness = 1;
 		mLineStyle = SWT.LINE_SOLID;
-		mColor = null;
+		mColor = SWT.COLOR_BLACK;
+		mFillColor = SWT.COLOR_WHITE;
+		mFill = false;
+		mMode = SelectMode.UNSELECTED;
 	}
-	
-	/*
-	public Object getAdapter(Class adapter) {
-		return Platform.getAdapterManager().getAdapter(this, adapter);
-	}  */
 	
 	public Point getEndPosition() {
 		return mEndPosition;
@@ -55,28 +61,88 @@ public abstract class Component extends ComponentElement implements ISelection {
 	}
 	public void setPosition(Point position) {
 		mPosition = position;
-//		this.firePropertyChange("POSITION_PROP", null, position);
 	}
 	public Color getColor() {
-		return mColor;
+		return SWTResourceManager.getColor(mColor);
 	}
-	public void setColor(Color color) {
+	public Color getFillColor() {
+		return SWTResourceManager.getColor(mFillColor);
+	}
+	public void setColor(int color) {
 		mColor = color;
-//		this.firePropertyChange("COLOR_PROP", null, color);
 	}
+	public void setFillColor(int color) {
+		mFillColor = color;
+	}
+	public int getColorFromString(String color) {
+		switch (color) {
+		case "Black" :
+		case "black" :	
+			return SWT.COLOR_BLACK;
+		case "White" :
+		case "white" :
+			return SWT.COLOR_WHITE;
+		case "Red" :
+		case "red" :
+			return SWT.COLOR_RED;
+		case "Blue" :
+		case "blue" :
+			return SWT.COLOR_BLUE;
+		case "Green" :
+		case "green" :
+			return SWT.COLOR_GREEN;
+		case "Yellow" :
+		case "yellow" :
+			return SWT.COLOR_YELLOW;
+		case "Magenta" :
+		case "magenta" :
+			return SWT.COLOR_MAGENTA;
+		case "Cyan" :
+		case "cyan" :
+			return SWT.COLOR_CYAN;
+		case "Gray" :
+		case "gray" :
+			return SWT.COLOR_GRAY;
+		default :
+			return 0;
+		}
+	}
+	public String getColorByString(int color) {
+		switch (color) {
+		case SWT.COLOR_BLACK : 
+			return "Black";
+		case SWT.COLOR_WHITE : 
+			return "White";
+		case SWT.COLOR_RED : 
+			return "Red";
+		case SWT.COLOR_GREEN :
+			return "Green";
+		case SWT.COLOR_BLUE :
+			return "Blue";
+		case SWT.COLOR_CYAN :
+			return "Cyan";
+		case SWT.COLOR_YELLOW :
+			return "Yellow";
+		case SWT.COLOR_MAGENTA :
+			return "Magenta";
+		case SWT.COLOR_GRAY :
+			return "Gray";
+		default : 
+			return "N/A";
+		}
+	}
+	
 	public int getLineThickness() {
 		return mLineThickness;
 	}
 	public void setLineThickness(int lineThickness) {
 		mLineThickness = lineThickness;
-//		this.firePropertyChange("LINETHICK_PROP", null, lineThickness);
 	}
 	public int getLineStyle() {
 		return mLineStyle;
 	}
 	public void setLineStyle(int lineStyle) {
 		mLineStyle = lineStyle;
-//		this.firePropertyChange("LINESTYLE_PROP", null, lineStyle);
 	}
 	public String getPortList() {
 		return mPortList;
@@ -93,6 +159,35 @@ public abstract class Component extends ComponentElement implements ISelection {
 	public void setDrawn(boolean b) {
 		mDrawn = b;
 	}
+	
+	public void select() {
+		mMode = SelectMode.SELECTED;
+	}
+	
+	public void unselect() {
+		mMode = SelectMode.UNSELECTED;
+	}
+	
+	public void setFill() {
+		mFill = true;
+	}
+	
+	public void unsetFill() {
+		mFill = false;
+	}
+	
+	public void reset() {
+		mDrawn = false;
+		mPosition = new Point(0,0);
+		mEndPosition = new Point(0,0);
+		mLineThickness = 1;
+		mLineStyle = SWT.LINE_SOLID;
+		mColor = SWT.COLOR_BLACK;
+		mFillColor = SWT.COLOR_WHITE;
+		mMode = SelectMode.UNSELECTED;
+		mFill = false;
+	}
+
 	public abstract boolean contains (int x, int y);
 	
 	public abstract void move(int x, int y);
@@ -113,19 +208,28 @@ public abstract class Component extends ComponentElement implements ISelection {
 				new TextPropertyDescriptor("Position_X", "Position X"), 
 				new TextPropertyDescriptor("Position_Y", "Position Y"),
 				new TextPropertyDescriptor("Color", "Color"),
-				new TextPropertyDescriptor("Line_Thickness", "Line Thickness")
+				new TextPropertyDescriptor("FillColor", "Fill Color"),
+				new TextPropertyDescriptor("Fill", "Fill"), 
+				new TextPropertyDescriptor("Line_Thickness", "Line Thickness"),
+				new TextPropertyDescriptor("Line_Style", "Line Style")
 		};
 	}
 
 	@Override
 	public Object getPropertyValue(Object id) {
 		// TODO Auto-generated method stub
-		if ("Name".equals(id)) return mName;
+		if ("Name".equals(id)) {
+			if (mName != null) return mName;
+			else return "None";
+		}
 		else if ("Position_X".equals(id)) return Integer.toString(mPosition.x);
 		else if ("Position_Y".equals(id)) return Integer.toString(mPosition.y);
-		else if ("Color".equals(id)) return mColor.toString();
+		else if ("Color".equals(id)) return getColorByString(mColor);
+		else if ("FillColor".equals(id)) return getColorByString(mFillColor);
+		else if ("Fill".equals(id)) return Boolean.toString(mFill);
 		else if ("Line_Thickness".equals(id)) return Integer.toString(mLineThickness);
-		return null;
+		else if ("Line_Style".equals(id)) return Integer.toString(mLineStyle);
+		return "N/A";
 	}
 
 	@Override
@@ -154,7 +258,20 @@ public abstract class Component extends ComponentElement implements ISelection {
 			if (mPosition == null) mPosition = new Point(0, 0);
 			mPosition.y = Integer.parseInt(tmp);
 		}
-		else if ("Color".equals(id)) mColor = (Color) value;
+		else if ("Color".equals(id)) {
+			int color = getColorFromString(tmp);
+			if (color != 0) {
+				mColor = getColorFromString(tmp);
+			}
+		}
+		else if ("FillColor".equals(id)) {
+			int color = getColorFromString(tmp);
+			if (color != 0) {
+				mFillColor = getColorFromString(tmp);
+			}
+		}
+		else if ("Fill".equals(id)) mFill = Boolean.parseBoolean(tmp);
 		else if ("Line_Thickness".equals(id)) mLineThickness = Integer.parseInt(tmp);
+		else if ("Line_Style".equals(id)) mLineStyle = Integer.parseInt(tmp);
 	}
 }
