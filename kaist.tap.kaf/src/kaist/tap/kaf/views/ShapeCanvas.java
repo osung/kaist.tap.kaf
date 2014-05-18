@@ -24,6 +24,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	private Component selected = null;
 	private Component psel = null;
 	private Component tmpComp = null;
+	private Component prevSel = null;
 	private Point sp = null;
 	
 	
@@ -65,6 +66,9 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					current = repo.Get(i); 
 					if (current.contains(e.x, e.y)) { 					
 						setSelection(new StructuredSelection(current));	
+						current.select();
+						if (prevSel != null) prevSel.unselect();
+						prevSel = current;
 						break;
 					}
 				}
@@ -119,7 +123,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				if (sp == null) return;
 				
 				if (selected != null) {
-					//System.out.println("get drawn of selected is " + selected.getDrawn());
 					if (selected.getDrawn()==true) {
 						selected.move(e.x-sp.x, e.y-sp.y);
 						sp.x = e.x; sp.y = e.y;

@@ -1,8 +1,11 @@
 package kaist.tap.kaf.component;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
-
+import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import kaist.tap.kaf.component.Component;
 
@@ -83,6 +86,15 @@ public class Line extends Component {
 			gc.setLineWidth(mLineThickness);
 			gc.setLineStyle(mLineStyle);
 			gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
+			
+			if (mSelectMode == SelectMode.SELECTED) {
+				gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+				gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+				
+				// draw control			
+				gc.fillRectangle(mPosition.x-contSize, mPosition.y-contSize, contSize*2, contSize*2);
+				gc.fillRectangle(mEndPosition.x-contSize, mEndPosition.y-contSize, contSize*2, contSize*2);
+			}
 		}
 		
 		public boolean contains(int x, int y) {
@@ -120,4 +132,38 @@ public class Line extends Component {
 			// TODO Auto-generated method stub
 			return false;
 		}
+		
+		@Override
+		public IPropertyDescriptor[] getPropertyDescriptors() {
+			// TODO Auto-generated method stub
+			return new IPropertyDescriptor[] {
+					new TextPropertyDescriptor("Name", "Name"),
+					new TextPropertyDescriptor("Position_X", "Start Position X"), 
+					new TextPropertyDescriptor("Position_Y", "Start Position Y"),
+					new TextPropertyDescriptor("EndPosition_X", "End Position X"),
+					new TextPropertyDescriptor("EndPosition_Y", "End Position Y"),
+					new TextPropertyDescriptor("Color", "Color"), 
+					new TextPropertyDescriptor("Line_Thickness", "Line Thickness"),
+					new TextPropertyDescriptor("Line_Style", "Line Style")
+			};
+		}
+
+		@Override
+		public Object getPropertyValue(Object id) {
+			// TODO Auto-generated method stub
+			if ("EndPosition_X".equals(id)) return Integer.toString(mEndPosition.x);
+			else if ("EndPosition_Y".equals(id)) return Integer.toString(mEndPosition.y);
+			else return super.getPropertyValue(id);
+		}
+
+		@Override
+		public void setPropertyValue(Object id, Object value) {
+			// TODO Auto-generated method stub
+			String tmp = (String) value;
+	
+			if ("EndPosition_X".equals(id)) mEndPosition.x = Integer.parseInt(tmp);
+			else if ("EndPosition_Y".equals(id)) mEndPosition.y = Integer.parseInt(tmp);
+			else super.setPropertyValue(id, value);
+		}
+		
 }

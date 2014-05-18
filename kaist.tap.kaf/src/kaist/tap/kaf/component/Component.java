@@ -1,7 +1,5 @@
 package kaist.tap.kaf.component;
 
-//import org.eclipse.core.runtime.IAdaptable;
-//import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
@@ -9,7 +7,6 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-//public abstract class Component extends ComponentElement implements IAdaptable {
 public abstract class Component extends ComponentElement implements ISelection {
 	
 	public enum SelectMode {
@@ -27,7 +24,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 	protected String mPortAvailability;
 	protected Point mEndPosition;
 	protected boolean mDrawn;
-	protected SelectMode mMode;
+	protected SelectMode mSelectMode;
+	protected final int contSize = 3;  // half size of control point
 	
 	public Component() {
 		mDrawn = false;
@@ -38,7 +36,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mColor = SWT.COLOR_BLACK;
 		mFillColor = SWT.COLOR_WHITE;
 		mFill = false;
-		mMode = SelectMode.UNSELECTED;
+		mSelectMode = SelectMode.UNSELECTED;
 	}
 	
 	public Point getEndPosition() {
@@ -161,11 +159,11 @@ public abstract class Component extends ComponentElement implements ISelection {
 	}
 	
 	public void select() {
-		mMode = SelectMode.SELECTED;
+		mSelectMode = SelectMode.SELECTED;
 	}
 	
 	public void unselect() {
-		mMode = SelectMode.UNSELECTED;
+		mSelectMode = SelectMode.UNSELECTED;
 	}
 	
 	public void setFill() {
@@ -184,7 +182,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mLineStyle = SWT.LINE_SOLID;
 		mColor = SWT.COLOR_BLACK;
 		mFillColor = SWT.COLOR_WHITE;
-		mMode = SelectMode.UNSELECTED;
+		mSelectMode = SelectMode.UNSELECTED;
 		mFill = false;
 	}
 
