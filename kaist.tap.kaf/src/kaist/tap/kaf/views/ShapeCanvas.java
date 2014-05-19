@@ -18,7 +18,6 @@ import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.*;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	protected ComponentRepository repo;
