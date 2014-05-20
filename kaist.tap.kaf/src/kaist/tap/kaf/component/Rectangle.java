@@ -106,6 +106,8 @@ public class Rectangle extends Component {
 	public Rectangle clone() {
 		Rectangle rect = new Rectangle(mPosition.x, mPosition.y, mWidth, mHeight);
 		rect.setColor(mColor);
+		rect.setFillColor(mFillColor);
+		rect.setFill(mFill);
 		rect.setDrawn(mDrawn);
 		rect.setLineStyle(mLineStyle);
 		rect.setLineThickness(mLineThickness);

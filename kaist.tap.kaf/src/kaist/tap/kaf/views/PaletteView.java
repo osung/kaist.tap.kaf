@@ -218,11 +218,13 @@ public class PaletteView extends ViewPart {
 	}
 	
 	private Component[] getElements() {
-		Component[] components = new Component[3];
+		Component[] components = new Component[5];
 		
 		components[0] = new Line();
-		components[1] = new Rectangle();
-		components[2] = new Text();
+		components[1] = new Arrow();
+		components[2] = new Rectangle();
+		components[3] = new Parallelogram();
+		components[4] = new Text();
 		
 		return components;
 	}

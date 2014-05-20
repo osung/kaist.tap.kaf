@@ -3,6 +3,7 @@ package kaist.tap.kaf.component;
 import kaist.tap.kaf.component.Component.SelectMode;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
@@ -12,11 +13,13 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 public class Text extends Rectangle {
 	
-	public String text;
+	protected String text;
+	protected int fontColor;
 	
 	public Text() {
 		setName("Text");
 		text = new String();
+		fontColor = SWT.COLOR_BLACK;
 	}
 	
 	public Text(int x, int y, int w, int h, String str) {
@@ -28,6 +31,7 @@ public class Text extends Rectangle {
 		mEndPosition.x = x + w;
 		mEndPosition.y = y + h;
 		text = str;
+		fontColor = SWT.COLOR_BLACK;
 	}
 	
 	
@@ -39,6 +43,14 @@ public class Text extends Rectangle {
 		return text;
 	}
 	
+	public void setFontColor(int color) {
+		fontColor = color;
+	}
+	
+	public int getFontColor() {
+		return fontColor;
+	}
+	
 	public void draw(GC gc) {
 		gc.setForeground(getColor());		
 		gc.setBackground(getFillColor());
@@ -47,7 +59,12 @@ public class Text extends Rectangle {
 		gc.drawRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
 		if (mFill == true) gc.fillRectangle(mPosition.x+1, mPosition.y+1, mWidth-1, mHeight-1);
 		
-		gc.drawText(text, mPosition.x, mPosition.y);
+		Font font = gc.getFont();
+		
+		Point p = gc.stringExtent(text);
+				
+		gc.setForeground(SWTResourceManager.getColor(fontColor));
+		gc.drawText(text, (int) (mPosition.x+(mWidth-p.x)*0.5), (int) (mPosition.y+(mHeight-p.y)*0.5));
 		
 		if (mSelectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
@@ -67,6 +84,8 @@ public class Text extends Rectangle {
 		text.setDrawn(mDrawn);
 		text.setLineStyle(mLineStyle);
 		text.setLineThickness(mLineThickness);
+		text.setText(this.text);
+		text.setFontColor(this.getFontColor());
 		
 		return text;
 	}
@@ -85,7 +104,8 @@ public class Text extends Rectangle {
 				new TextPropertyDescriptor("Fill", "Fill"), 
 				new TextPropertyDescriptor("Line_Thickness", "Line Thickness"),
 				new TextPropertyDescriptor("Line_Style", "Line Style"),
-				new TextPropertyDescriptor("Text", "Text")
+				new TextPropertyDescriptor("Text", "Text"),
+				new TextPropertyDescriptor("FontColor", "Font Color")
 		};
 	}
 	
@@ -105,6 +125,7 @@ public class Text extends Rectangle {
 		else if ("Line_Thickness".equals(id)) return Integer.toString(mLineThickness);
 		else if ("Line_Style".equals(id)) return Integer.toString(mLineStyle);
 		else if ("Text".equals(id)) return text;
+		else if ("FontColor".equals(id)) return getColorByString(fontColor);
 		return "N/A";
 	}
 	
@@ -139,6 +160,12 @@ public class Text extends Rectangle {
 		else if ("Line_Thickness".equals(id)) mLineThickness = Integer.parseInt(tmp);
 		else if ("Line_Style".equals(id)) mLineStyle = Integer.parseInt(tmp);
 		else if ("Text".equals(id)) text = tmp;
+		else if ("FontColor".equals(id)) {
+			int color = getColorFromString(tmp);
+			if (color != 0) {
+				fontColor = getColorFromString(tmp);
+			}
+		}
 	}
 }
 

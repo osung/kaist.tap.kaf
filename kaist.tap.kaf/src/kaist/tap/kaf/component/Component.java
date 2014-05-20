@@ -174,6 +174,15 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mFill = false;
 	}
 	
+	
+	public void setFill(boolean b) {
+		mFill = b;
+	}
+	
+	public boolean getFill() {
+		return mFill;
+	}
+	
 	public void reset() {
 		mDrawn = false;
 		mPosition = new Point(0,0);

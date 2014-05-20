@@ -19,6 +19,11 @@ public class Arrow extends Line {
 	public class Head {
 		public HeadType type;
 		public int size; 
+		
+		public Head(HeadType t, int s) {
+			type = t;
+			size = s;
+		}
 	}
 	
 	protected Head[] arrowHead;
@@ -26,20 +31,16 @@ public class Arrow extends Line {
 	public Arrow() {
 		setName("Arrow");
 		arrowHead = new Head[2];
-		arrowHead[0].type = HeadType.NONE;
-		arrowHead[0].size = 1;
-		arrowHead[1].type = HeadType.LINEARROW;
-		arrowHead[1].size = 1;
+		arrowHead[0] = new Head(HeadType.NONE, 1);
+		arrowHead[1] = new Head(HeadType.LINEARROW, 1);
 	}
 	
 	
 	public Arrow(int x, int y, int x2, int y2) {
 		setName("Arrow");
 		arrowHead = new Head[2];
-		arrowHead[0].type = HeadType.NONE;
-		arrowHead[0].size = 1;
-		arrowHead[1].type = HeadType.LINEARROW;
-		arrowHead[1].size = 1;
+		arrowHead[0] = new Head(HeadType.NONE, 1);
+		arrowHead[1] = new Head(HeadType.LINEARROW, 1);
 		
 		mPosition.x = x;
 		mPosition.y = y;

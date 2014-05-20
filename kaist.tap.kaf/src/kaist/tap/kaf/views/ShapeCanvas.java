@@ -2,6 +2,7 @@ package kaist.tap.kaf.views;
 
 import kaist.tap.kaf.component.Component;
 import kaist.tap.kaf.component.Line;
+import kaist.tap.kaf.component.Parallelogram;
 import kaist.tap.kaf.component.Rectangle;
 import kaist.tap.kaf.manager.*;
 import kaist.tap.kaf.manager.View.viewType;
@@ -66,6 +67,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				if (tmpComp != null) {
 					tmpComp.draw(e.gc);
 				}
+				e.gc.dispose();
 			}
 		}); 
 				
@@ -98,7 +100,21 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				}
 				
 				if (selected.getDrawn() == false) {
-					if (selected instanceof Rectangle) {
+					if (selected instanceof Parallelogram) {
+						x = sp.x < e.x ? sp.x : e.x;
+						y = sp.y < e.y ? sp.y : e.y;
+				
+						w = Math.abs(e.x-sp.x);
+						h = Math.abs(e.y-sp.y);
+						w = (w < 5) ? 20 : w;
+						h = (h < 5) ? 20 : h;
+				
+						Parallelogram src = (Parallelogram) selected;
+						Parallelogram para = src.clone();
+						para.setDrawn(true);
+						repo.Register(para);
+					}
+					else if (selected instanceof Rectangle) {
 						x = sp.x < e.x ? sp.x : e.x;
 						y = sp.y < e.y ? sp.y : e.y;
 				
@@ -140,9 +156,23 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						sp.x = e.x; sp.y = e.y;
 					}
 					else {
-						// rubber band effect
-						if (selected instanceof Rectangle) {
-							int x, y, w, h;
+						int x, y, w, h;
+						// rubber band effect 
+						/* if (selected instanceof Parallelogram) {
+							Parallelogram para = (Parallelogram) selected;
+							x = sp.x < e.x ? sp.x : e.x;
+							y = sp.y < e.y ? sp.y : e.y;
+					
+							w = Math.abs(e.x-sp.x);
+							h = Math.abs(e.y-sp.y);
+							w = (w < 5) ? 20 : w;
+							h = (h < 5) ? 20 : h;
+					
+							para.setPosition(new Point(x, y));
+							para.setWidth(w);
+							para.setHeight(h);
+						}
+						else */ if (selected instanceof Rectangle) {
 							Rectangle rect = (Rectangle) selected;
 							x = sp.x < e.x ? sp.x : e.x;
 							y = sp.y < e.y ? sp.y : e.y;
@@ -158,6 +188,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 							selected.setPosition(sp);
 							selected.setEndPosition(new Point(e.x, e.y));
 						}
+						
+						//if (selected instanceof Parallelogram) 
 						
 						tmpComp = selected;
 					}
