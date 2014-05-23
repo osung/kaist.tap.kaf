@@ -3,6 +3,7 @@ package kaist.tap.kaf.component;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -149,9 +150,10 @@ public class Line extends Component {
 			lcDiscriptor.setCategory("Line");
 			TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
 			ltDiscriptor.setCategory("Line");
-			TextPropertyDescriptor lsDiscriptor = new TextPropertyDescriptor("Line_Style", "Style");
-			lsDiscriptor.setCategory("Line");
 			
+			String[] lsvalues = {"Solid", "Dot", "Dash", "Dashdot", "Dashdotdot"};
+			ComboBoxPropertyDescriptor lsDiscriptor = new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues);
+			lsDiscriptor.setCategory("Line");
 			
 			return new IPropertyDescriptor[] {
 					nameDiscriptor, posxDiscriptor, posyDiscriptor, posexDiscriptor, poseyDiscriptor,
@@ -169,11 +171,8 @@ public class Line extends Component {
 
 		@Override
 		public void setPropertyValue(Object id, Object value) {
-			// TODO Auto-generated method stub
-			String tmp = (String) value;
-	
-			if ("EndPosition_X".equals(id)) mEndPosition.x = Integer.parseInt(tmp);
-			else if ("EndPosition_Y".equals(id)) mEndPosition.y = Integer.parseInt(tmp);
+			if ("EndPosition_X".equals(id)) mEndPosition.x = Integer.parseInt((String) value);
+			else if ("EndPosition_Y".equals(id)) mEndPosition.y = Integer.parseInt((String) value);
 			else super.setPropertyValue(id, value);
 		}
 		

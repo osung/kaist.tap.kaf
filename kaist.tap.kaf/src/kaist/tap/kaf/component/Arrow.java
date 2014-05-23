@@ -6,6 +6,7 @@ import kaist.tap.kaf.component.Component.SelectMode;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -155,7 +156,9 @@ public class Arrow extends Line {
 		lcDiscriptor.setCategory("Line");
 		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
 		ltDiscriptor.setCategory("Line");
-		TextPropertyDescriptor lsDiscriptor = new TextPropertyDescriptor("Line_Style", "Style");
+		
+		String[] lsvalues = {"Solid", "Dot", "Dash", "Dashdot", "Dashdotdot"};
+		ComboBoxPropertyDescriptor lsDiscriptor = new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues);
 		lsDiscriptor.setCategory("Line");
 		
 		TextPropertyDescriptor astDiscriptor = new TextPropertyDescriptor("ArrowHeadType_Start", "Type");

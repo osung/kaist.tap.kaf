@@ -5,6 +5,7 @@ import kaist.tap.kaf.component.Component.SelectMode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -195,11 +196,13 @@ public class Parallelogram extends Rectangle {
 		lcDiscriptor.setCategory("Line");
 		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
 		ltDiscriptor.setCategory("Line");
-		TextPropertyDescriptor lsDiscriptor = new TextPropertyDescriptor("Line_Style", "Style");
+		String[] lsvalues = {"Solid", "Dot", "Dash", "Dashdot", "Dashdotdot"};
+		ComboBoxPropertyDescriptor lsDiscriptor = new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues);
 		lsDiscriptor.setCategory("Line");
 		TextPropertyDescriptor pcDiscriptor = new TextPropertyDescriptor("FillColor", "Color");
 		pcDiscriptor.setCategory("Polygon");
-		TextPropertyDescriptor pfDiscriptor = new TextPropertyDescriptor("Fill", "Fill");
+		String[] fillvalues = {"On", "Off"};
+		ComboBoxPropertyDescriptor pfDiscriptor = new ComboBoxPropertyDescriptor("Fill", "Fill", fillvalues);
 		pfDiscriptor.setCategory("Polygon");
 		
 		TextPropertyDescriptor ptDiscriptor = new TextPropertyDescriptor("ParallelType", "Type");
@@ -222,10 +225,9 @@ public class Parallelogram extends Rectangle {
 	}
 
 	public void setPropertyValue(Object id, Object value) {
-		String tmp = (String) value;
-		if ("ControlPoint".equals(id)) setControlPoint(Integer.parseInt(tmp));
+		if ("ControlPoint".equals(id)) setControlPoint(Integer.parseInt((String) value));
 		else if ("ParallelType".equals(id)) {
-			switch(tmp) {
+			switch((String) value) {
 			case "Left" :
 				type = ParallelType.LEFT;
 				break;

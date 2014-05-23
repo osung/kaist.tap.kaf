@@ -2,6 +2,8 @@ package kaist.tap.kaf.component;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -138,11 +140,14 @@ public class Rectangle extends Component {
 		lcDiscriptor.setCategory("Line");
 		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
 		ltDiscriptor.setCategory("Line");
-		TextPropertyDescriptor lsDiscriptor = new TextPropertyDescriptor("Line_Style", "Style");
+		String[] lsvalues = {"Solid", "Dot", "Dash", "Dashdot", "Dashdotdot"};
+		ComboBoxPropertyDescriptor lsDiscriptor = new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues);
 		lsDiscriptor.setCategory("Line");
-		TextPropertyDescriptor pcDiscriptor = new TextPropertyDescriptor("FillColor", "Color");
+		//TextPropertyDescriptor pcDiscriptor = new TextPropertyDescriptor("FillColor", "Color");
+		ColorPropertyDescriptor pcDiscriptor = new ColorPropertyDescriptor("FillColor", "Color");
 		pcDiscriptor.setCategory("Polygon");
-		TextPropertyDescriptor pfDiscriptor = new TextPropertyDescriptor("Fill", "Fill");
+		String[] fillvalues = {"On", "Off"};
+		ComboBoxPropertyDescriptor pfDiscriptor = new ComboBoxPropertyDescriptor("Fill", "Fill", fillvalues);
 		pfDiscriptor.setCategory("Polygon");
 		
 		return new IPropertyDescriptor[] {
@@ -159,13 +164,12 @@ public class Rectangle extends Component {
 	}
 
 	public void setPropertyValue(Object id, Object value) {
-		String tmp = (String) value;
 		if ("Width".equals(id)) {
-			mWidth = Integer.parseInt(tmp);
+			mWidth = Integer.parseInt((String) value);
 			mEndPosition.x = mPosition.x+mWidth;
 		}
 		else if ("Height".equals(id)) {
-			mHeight = Integer.parseInt(tmp);
+			mHeight = Integer.parseInt((String) value);
 			mEndPosition.y = mPosition.y+mHeight;
 		}
 		else super.setPropertyValue(id, value);

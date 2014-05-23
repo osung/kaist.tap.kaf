@@ -246,11 +246,14 @@ public abstract class Component extends ComponentElement implements ISelection {
 		else if ("Position_X".equals(id)) return Integer.toString(mPosition.x);
 		else if ("Position_Y".equals(id)) return Integer.toString(mPosition.y);
 		else if ("Color".equals(id)) return getColorByString(mColor);
-		else if ("FillColor".equals(id)) return getColorByString(mFillColor);
-		else if ("Fill".equals(id)) return Boolean.toString(mFill);
+		else if ("FillColor".equals(id)) return mFillColor; //getColorByString(mFillColor);
+		else if ("Fill".equals(id)) {
+			if (mFill == true) return 0;
+			else return 1;
+		}
 		else if ("Line_Thickness".equals(id)) return Integer.toString(mLineThickness);
-		else if ("Line_Style".equals(id)) return Integer.toString(mLineStyle);
-/*			switch (mLineStyle) {
+		else if ("Line_Style".equals(id)) {
+		switch (mLineStyle) {
 			case SWT.LINE_SOLID :
 				return 0;
 			case SWT.LINE_DOT :
@@ -264,7 +267,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 			default :
 				return 0;
 			} 
-		} */
+		} 
 		return "N/A";
 	}
 
@@ -281,33 +284,35 @@ public abstract class Component extends ComponentElement implements ISelection {
 	}
 
 	public void setPropertyValue(Object id, Object value) {
-		String tmp = (String) value;
-		System.out.println("value is " + tmp);
 		if ("Name".equals(id)) mName = (String) value;
 		else if ("Position_X".equals(id)) {
 			if (mPosition == null) mPosition = new Point(0, 0);
-			mPosition.x = Integer.parseInt(tmp);
+			mPosition.x = Integer.parseInt((String) value);
 		}
 		else if ("Position_Y".equals(id)) {
 			if (mPosition == null) mPosition = new Point(0, 0);
-			mPosition.y = Integer.parseInt(tmp);
+			mPosition.y = Integer.parseInt((String) value);
 		}
 		else if ("Color".equals(id)) {
-			int color = getColorFromString(tmp);
+			int color = getColorFromString((String) value);
 			if (color != 0) {
-				mColor = getColorFromString(tmp);
+				mColor = getColorFromString((String) value);
 			}
 		}
 		else if ("FillColor".equals(id)) {
-			int color = getColorFromString(tmp);
+			System.out.println(value);
+			int color = getColorFromString((String) value);
 			if (color != 0) {
-				mFillColor = getColorFromString(tmp);
+				mFillColor = getColorFromString((String) value);
 			}
 		}
-		else if ("Fill".equals(id)) mFill = Boolean.parseBoolean(tmp);
-		else if ("Line_Thickness".equals(id)) mLineThickness = Integer.parseInt(tmp);
-		else if ("Line_Style".equals(id)) mLineStyle = Integer.parseInt(tmp);
-		/*	switch((int) value) {
+		else if ("Fill".equals(id)) {
+			if ((int) value == 0) mFill = true;
+			else mFill = false;
+		}
+		else if ("Line_Thickness".equals(id)) mLineThickness = Integer.parseInt((String) value);
+		else if ("Line_Style".equals(id)) { 
+			switch((int) value) {
 			case 0 :
 				mLineStyle = SWT.LINE_SOLID;
 				break;
@@ -324,7 +329,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 				mLineStyle = SWT.LINE_DASHDOTDOT;
 				break;
 			}
-		} */
+		} 
 		
 		mUpdated = true;
 	}

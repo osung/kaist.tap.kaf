@@ -8,6 +8,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -119,11 +120,13 @@ public class Text extends Rectangle {
 		lcDiscriptor.setCategory("Line");
 		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
 		ltDiscriptor.setCategory("Line");
-		TextPropertyDescriptor lsDiscriptor = new TextPropertyDescriptor("Line_Style", "Style");
+		String[] lsvalues = {"Solid", "Dot", "Dash", "Dashdot", "Dashdotdot"};
+		ComboBoxPropertyDescriptor lsDiscriptor = new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues);
 		lsDiscriptor.setCategory("Line");
 		TextPropertyDescriptor pcDiscriptor = new TextPropertyDescriptor("FillColor", "Color");
 		pcDiscriptor.setCategory("Polygon");
-		TextPropertyDescriptor pfDiscriptor = new TextPropertyDescriptor("Fill", "Fill");
+		String[] fillvalues = {"On", "Off"};
+		ComboBoxPropertyDescriptor pfDiscriptor = new ComboBoxPropertyDescriptor("Fill", "Fill", fillvalues);
 		pfDiscriptor.setCategory("Polygon");
 		TextPropertyDescriptor tsDiscriptor = new TextPropertyDescriptor("Text", "String");
 		tsDiscriptor.setCategory("Text");
@@ -144,19 +147,7 @@ public class Text extends Rectangle {
 
 	@Override
 	public Object getPropertyValue(Object id) {
-		// TODO Auto-generated method stub
-		if ("Name".equals(id)) {
-			if (mName != null) return mName;
-			else return "None";
-		}
-		else if ("Position_X".equals(id)) return Integer.toString(mPosition.x);
-		else if ("Position_Y".equals(id)) return Integer.toString(mPosition.y);
-		else if ("Color".equals(id)) return getColorByString(mColor);
-		else if ("FillColor".equals(id)) return getColorByString(mFillColor);
-		else if ("Fill".equals(id)) return Boolean.toString(mFill);
-		else if ("Line_Thickness".equals(id)) return Integer.toString(mLineThickness);
-		else if ("Line_Style".equals(id)) return Integer.toString(mLineStyle);
-		else if ("Text".equals(id)) return text;
+		if ("Text".equals(id)) return text;
 		else if ("FontColor".equals(id)) return getColorByString(fontColor);
 		else if ("FontSize".equals(id)) return Integer.toString(fontSize);
 		else if ("FontStyle".equals(id)) {
@@ -173,7 +164,7 @@ public class Text extends Rectangle {
 				return "Normal";
 			}
 		}
-		return "N/A";
+		else return super.getPropertyValue(id);
 	}
 	
 	
@@ -181,32 +172,7 @@ public class Text extends Rectangle {
 	public void setPropertyValue(Object id, Object value) {
 		// TODO Auto-generated method stub
 		String tmp = (String) value;
-		System.out.println("value is" + tmp);
-		if ("Name".equals(id)) mName = (String) value;
-		else if ("Position_X".equals(id)) {
-			if (mPosition == null) mPosition = new Point(0, 0);
-			mPosition.x = Integer.parseInt(tmp);
-		}
-		else if ("Position_Y".equals(id)) {
-			if (mPosition == null) mPosition = new Point(0, 0);
-			mPosition.y = Integer.parseInt(tmp);
-		}
-		else if ("Color".equals(id)) {
-			int color = getColorFromString(tmp);
-			if (color != 0) {
-				mColor = getColorFromString(tmp);
-			}
-		}
-		else if ("FillColor".equals(id)) {
-			int color = getColorFromString(tmp);
-			if (color != 0) {
-				mFillColor = getColorFromString(tmp);
-			}
-		}
-		else if ("Fill".equals(id)) mFill = Boolean.parseBoolean(tmp);
-		else if ("Line_Thickness".equals(id)) mLineThickness = Integer.parseInt(tmp);
-		else if ("Line_Style".equals(id)) mLineStyle = Integer.parseInt(tmp);
-		else if ("Text".equals(id)) text = tmp;
+		if ("Text".equals(id)) text = tmp;
 		else if ("FontColor".equals(id)) {
 			int color = getColorFromString(tmp);
 			if (color != 0) {
@@ -236,6 +202,7 @@ public class Text extends Rectangle {
 				break;
 			}
 		}
+		else super.setPropertyValue(id, value);
 	}
 }
 
