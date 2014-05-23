@@ -179,24 +179,41 @@ public class Parallelogram extends Rectangle {
 		return para;
 	}
 	
+	
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		// TODO Auto-generated method stub
+		TextPropertyDescriptor nameDiscriptor = new TextPropertyDescriptor("Name", "Type");
+		TextPropertyDescriptor posxDiscriptor = new TextPropertyDescriptor("Position_X", "X");
+		posxDiscriptor.setCategory("Position");
+		TextPropertyDescriptor posyDiscriptor = new TextPropertyDescriptor("Position_Y", "Y");
+		posyDiscriptor.setCategory("Position");
+		TextPropertyDescriptor sizewDiscriptor = new TextPropertyDescriptor("Width", "Width");
+		sizewDiscriptor.setCategory("Size");
+		TextPropertyDescriptor sizehDiscriptor = new TextPropertyDescriptor("Height", "Height");
+		sizehDiscriptor.setCategory("Size");
+		
+		TextPropertyDescriptor lcDiscriptor = new TextPropertyDescriptor("Color", "Color");
+		lcDiscriptor.setCategory("Line");
+		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
+		ltDiscriptor.setCategory("Line");
+		TextPropertyDescriptor lsDiscriptor = new TextPropertyDescriptor("Line_Style", "Style");
+		lsDiscriptor.setCategory("Line");
+		TextPropertyDescriptor pcDiscriptor = new TextPropertyDescriptor("FillColor", "Color");
+		pcDiscriptor.setCategory("Polygon");
+		TextPropertyDescriptor pfDiscriptor = new TextPropertyDescriptor("Fill", "Fill");
+		pfDiscriptor.setCategory("Polygon");
+		
+		TextPropertyDescriptor ptDiscriptor = new TextPropertyDescriptor("ParallelType", "Type");
+		ptDiscriptor.setCategory("Parallelogram");
+		TextPropertyDescriptor pcpDiscriptor = new TextPropertyDescriptor("ControlPoint", "Control Point");
+		pcpDiscriptor.setCategory("Parallelogram");
+		
 		return new IPropertyDescriptor[] {
-				new TextPropertyDescriptor("Name", "Name"),
-				new TextPropertyDescriptor("Position_X", "Position X"), 
-				new TextPropertyDescriptor("Position_Y", "Position Y"),
-				new TextPropertyDescriptor("Width", "Width"),
-				new TextPropertyDescriptor("Height", "Height"), 
-				new TextPropertyDescriptor("Color", "Color"),
-				new TextPropertyDescriptor("FillColor", "Fill Color"),
-				new TextPropertyDescriptor("Fill", "Fill"), 
-				new TextPropertyDescriptor("Line_Thickness", "Line Thickness"),
-				new TextPropertyDescriptor("Line_Style", "Line Style"),
-				new TextPropertyDescriptor("ParallelType", "Parallelogram Type"),
-				new TextPropertyDescriptor("ControlPoint", "Control Point")
+				nameDiscriptor, posxDiscriptor, posyDiscriptor, sizewDiscriptor, sizehDiscriptor,
+				lcDiscriptor, ltDiscriptor, lsDiscriptor, 
+				pcDiscriptor, pfDiscriptor, ptDiscriptor, pcpDiscriptor
 		};
 	}
-
+	
 
 	public Object getPropertyValue(Object id) {
 		if ("ControlPoint".equals(id)) return Integer.toString(controlPoint);

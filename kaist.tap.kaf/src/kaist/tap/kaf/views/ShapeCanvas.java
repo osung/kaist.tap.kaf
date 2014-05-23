@@ -111,6 +111,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				
 						Parallelogram src = (Parallelogram) selected;
 						Parallelogram para = src.clone();
+						para.setControlPoint(w/4);
 						para.setDrawn(true);
 						repo.Register(para);
 					}

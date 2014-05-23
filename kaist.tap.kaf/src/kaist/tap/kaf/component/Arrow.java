@@ -140,24 +140,39 @@ public class Arrow extends Line {
 		return false;
 	}
 	
-	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		// TODO Auto-generated method stub
+		TextPropertyDescriptor nameDiscriptor = new TextPropertyDescriptor("Name", "Type");
+		TextPropertyDescriptor posxDiscriptor = new TextPropertyDescriptor("Position_X", "X");
+		posxDiscriptor.setCategory("Start Position");
+		TextPropertyDescriptor posyDiscriptor = new TextPropertyDescriptor("Position_Y", "Y");
+		posyDiscriptor.setCategory("Start Position");
+		TextPropertyDescriptor posexDiscriptor = new TextPropertyDescriptor("EndPosition_X", "X");
+		posexDiscriptor.setCategory("End Position");
+		TextPropertyDescriptor poseyDiscriptor = new TextPropertyDescriptor("EndPosition_Y", "Y");
+		poseyDiscriptor.setCategory("End Position");
+		
+		TextPropertyDescriptor lcDiscriptor = new TextPropertyDescriptor("Color", "Color");
+		lcDiscriptor.setCategory("Line");
+		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
+		ltDiscriptor.setCategory("Line");
+		TextPropertyDescriptor lsDiscriptor = new TextPropertyDescriptor("Line_Style", "Style");
+		lsDiscriptor.setCategory("Line");
+		
+		TextPropertyDescriptor astDiscriptor = new TextPropertyDescriptor("ArrowHeadType_Start", "Type");
+		astDiscriptor.setCategory("Start Arrow Head");
+		TextPropertyDescriptor assDiscriptor = new TextPropertyDescriptor("ArrowHeadSize_Start", "Size");
+		assDiscriptor.setCategory("Start Arrow Head");
+		TextPropertyDescriptor aetDiscriptor = new TextPropertyDescriptor("ArrowHeadType_End", "Type");
+		aetDiscriptor.setCategory("End Arrow Head");
+		TextPropertyDescriptor aesDiscriptor = new TextPropertyDescriptor("ArrowHeadSize_End", "Size");
+		aesDiscriptor.setCategory("End Arrow Head");
+		
 		return new IPropertyDescriptor[] {
-				new TextPropertyDescriptor("Name", "Name"),
-				new TextPropertyDescriptor("Position_X", "Start Position X"), 
-				new TextPropertyDescriptor("Position_Y", "Start Position Y"),
-				new TextPropertyDescriptor("EndPosition_X", "End Position X"),
-				new TextPropertyDescriptor("EndPosition_Y", "End Position Y"),
-				new TextPropertyDescriptor("Color", "Color"), 
-				new TextPropertyDescriptor("Line_Thickness", "Line Thickness"),
-				new TextPropertyDescriptor("Line_Style", "Line Style"),
-				new TextPropertyDescriptor("ArrowHeadType_Start", "Start Arrow Head Type"),
-				new TextPropertyDescriptor("ArrowHeadSize_Start", "Start Arrow Head Size"),
-				new TextPropertyDescriptor("ArrowHeadType_End", "End Arrow Head Type"),
-				new TextPropertyDescriptor("ArrowHeadSize_End", "End Arrow Head Size")
+				nameDiscriptor, posxDiscriptor, posyDiscriptor, posexDiscriptor, poseyDiscriptor,
+				lcDiscriptor, ltDiscriptor, lsDiscriptor
 		};
 	}
+
 
 	@Override
 	public Object getPropertyValue(Object id) {

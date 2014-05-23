@@ -3,6 +3,7 @@ package kaist.tap.kaf.component;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -26,6 +27,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	protected boolean mDrawn;
 	protected SelectMode mSelectMode;
 	protected final int contSize = 3;  // half size of control point
+	protected boolean mUpdated;
 	
 	public Component() {
 		mDrawn = false;
@@ -37,6 +39,16 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mFillColor = SWT.COLOR_WHITE;
 		mFill = false;
 		mSelectMode = SelectMode.UNSELECTED;
+		mUpdated = false;
+	}
+	
+	public boolean getUpdated() {
+		if (mUpdated == true) {
+			mUpdated = false;
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public Point getEndPosition() {
@@ -210,6 +222,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		// TODO Auto-generated method stub
+		String[] lsvalues = {"Solid", "Dot", "Dash", "Dashdot", "Dashdotdot"};
 		return new IPropertyDescriptor[] {
 				new TextPropertyDescriptor("Name", "Name"),
 				new TextPropertyDescriptor("Position_X", "Position X"), 
@@ -218,6 +231,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 				new TextPropertyDescriptor("FillColor", "Fill Color"),
 				new TextPropertyDescriptor("Fill", "Fill"), 
 				new TextPropertyDescriptor("Line_Thickness", "Line Thickness"),
+				//new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues)
 				new TextPropertyDescriptor("Line_Style", "Line Style")
 		};
 	}
@@ -236,6 +250,21 @@ public abstract class Component extends ComponentElement implements ISelection {
 		else if ("Fill".equals(id)) return Boolean.toString(mFill);
 		else if ("Line_Thickness".equals(id)) return Integer.toString(mLineThickness);
 		else if ("Line_Style".equals(id)) return Integer.toString(mLineStyle);
+/*			switch (mLineStyle) {
+			case SWT.LINE_SOLID :
+				return 0;
+			case SWT.LINE_DOT :
+				return 1;
+			case SWT.LINE_DASH :
+				return 2;
+			case SWT.LINE_DASHDOT :
+				return 3;
+			case SWT.LINE_DASHDOTDOT :
+				return 4;
+			default :
+				return 0;
+			} 
+		} */
 		return "N/A";
 	}
 
@@ -251,11 +280,9 @@ public abstract class Component extends ComponentElement implements ISelection {
 
 	}
 
-	@Override
 	public void setPropertyValue(Object id, Object value) {
-		// TODO Auto-generated method stub
 		String tmp = (String) value;
-		System.out.println("value is" + tmp);
+		System.out.println("value is " + tmp);
 		if ("Name".equals(id)) mName = (String) value;
 		else if ("Position_X".equals(id)) {
 			if (mPosition == null) mPosition = new Point(0, 0);
@@ -280,5 +307,25 @@ public abstract class Component extends ComponentElement implements ISelection {
 		else if ("Fill".equals(id)) mFill = Boolean.parseBoolean(tmp);
 		else if ("Line_Thickness".equals(id)) mLineThickness = Integer.parseInt(tmp);
 		else if ("Line_Style".equals(id)) mLineStyle = Integer.parseInt(tmp);
+		/*	switch((int) value) {
+			case 0 :
+				mLineStyle = SWT.LINE_SOLID;
+				break;
+			case 1:
+				mLineStyle = SWT.LINE_DOT;
+				break;
+			case 2:
+				mLineStyle = SWT.LINE_DASH;
+				break;
+			case 3:
+				mLineStyle = SWT.LINE_DASHDOT;
+				break;
+			case 4:
+				mLineStyle = SWT.LINE_DASHDOTDOT;
+				break;
+			}
+		} */
+		
+		mUpdated = true;
 	}
 }

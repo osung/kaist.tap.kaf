@@ -4,6 +4,7 @@ import kaist.tap.kaf.component.Component.SelectMode;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
@@ -15,6 +16,8 @@ public class Text extends Rectangle {
 	
 	protected String text;
 	protected int fontColor;
+	protected int fontSize;
+	protected int fontStyle;
 	
 	public Text() {
 		setName("Text");
@@ -32,6 +35,8 @@ public class Text extends Rectangle {
 		mEndPosition.y = y + h;
 		text = str;
 		fontColor = SWT.COLOR_BLACK;
+		fontSize = 20;
+		fontStyle = SWT.NORMAL;
 	}
 	
 	
@@ -51,6 +56,14 @@ public class Text extends Rectangle {
 		return fontColor;
 	}
 	
+	public void setFontSize(int size) {
+		fontSize = size;
+	}
+	
+	public int getFontSize() {
+		return fontSize;
+	}
+	
 	public void draw(GC gc) {
 		gc.setForeground(getColor());		
 		gc.setBackground(getFillColor());
@@ -59,7 +72,10 @@ public class Text extends Rectangle {
 		gc.drawRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
 		if (mFill == true) gc.fillRectangle(mPosition.x+1, mPosition.y+1, mWidth-1, mHeight-1);
 		
-		Font font = gc.getFont();
+		FontData[] fd = gc.getFont().getFontData();
+		fd[0].setHeight(fontSize);
+		fd[0].setStyle(fontStyle);
+		gc.setFont(new Font(gc.getDevice(), fd[0]));
 		
 		Point p = gc.stringExtent(text);
 				
@@ -94,18 +110,34 @@ public class Text extends Rectangle {
 	
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		// TODO Auto-generated method stub
+		TextPropertyDescriptor nameDiscriptor = new TextPropertyDescriptor("Name", "Type");
+		TextPropertyDescriptor posxDiscriptor = new TextPropertyDescriptor("Position_X", "X");
+		posxDiscriptor.setCategory("Position");
+		TextPropertyDescriptor posyDiscriptor = new TextPropertyDescriptor("Position_Y", "Y");
+		posyDiscriptor.setCategory("Position");
+		TextPropertyDescriptor lcDiscriptor = new TextPropertyDescriptor("Color", "Color");
+		lcDiscriptor.setCategory("Line");
+		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
+		ltDiscriptor.setCategory("Line");
+		TextPropertyDescriptor lsDiscriptor = new TextPropertyDescriptor("Line_Style", "Style");
+		lsDiscriptor.setCategory("Line");
+		TextPropertyDescriptor pcDiscriptor = new TextPropertyDescriptor("FillColor", "Color");
+		pcDiscriptor.setCategory("Polygon");
+		TextPropertyDescriptor pfDiscriptor = new TextPropertyDescriptor("Fill", "Fill");
+		pfDiscriptor.setCategory("Polygon");
+		TextPropertyDescriptor tsDiscriptor = new TextPropertyDescriptor("Text", "String");
+		tsDiscriptor.setCategory("Text");
+		TextPropertyDescriptor tcDiscriptor = new TextPropertyDescriptor("FontColor", "Color");
+		tcDiscriptor.setCategory("Text");
+		TextPropertyDescriptor tsiDiscriptor = new TextPropertyDescriptor("FontSize", "Size");
+		tsiDiscriptor.setCategory("Text");
+		TextPropertyDescriptor tsyDiscriptor = new TextPropertyDescriptor("FontStyle", "Style");
+		tsyDiscriptor.setCategory("Text");
+		
 		return new IPropertyDescriptor[] {
-				new TextPropertyDescriptor("Name", "Name"),
-				new TextPropertyDescriptor("Position_X", "Position X"), 
-				new TextPropertyDescriptor("Position_Y", "Position Y"),
-				new TextPropertyDescriptor("Color", "Color"),
-				new TextPropertyDescriptor("FillColor", "Fill Color"),
-				new TextPropertyDescriptor("Fill", "Fill"), 
-				new TextPropertyDescriptor("Line_Thickness", "Line Thickness"),
-				new TextPropertyDescriptor("Line_Style", "Line Style"),
-				new TextPropertyDescriptor("Text", "Text"),
-				new TextPropertyDescriptor("FontColor", "Font Color")
+				nameDiscriptor, posxDiscriptor, posyDiscriptor, lcDiscriptor, ltDiscriptor, lsDiscriptor, 
+				pcDiscriptor, pfDiscriptor,
+				tsDiscriptor, tcDiscriptor, tsiDiscriptor, tsyDiscriptor
 		};
 	}
 	
@@ -126,6 +158,21 @@ public class Text extends Rectangle {
 		else if ("Line_Style".equals(id)) return Integer.toString(mLineStyle);
 		else if ("Text".equals(id)) return text;
 		else if ("FontColor".equals(id)) return getColorByString(fontColor);
+		else if ("FontSize".equals(id)) return Integer.toString(fontSize);
+		else if ("FontStyle".equals(id)) {
+			switch(fontStyle) {
+			case SWT.NORMAL :
+				return "Normal";
+			case SWT.ITALIC :
+				return "Italic";
+			case SWT.BOLD :
+				return "Bold";
+			case SWT.ITALIC | SWT.BOLD :
+				return "BoldItalic";
+			default :
+				return "Normal";
+			}
+		}
 		return "N/A";
 	}
 	
@@ -164,6 +211,29 @@ public class Text extends Rectangle {
 			int color = getColorFromString(tmp);
 			if (color != 0) {
 				fontColor = getColorFromString(tmp);
+			}
+		}
+		else if ("FontSize".equals(id)) {
+			fontSize = Integer.parseInt(tmp);
+		}
+		else if ("FontStyle".equals(id)) {
+			switch(tmp) {
+			case "Italic" :
+			case "italic" :
+				fontStyle = SWT.ITALIC;
+				break;
+			case "Bold" :
+			case "bold" :
+				fontStyle = SWT.BOLD;
+				break;
+			case "Normal" :
+			case "normal" :
+				fontStyle = SWT.NORMAL;
+				break;
+			case "BoldItalic" :
+			case "bolditalic" :
+				fontStyle = SWT.ITALIC | SWT.BOLD;
+				break;
 			}
 		}
 	}
