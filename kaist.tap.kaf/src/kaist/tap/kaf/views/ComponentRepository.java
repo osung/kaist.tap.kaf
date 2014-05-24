@@ -28,35 +28,35 @@ public class ComponentRepository {
 		mComponents = new LinkedList<Component>();
 	}
 	
-	public void Register(Component comp)
+	public void register(Component comp)
 	{
 		mComponents.add(comp);	
 		
 	}
 	
-	public void Remove(Component comp)
+	public void remove(Component comp)
 	{
 		mComponents.remove(comp);
 	}
 	
-	public void Remove(int idx)
+	public void remove(int idx)
 	{
 		mComponents.remove(idx);
 	}
 	
-	public int GetNumberOfComponents()
+	public int getNumberOfComponents()
 	{
 		return mComponents.size();
 	}
 	
-	public Component Get(int idx)
+	public Component get(int idx)
 	{
 		return mComponents.get(idx);
 	}
 	
-	public boolean Connect(int f, int s)
+	public boolean connect(int f, int s)
 	{
-		int size = this.GetNumberOfComponents();
+		int size = this.getNumberOfComponents();
 		
 		if (f < 0 || f >= size || s < 0 || s >= size)
 		{

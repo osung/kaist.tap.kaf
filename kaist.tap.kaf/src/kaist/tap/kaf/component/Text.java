@@ -1,13 +1,12 @@
 package kaist.tap.kaf.component;
 
-import kaist.tap.kaf.component.Component.SelectMode;
-
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -17,14 +16,14 @@ import org.eclipse.wb.swt.SWTResourceManager;
 public class Text extends Rectangle {
 	
 	protected String text;
-	protected int fontColor;
+	protected Color fontColor;
 	protected int fontSize;
 	protected int fontStyle;
 	
 	public Text() {
 		setName("Text");
 		text = new String();
-		fontColor = SWT.COLOR_BLACK;
+		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
 	}
 	
 	public Text(int x, int y, int w, int h, String str) {
@@ -36,7 +35,7 @@ public class Text extends Rectangle {
 		mEndPosition.x = x + w;
 		mEndPosition.y = y + h;
 		text = str;
-		fontColor = SWT.COLOR_BLACK;
+		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
 		fontSize = 20;
 		fontStyle = SWT.NORMAL;
 	}
@@ -51,10 +50,18 @@ public class Text extends Rectangle {
 	}
 	
 	public void setFontColor(int color) {
+		fontColor = SWTResourceManager.getColor(color);
+	}
+	
+	public void setFontColor(RGB color) {
+		fontColor = SWTResourceManager.getColor(color);
+	}
+	
+	public void setFontColor(Color color) {
 		fontColor = color;
 	}
 	
-	public int getFontColor() {
+	public Color getFontColor() {
 		return fontColor;
 	}
 	
@@ -64,6 +71,14 @@ public class Text extends Rectangle {
 	
 	public int getFontSize() {
 		return fontSize;
+	}
+	
+	public void setFontStyle(int style) {
+		fontStyle = style;
+	}
+	
+	public int getFontStyle() {
+		return fontStyle;
 	}
 	
 	public void draw(GC gc) {
@@ -81,7 +96,7 @@ public class Text extends Rectangle {
 		
 		Point p = gc.stringExtent(text);
 				
-		gc.setForeground(SWTResourceManager.getColor(fontColor));
+		gc.setForeground(fontColor);
 		gc.drawText(text, (int) (mPosition.x+(mWidth-p.x)*0.5), (int) (mPosition.y+(mHeight-p.y)*0.5));
 		
 		if (mSelectMode == SelectMode.SELECTED) {
@@ -102,8 +117,12 @@ public class Text extends Rectangle {
 		text.setDrawn(mDrawn);
 		text.setLineStyle(mLineStyle);
 		text.setLineThickness(mLineThickness);
+		text.setFill(this.getFill());
+		text.setFillColor(this.getFillColor());
 		text.setText(this.text);
 		text.setFontColor(this.getFontColor());
+		text.setFontSize(this.getFontSize());
+		text.setFontStyle(this.getFontStyle());
 		
 		return text;
 	}
@@ -149,7 +168,7 @@ public class Text extends Rectangle {
 	@Override
 	public Object getPropertyValue(Object id) {
 		if ("Text".equals(id)) return text;
-		else if ("FontColor".equals(id)) return getColorByString(fontColor);
+		else if ("FontColor".equals(id)) return fontColor.getRGB();
 		else if ("FontSize".equals(id)) return Integer.toString(fontSize);
 		else if ("FontStyle".equals(id)) {
 			switch(fontStyle) {
@@ -169,22 +188,16 @@ public class Text extends Rectangle {
 	}
 	
 	
-	@Override
 	public void setPropertyValue(Object id, Object value) {
-		// TODO Auto-generated method stub
-		String tmp = (String) value;
-		if ("Text".equals(id)) text = tmp;
+		if ("Text".equals(id)) text = (String) value;
 		else if ("FontColor".equals(id)) {
-			int color = getColorFromString(tmp);
-			if (color != 0) {
-				fontColor = getColorFromString(tmp);
-			}
+			setFontColor((RGB) value);
 		}
 		else if ("FontSize".equals(id)) {
-			fontSize = Integer.parseInt(tmp);
+			fontSize = Integer.parseInt((String) value);
 		}
 		else if ("FontStyle".equals(id)) {
-			switch(tmp) {
+			switch((String) value) {
 			case "Italic" :
 			case "italic" :
 				fontStyle = SWT.ITALIC;

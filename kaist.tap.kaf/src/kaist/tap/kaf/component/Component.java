@@ -225,6 +225,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 	
 	public abstract void draw(GC gc);
 	
+	public abstract Component clone(); 
+	
 	@Override
 	public Object getEditableValue() {
 		// TODO Auto-generated method stub

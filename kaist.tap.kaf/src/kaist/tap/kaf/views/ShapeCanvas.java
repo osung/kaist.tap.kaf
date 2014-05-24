@@ -27,7 +27,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	private Component selected = null;
 	private Component psel = null;
 	private Component tmpComp = null;
-	private Component prevSel = null;
+	private Component copy = null;
 	private Point sp = null;
 	
 	
@@ -61,7 +61,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		
 		addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
-				if (repo.GetNumberOfComponents() > 0) {
+				if (repo.getNumberOfComponents() > 0) {
 					repo.draw(e.gc);
 				}
 				if (tmpComp != null) {
@@ -71,18 +71,55 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			}
 		}); 
 				
+		this.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				
+				if (e.keyCode == SWT.DEL) {
+					// delete selected component
+					if (psel == null) return;
+					
+					repo.remove(psel);
+					psel = null;
+				}
+				else if ((e.stateMask & SWT.CTRL) != 0) {
+					if (e.keyCode == 'c' || e.keyCode == 'C') {
+						// copy component
+						if (psel == null) return;
+						
+						copy = psel.clone();
+					}
+					else if (e.keyCode == 'x' || e.keyCode == 'X') {
+						if (psel == null) return;
+						
+						copy = psel.clone();
+						repo.remove(psel);
+						psel = null;
+					}
+					else if (e.keyCode == 'v' || e.keyCode == 'V') {
+						// paste component
+						if (copy == null) return;
+						
+						repo.register(copy);
+						copy = null;
+					}
+				}
+				
+				redraw();
+			}
+		});
+		
 		addMouseListener(new MouseAdapter() {	
 			public void mouseDown(MouseEvent e) {
 				Component current = null;	
 						
 				// pick test
-				for (int i = 0; i < repo.GetNumberOfComponents(); ++i) {
-					current = repo.Get(i); 
+				for (int i = 0; i < repo.getNumberOfComponents(); ++i) {
+					current = repo.get(i); 
 					if (current.contains(e.x, e.y)) { 					
 						setSelection(new StructuredSelection(current));	
 						current.select();
-						if (prevSel != null) prevSel.unselect();
-						prevSel = current;
+						if (psel != null) psel.unselect();
+						psel = current;
 						break;
 					}
 				}
@@ -113,7 +150,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						Parallelogram para = src.clone();
 						para.setControlPoint(w/4);
 						para.setDrawn(true);
-						repo.Register(para);
+						repo.register(para);
 					}
 					else if (selected instanceof Rectangle) {
 						x = sp.x < e.x ? sp.x : e.x;
@@ -127,13 +164,13 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						Rectangle src = (Rectangle) selected;
 						Rectangle rect = src.clone();
 						rect.setDrawn(true);
-						repo.Register(rect);
+						repo.register(rect);
 					}
 					else if (selected instanceof Line) {
 						Line src = (Line) selected;
 						Line line = src.clone();
 						line.setDrawn(true);
-						repo.Register(line);
+						repo.register(line);
 					}
 				}
 				else {

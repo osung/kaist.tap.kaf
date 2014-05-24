@@ -173,6 +173,7 @@ public class Parallelogram extends Rectangle {
 		para.setControlPoint(controlPoint);
 		para.setColor(mColor);
 		para.setFillColor(mFillColor);
+		para.setFill(getFill());
 		para.setDrawn(mDrawn);
 		para.setLineStyle(mLineStyle);
 		para.setLineThickness(mLineThickness);
