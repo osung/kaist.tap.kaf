@@ -6,6 +6,7 @@ import kaist.tap.kaf.component.Component.SelectMode;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -152,7 +153,7 @@ public class Arrow extends Line {
 		TextPropertyDescriptor poseyDiscriptor = new TextPropertyDescriptor("EndPosition_Y", "Y");
 		poseyDiscriptor.setCategory("End Position");
 		
-		TextPropertyDescriptor lcDiscriptor = new TextPropertyDescriptor("Color", "Color");
+		ColorPropertyDescriptor lcDiscriptor = new ColorPropertyDescriptor("Color", "Color");
 		lcDiscriptor.setCategory("Line");
 		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
 		ltDiscriptor.setCategory("Line");

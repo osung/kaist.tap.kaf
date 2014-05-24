@@ -3,6 +3,7 @@ package kaist.tap.kaf.component;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -146,7 +147,7 @@ public class Line extends Component {
 			TextPropertyDescriptor poseyDiscriptor = new TextPropertyDescriptor("EndPosition_Y", "Y");
 			poseyDiscriptor.setCategory("End Position");
 			
-			TextPropertyDescriptor lcDiscriptor = new TextPropertyDescriptor("Color", "Color");
+			ColorPropertyDescriptor lcDiscriptor = new ColorPropertyDescriptor("Color", "Color");
 			lcDiscriptor.setCategory("Line");
 			TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
 			ltDiscriptor.setCategory("Line");

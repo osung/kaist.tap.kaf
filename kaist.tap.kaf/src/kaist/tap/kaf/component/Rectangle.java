@@ -135,15 +135,13 @@ public class Rectangle extends Component {
 		sizewDiscriptor.setCategory("Size");
 		TextPropertyDescriptor sizehDiscriptor = new TextPropertyDescriptor("Height", "Height");
 		sizehDiscriptor.setCategory("Size");
-		
-		TextPropertyDescriptor lcDiscriptor = new TextPropertyDescriptor("Color", "Color");
+		ColorPropertyDescriptor lcDiscriptor = new ColorPropertyDescriptor("Color", "Color");
 		lcDiscriptor.setCategory("Line");
 		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
 		ltDiscriptor.setCategory("Line");
 		String[] lsvalues = {"Solid", "Dot", "Dash", "Dashdot", "Dashdotdot"};
 		ComboBoxPropertyDescriptor lsDiscriptor = new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues);
 		lsDiscriptor.setCategory("Line");
-		//TextPropertyDescriptor pcDiscriptor = new TextPropertyDescriptor("FillColor", "Color");
 		ColorPropertyDescriptor pcDiscriptor = new ColorPropertyDescriptor("FillColor", "Color");
 		pcDiscriptor.setCategory("Polygon");
 		String[] fillvalues = {"On", "Off"};

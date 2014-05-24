@@ -16,9 +16,9 @@ public abstract class Component extends ComponentElement implements ISelection {
 	
 	protected String mName;
 	protected Point mPosition;
-	protected int mColor;
+	protected Color mColor;
 	protected boolean mFill;
-	protected int mFillColor;
+	protected Color  mFillColor;
 	protected int mLineThickness;
 	protected int mLineStyle;
 	protected String mPortList;
@@ -35,8 +35,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mEndPosition = new Point(0,0);
 		mLineThickness = 1;
 		mLineStyle = SWT.LINE_SOLID;
-		mColor = SWT.COLOR_BLACK;
-		mFillColor = SWT.COLOR_WHITE;
+		mColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
+		mFillColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
 		mFill = false;
 		mSelectMode = SelectMode.UNSELECTED;
 		mUpdated = false;
@@ -73,16 +73,28 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mPosition = position;
 	}
 	public Color getColor() {
-		return SWTResourceManager.getColor(mColor);
+		return mColor;
 	}
 	public Color getFillColor() {
-		return SWTResourceManager.getColor(mFillColor);
+		return mFillColor;
 	}
 	public void setColor(int color) {
-		mColor = color;
+		mColor = SWTResourceManager.getColor(color);
 	}
 	public void setFillColor(int color) {
+		mFillColor = SWTResourceManager.getColor(color);
+	}
+	public void setColor(Color color) {
+		mColor = color;
+	}
+	public void setFillColor(Color color) {
 		mFillColor = color;
+	}
+	public void setColor(RGB color) {
+		mColor = SWTResourceManager.getColor(color);
+	}
+	public void setFillColor(RGB color) {
+		mFillColor = SWTResourceManager.getColor(color);
 	}
 	public int getColorFromString(String color) {
 		switch (color) {
@@ -201,8 +213,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mEndPosition = new Point(0,0);
 		mLineThickness = 1;
 		mLineStyle = SWT.LINE_SOLID;
-		mColor = SWT.COLOR_BLACK;
-		mFillColor = SWT.COLOR_WHITE;
+		mColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
+		mFillColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
 		mSelectMode = SelectMode.UNSELECTED;
 		mFill = false;
 	}
@@ -245,8 +257,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 		}
 		else if ("Position_X".equals(id)) return Integer.toString(mPosition.x);
 		else if ("Position_Y".equals(id)) return Integer.toString(mPosition.y);
-		else if ("Color".equals(id)) return getColorByString(mColor);
-		else if ("FillColor".equals(id)) return mFillColor; //getColorByString(mFillColor);
+		else if ("Color".equals(id)) return mColor.getRGB();
+		else if ("FillColor".equals(id)) return mFillColor.getRGB();
 		else if ("Fill".equals(id)) {
 			if (mFill == true) return 0;
 			else return 1;
@@ -294,17 +306,10 @@ public abstract class Component extends ComponentElement implements ISelection {
 			mPosition.y = Integer.parseInt((String) value);
 		}
 		else if ("Color".equals(id)) {
-			int color = getColorFromString((String) value);
-			if (color != 0) {
-				mColor = getColorFromString((String) value);
-			}
+			setColor((RGB) value);
 		}
 		else if ("FillColor".equals(id)) {
-			System.out.println(value);
-			int color = getColorFromString((String) value);
-			if (color != 0) {
-				mFillColor = getColorFromString((String) value);
-			}
+			setFillColor((RGB) value);
 		}
 		else if ("Fill".equals(id)) {
 			if ((int) value == 0) mFill = true;

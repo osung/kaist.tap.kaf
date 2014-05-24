@@ -5,6 +5,7 @@ import kaist.tap.kaf.component.Component.SelectMode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -192,14 +193,14 @@ public class Parallelogram extends Rectangle {
 		TextPropertyDescriptor sizehDiscriptor = new TextPropertyDescriptor("Height", "Height");
 		sizehDiscriptor.setCategory("Size");
 		
-		TextPropertyDescriptor lcDiscriptor = new TextPropertyDescriptor("Color", "Color");
+		ColorPropertyDescriptor lcDiscriptor = new ColorPropertyDescriptor("Color", "Color");
 		lcDiscriptor.setCategory("Line");
 		TextPropertyDescriptor ltDiscriptor = new TextPropertyDescriptor("Line_Thickness", "Thickness");
 		ltDiscriptor.setCategory("Line");
 		String[] lsvalues = {"Solid", "Dot", "Dash", "Dashdot", "Dashdotdot"};
 		ComboBoxPropertyDescriptor lsDiscriptor = new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues);
 		lsDiscriptor.setCategory("Line");
-		TextPropertyDescriptor pcDiscriptor = new TextPropertyDescriptor("FillColor", "Color");
+		ColorPropertyDescriptor pcDiscriptor = new ColorPropertyDescriptor("FillColor", "Color");
 		pcDiscriptor.setCategory("Polygon");
 		String[] fillvalues = {"On", "Off"};
 		ComboBoxPropertyDescriptor pfDiscriptor = new ComboBoxPropertyDescriptor("Fill", "Fill", fillvalues);
