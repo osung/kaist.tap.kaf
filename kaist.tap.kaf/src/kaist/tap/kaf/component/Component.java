@@ -70,7 +70,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		return mPosition;
 	}
 	public void setPosition(Point position) {
-		mPosition = position;
+		mPosition = new Point(position.x, position.y);
 	}
 	public Color getColor() {
 		return mColor;
@@ -188,6 +188,13 @@ public abstract class Component extends ComponentElement implements ISelection {
 	
 	public void unselect() {
 		mSelectMode = SelectMode.UNSELECTED;
+	}
+	
+	public boolean isSelected() {
+		if (mSelectMode == SelectMode.SELECTED) {
+			return true;
+		}
+		else return false;
 	}
 	
 	public void setFill() {

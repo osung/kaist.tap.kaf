@@ -155,6 +155,7 @@ public class Parallelogram extends Rectangle {
 			return false;
 		}
 		
+		System.out.println("Parallelogram : in");
 		return true;
 	}
 
@@ -166,10 +167,9 @@ public class Parallelogram extends Rectangle {
 	
 	public Parallelogram clone() {
 		Parallelogram para = new Parallelogram();
-		Rectangle rect = (Rectangle) para;
-		rect.setPosition(mPosition);
-		rect.setWidth(mWidth);
-		rect.setHeight(mHeight);
+		para.setPosition(mPosition);
+		para.setWidth(mWidth);
+		para.setHeight(mHeight);
 		para.setControlPoint(controlPoint);
 		para.setColor(mColor);
 		para.setFillColor(mFillColor);

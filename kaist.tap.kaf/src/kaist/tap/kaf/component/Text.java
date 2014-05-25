@@ -129,7 +129,6 @@ public class Text extends Rectangle {
 
 	
 	
-	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		TextPropertyDescriptor nameDiscriptor = new TextPropertyDescriptor("Name", "Type");
 		TextPropertyDescriptor posxDiscriptor = new TextPropertyDescriptor("Position_X", "X");

@@ -86,7 +86,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						// copy component
 						if (psel == null) return;
 						
-						copy = psel.clone();
+						if (psel.isSelected() == true) copy = psel.clone();
+						else copy = null;
 					}
 					else if (e.keyCode == 'x' || e.keyCode == 'X') {
 						if (psel == null) return;
@@ -99,6 +100,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						// paste component
 						if (copy == null) return;
 						
+						copy.move(10, 10);
 						repo.register(copy);
 						copy = null;
 					}
@@ -113,18 +115,26 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				Component current = null;	
 						
 				// pick test
-				for (int i = 0; i < repo.getNumberOfComponents(); ++i) {
+				for (int i = repo.getNumberOfComponents()-1; i >=0; --i) {
 					current = repo.get(i); 
 					if (current.contains(e.x, e.y)) { 					
 						setSelection(new StructuredSelection(current));	
-						current.select();
+		
 						if (psel != null) psel.unselect();
+						current.select();
 						psel = current;
 						break;
 					}
+					else current = null;
+				}
+				
+				// if no one selected, but previous selection is existed
+				if (current == null && psel != null) {
+					psel.unselect();
 				}
 				
 				sp = new Point(e.x, e.y);
+				redraw();
 			}
 			
 			public void mouseUp(MouseEvent e) {
