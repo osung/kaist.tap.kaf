@@ -37,7 +37,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mLineStyle = SWT.LINE_SOLID;
 		mColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
 		mFillColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
-		mFill = false;
+		mFill = true;
 		mSelectMode = SelectMode.UNSELECTED;
 		mUpdated = false;
 	}

@@ -1,5 +1,7 @@
 package kaist.tap.kaf.views;
 
+import java.util.Vector;
+
 import kaist.tap.kaf.component.Component;
 import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Parallelogram;
@@ -25,11 +27,9 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	protected ViewManager vm;
 	ListenerList listeners = new ListenerList();
 	private Component selected = null;
-	private Component psel = null;
+	private Vector<Component> psel, copy;
 	private Component tmpComp = null;
-	private Component copy = null;
 	private Point sp = null;
-	
 	
 	public ShapeCanvas(Composite parent, int style) {
 		super(parent, style);
@@ -41,6 +41,9 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		vm.addRepo(new ComponentRepository());
 		
 		repo = vm.getRepo(viewType.LOGICAL_VIEW);
+		
+		psel = new Vector<Component>();
+		copy = new Vector<Component>();
 		
 		this.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(final SelectionChangedEvent event) {
@@ -76,33 +79,46 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				
 				if (e.keyCode == SWT.DEL) {
 					// delete selected component
-					if (psel == null) return;
+					if (psel.size() == 0) return;
 					
 					repo.remove(psel);
-					psel = null;
+					psel.clear();
 				}
 				else if ((e.stateMask & SWT.CTRL) != 0) {
 					if (e.keyCode == 'c' || e.keyCode == 'C') {
 						// copy component
-						if (psel == null) return;
+						if (psel.size() == 0) return;
 						
-						if (psel.isSelected() == true) copy = psel.clone();
-						else copy = null;
+						if (psel.get(0).isSelected() == true) {
+							for (int i = 0; i < psel.size(); ++i) {
+								copy.add(psel.get(i).clone());
+							}
+						}
+						else {
+							copy.clear();
+						}
 					}
 					else if (e.keyCode == 'x' || e.keyCode == 'X') {
-						if (psel == null) return;
+						if (psel.size() == 0) return;
 						
-						copy = psel.clone();
+						if (psel.get(0).isSelected() == true) {
+							for (int i = 0; i < psel.size(); ++i) {
+								copy.add(psel.get(i).clone());
+							}
+						}
 						repo.remove(psel);
-						psel = null;
+						psel.clear();
 					}
 					else if (e.keyCode == 'v' || e.keyCode == 'V') {
 						// paste component
-						if (copy == null) return;
+						if (copy.size() == 0) return;
 						
-						copy.move(10, 10);
-						repo.register(copy);
-						copy = null;
+						for (int i = 0; i < copy.size(); ++i) {
+							Component comp = copy.get(i);
+							comp.move(10, 10);
+							repo.register(comp);
+						}
+						copy.clear();
 					}
 				}
 				
@@ -113,24 +129,37 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		addMouseListener(new MouseAdapter() {	
 			public void mouseDown(MouseEvent e) {
 				Component current = null;	
-						
+				boolean shift = false;
+				
+				if ((e.stateMask & SWT.SHIFT) != 0) {
+					shift = true;
+				}
+				
 				// pick test
 				for (int i = repo.getNumberOfComponents()-1; i >=0; --i) {
 					current = repo.get(i); 
 					if (current.contains(e.x, e.y)) { 					
 						setSelection(new StructuredSelection(current));	
 		
-						if (psel != null) psel.unselect();
+						if (psel.size() > 0 && shift == false) {
+							for (int j = 0; j < psel.size(); ++j) {
+								psel.get(j).unselect();
+							}
+							psel.clear();
+						}
+						
 						current.select();
-						psel = current;
+						psel.add(current);
 						break;
 					}
 					else current = null;
 				}
 				
 				// if no one selected, but previous selection is existed
-				if (current == null && psel != null) {
-					psel.unselect();
+				if (current == null && psel.size() > 0) {
+					for (int i = 0; i < psel.size(); ++i) {
+						psel.get(i).unselect();
+					}
 				}
 				
 				sp = new Point(e.x, e.y);
@@ -138,7 +167,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			}
 			
 			public void mouseUp(MouseEvent e) {
-				int x, y, w, h;	
+				int x, y, w, h;				
 				
 				tmpComp = null;
 				if (selected == null) {
@@ -200,7 +229,11 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				
 				if (selected != null) {
 					if (selected.getDrawn()==true) {
-						selected.move(e.x-sp.x, e.y-sp.y);
+						//selected.move(e.x-sp.x, e.y-sp.y);
+						for (int i = 0; i < psel.size(); ++i) {
+							psel.get(i).move(e.x-sp.x, e.y-sp.y);
+						}
+						
 						sp.x = e.x; sp.y = e.y;
 					}
 					else {
@@ -247,6 +280,12 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			}
 			
 		});
+	}
+	
+	public void deleteSelections() {
+		while (psel.size() > 0) {
+	//		psel.
+		}
 	}
 	
 	public void addSelectionListener(SelectionListener listener) {

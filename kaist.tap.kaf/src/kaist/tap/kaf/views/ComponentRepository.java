@@ -44,6 +44,22 @@ public class ComponentRepository {
 		mComponents.remove(idx);
 	}
 	
+	public void remove(Component[] comps, int size) 
+	{
+		for (int i = 0; i < size; ++i) {
+			mComponents.remove(comps[i]);
+		}
+	}
+	
+	public void remove(Vector<Component> comps)
+	{
+		while (comps.size() > 0) {
+			Component comp = comps.lastElement();
+			mComponents.remove(comp);
+			comps.remove(comp);
+		}
+	}
+	
 	public int getNumberOfComponents()
 	{
 		return mComponents.size();
