@@ -175,4 +175,18 @@ public class Rectangle extends Component {
 		}
 		else super.setPropertyValue(id, value);
 	}
+
+	public Point[] getBounds() {
+		Point[] bounds = new Point[2];
+		
+		bounds[0] = new Point(0,0);
+		bounds[1] = new Point(0,0);
+		
+		bounds[0].x = mPosition.x;
+		bounds[1].x = mEndPosition.x;
+		bounds[0].y = mPosition.y;
+		bounds[1].y = mEndPosition.y;
+		
+		return bounds;
+	}
 }

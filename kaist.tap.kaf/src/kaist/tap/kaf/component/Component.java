@@ -247,7 +247,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	
 	public abstract void move(int x, int y);
 	
-	//public abstract Point[] getBounds();
+	public abstract Point[] getBounds();
 	
 	public abstract void draw(GC gc);
 	

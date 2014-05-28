@@ -131,10 +131,13 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						for (int i = 0; i < psel.size(); ++i) {
 							Component c = psel.get(i);
 							group.addComponent(c);
+							c.unselect();
 							c.setGrouped();
 						}
+						group.setDrawn(true);
 						repo.register(group);
-					}
+						psel.clear();
+											}
 					else if (e.keyCode == 'U' || e.keyCode == 'u') {
 						for (int i = 0; i < psel.size(); ++i) {
 							Component c = psel.get(i);
@@ -203,7 +206,13 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				}
 				
 				if (selected.getDrawn() == false) {
-					if (selected instanceof Parallelogram) {
+					if (selected instanceof Group) {
+						System.out.println("Group is selected");
+						selected = null;
+						sp = null;
+						return;
+					}
+					else if (selected instanceof Parallelogram) {
 						x = sp.x < e.x ? sp.x : e.x;
 						y = sp.y < e.y ? sp.y : e.y;
 				
@@ -325,13 +334,10 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		System.out.println("SelectionChangedListener");
 		listeners.add(listener);
 	}
 
 	public ISelection getSelection() {
-		System.out.println("ShapeCanvas : getSelection");
-		
 		if (selected != null) {
 			return new StructuredSelection(selected);
 		}
