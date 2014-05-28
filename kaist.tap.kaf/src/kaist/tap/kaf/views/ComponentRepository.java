@@ -66,6 +66,27 @@ public class ComponentRepository {
 		}
 	}
 	
+	public void raise(Component comp) {
+		int idx = mComponents.indexOf(comp);
+		if (idx < mComponents.size()-1) {
+			idx++;
+			mComponents.remove(comp);
+			mComponents.add(idx, comp);
+		}
+	}
+	
+	
+	
+	public void lower(Component comp) {
+		int idx = mComponents.indexOf(comp);
+		if (idx > 0) {
+			idx--;
+			mComponents.remove(comp);
+			mComponents.add(idx, comp);
+		}
+	}
+	
+	
 	public int getNumberOfComponents()
 	{
 		return mComponents.size();

@@ -149,6 +149,19 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 							}
 						}
 					}
+					else if (e.keyCode == '+' || e.keyCode == '=') {
+						if (psel.size() != 1) return;
+						
+						Component c = psel.get(0);
+						repo.raise(c);
+					}
+					else if (e.keyCode == '-' || e.keyCode == '_') {
+						if (psel.size() != 1) return;
+						
+						Component c = psel.get(0);
+						repo.lower(c);
+					}
+				
 				}
 				
 				redraw();
