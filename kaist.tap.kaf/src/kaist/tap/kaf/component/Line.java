@@ -102,6 +102,8 @@ public class Line extends Component {
 		public boolean contains(int x, int y) {
 			double xt, yt;		
 			
+			if (mGrouped==true) return false;
+			
 			xt = ((double) x - mPosition.x) / ((double) mEndPosition.x - mPosition.x);
 			yt = ((double) y - mPosition.y) / ((double) mEndPosition.y - mPosition.y);
 			

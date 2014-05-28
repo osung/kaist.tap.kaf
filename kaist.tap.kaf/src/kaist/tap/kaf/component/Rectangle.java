@@ -86,6 +86,9 @@ public class Rectangle extends Component {
 	}
 	
 	public boolean contains(int x, int y) {
+		
+		if (mGrouped==true) return false;
+		
 		if (mSelectMode == SelectMode.SELECTED) {
 			
 		}
