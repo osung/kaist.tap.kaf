@@ -28,6 +28,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	protected SelectMode mSelectMode;
 	protected final int contSize = 3;  // half size of control point
 	protected boolean mUpdated;
+	protected boolean mGrouped;
 	
 	public Component() {
 		mDrawn = false;
@@ -40,21 +41,36 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mFill = true;
 		mSelectMode = SelectMode.UNSELECTED;
 		mUpdated = false;
+		mGrouped = false;
 	}
 	
 	public boolean getUpdated() {
 		if (mUpdated == true) {
 			mUpdated = false;
-			
 			return true;
 		}
 		
 		return false;
 	}
 	
+	public void setGrouped() {
+		mGrouped = true;
+	}
+	
+	public void unsetGrouped() {
+		mGrouped = false;
+	}
+	
+	
+	public boolean getGrouped() {
+		return mGrouped;
+	}
+	
+	
 	public Point getEndPosition() {
 		return mEndPosition;
 	}
+	
 	
 	public void setEndPosition(Point endPosition) {
 		mEndPosition = endPosition;
@@ -230,6 +246,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 	public abstract boolean contains (int x, int y);
 	
 	public abstract void move(int x, int y);
+	
+	public abstract Point[] getBounds();
 	
 	public abstract void draw(GC gc);
 	

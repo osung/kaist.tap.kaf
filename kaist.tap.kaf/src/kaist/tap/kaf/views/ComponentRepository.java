@@ -56,9 +56,36 @@ public class ComponentRepository {
 		while (comps.size() > 0) {
 			Component comp = comps.lastElement();
 			mComponents.remove(comp);
+			if (comp instanceof Group) {
+				for (int i = 0; i < ((Group)comp).getSize(); ++i) {
+					Component c = ((Group) comp).getComponent(i);
+					mComponents.remove(c);
+				}
+			} 
 			comps.remove(comp);
 		}
 	}
+	
+	public void raise(Component comp) {
+		int idx = mComponents.indexOf(comp);
+		if (idx < mComponents.size()-1) {
+			idx++;
+			mComponents.remove(comp);
+			mComponents.add(idx, comp);
+		}
+	}
+	
+	
+	
+	public void lower(Component comp) {
+		int idx = mComponents.indexOf(comp);
+		if (idx > 0) {
+			idx--;
+			mComponents.remove(comp);
+			mComponents.add(idx, comp);
+		}
+	}
+	
 	
 	public int getNumberOfComponents()
 	{

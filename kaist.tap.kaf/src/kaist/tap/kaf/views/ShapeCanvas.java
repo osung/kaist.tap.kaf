@@ -3,10 +3,10 @@ package kaist.tap.kaf.views;
 import java.util.Vector;
 
 import kaist.tap.kaf.component.Component;
-import kaist.tap.kaf.component.IComponentChangeListener;
 import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Parallelogram;
 import kaist.tap.kaf.component.Rectangle;
+import kaist.tap.kaf.component.Group;
 import kaist.tap.kaf.manager.*;
 import kaist.tap.kaf.manager.View.viewType;
 
@@ -27,7 +27,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	protected ComponentRepository repo;
 	protected ViewManager vm;
 	ListenerList listeners = new ListenerList();
-	Vector<IComponentChangeListener> componentChangeListeners = new Vector<IComponentChangeListener>();
 	private Component selected = null;
 	private Vector<Component> psel, copy;
 	private Component tmpComp = null;
@@ -58,6 +57,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					else if (select instanceof View) {
 						View v = (View) select;
 						repo = vm.getRepo(v.getViewType());
+						psel.clear();
+						copy.clear();
 						redraw();
 					}
 				}
@@ -122,6 +123,45 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						}
 						copy.clear();
 					}
+					else if (e.keyCode == 'G' || e.keyCode == 'g') {
+						if (psel.size() <= 1) return;
+						System.out.println("G is pressed");
+						
+						Group group = new Group();
+						for (int i = 0; i < psel.size(); ++i) {
+							Component c = psel.get(i);
+							group.addComponent(c);
+							c.unselect();
+							c.setGrouped();
+						}
+						group.setDrawn(true);
+						repo.register(group);
+						psel.clear();
+											}
+					else if (e.keyCode == 'U' || e.keyCode == 'u') {
+						for (int i = 0; i < psel.size(); ++i) {
+							Component c = psel.get(i);
+							
+							if (c instanceof Group) {
+								((Group) c).clear();
+								psel.remove(c);
+								repo.remove(c);
+							}
+						}
+					}
+					else if (e.keyCode == '+' || e.keyCode == '=') {
+						if (psel.size() != 1) return;
+						
+						Component c = psel.get(0);
+						repo.raise(c);
+					}
+					else if (e.keyCode == '-' || e.keyCode == '_') {
+						if (psel.size() != 1) return;
+						
+						Component c = psel.get(0);
+						repo.lower(c);
+					}
+				
 				}
 				
 				redraw();
@@ -161,6 +201,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				if (current == null && psel.size() > 0) {
 					for (int i = 0; i < psel.size(); ++i) {
 						psel.get(i).unselect();
+						psel.clear();
 					}
 				}
 				
@@ -178,7 +219,13 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				}
 				
 				if (selected.getDrawn() == false) {
-					if (selected instanceof Parallelogram) {
+					if (selected instanceof Group) {
+						System.out.println("Group is selected");
+						selected = null;
+						sp = null;
+						return;
+					}
+					else if (selected instanceof Parallelogram) {
 						x = sp.x < e.x ? sp.x : e.x;
 						y = sp.y < e.y ? sp.y : e.y;
 				
@@ -304,8 +351,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	}
 
 	public ISelection getSelection() {
-		//System.out.println("ShapeCanvas : getSelection");
-		
 		if (selected != null) {
 			return new StructuredSelection(selected);
 		}
@@ -322,13 +367,5 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		for (int i = 0; i < listeners.size(); ++i) {
 			((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, select));
 		}
-	}
-	
-	public void addComponentChangeListener(IComponentChangeListener l) {
-		componentChangeListeners.addElement(l);
-	}
-	
-	public void removeComponentChangeListener(IComponentChangeListener l) {
-		componentChangeListeners.removeElement(l);
 	}
 }

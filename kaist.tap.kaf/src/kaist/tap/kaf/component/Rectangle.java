@@ -86,6 +86,9 @@ public class Rectangle extends Component {
 	}
 	
 	public boolean contains(int x, int y) {
+		
+		if (mGrouped==true) return false;
+		
 		if (mSelectMode == SelectMode.SELECTED) {
 			
 		}
@@ -162,7 +165,6 @@ public class Rectangle extends Component {
 	}
 
 	public void setPropertyValue(Object id, Object value) {
-		System.out.println("Rectangle: Updated");
 		if ("Width".equals(id)) {
 			mWidth = Integer.parseInt((String) value);
 			mEndPosition.x = mPosition.x+mWidth;
@@ -172,5 +174,19 @@ public class Rectangle extends Component {
 			mEndPosition.y = mPosition.y+mHeight;
 		}
 		else super.setPropertyValue(id, value);
+	}
+
+	public Point[] getBounds() {
+		Point[] bounds = new Point[2];
+		
+		bounds[0] = new Point(0,0);
+		bounds[1] = new Point(0,0);
+		
+		bounds[0].x = mPosition.x;
+		bounds[1].x = mEndPosition.x;
+		bounds[0].y = mPosition.y;
+		bounds[1].y = mEndPosition.y;
+		
+		return bounds;
 	}
 }

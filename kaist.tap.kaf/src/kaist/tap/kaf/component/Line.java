@@ -102,6 +102,8 @@ public class Line extends Component {
 		public boolean contains(int x, int y) {
 			double xt, yt;		
 			
+			if (mGrouped==true) return false;
+			
 			xt = ((double) x - mPosition.x) / ((double) mEndPosition.x - mPosition.x);
 			yt = ((double) y - mPosition.y) / ((double) mEndPosition.y - mPosition.y);
 			
@@ -175,6 +177,20 @@ public class Line extends Component {
 			if ("EndPosition_X".equals(id)) mEndPosition.x = Integer.parseInt((String) value);
 			else if ("EndPosition_Y".equals(id)) mEndPosition.y = Integer.parseInt((String) value);
 			else super.setPropertyValue(id, value);
+		}
+
+		public Point[] getBounds() {
+			Point[] bounds = new Point[2];
+	
+			bounds[0] = new Point(0,0);
+			bounds[1] = new Point(0,0);
+			
+			bounds[0].x = Math.min(mPosition.x, mEndPosition.x);
+			bounds[1].x = Math.max(mPosition.x, mEndPosition.x);
+			bounds[0].y = Math.min(mPosition.y, mEndPosition.y);
+			bounds[1].y = Math.max(mPosition.y, mEndPosition.y);
+			
+			return bounds;
 		}
 		
 }

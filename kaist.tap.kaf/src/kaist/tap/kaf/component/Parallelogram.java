@@ -147,6 +147,9 @@ public class Parallelogram extends Rectangle {
 	}
 	
 	public boolean contains(int x, int y) {
+		
+		if (mGrouped==true) return false;
+
 		if (mSelectMode == SelectMode.SELECTED) {
 			
 		}
