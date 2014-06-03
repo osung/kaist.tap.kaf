@@ -13,6 +13,14 @@ public abstract class Component extends ComponentElement implements ISelection {
 		UNSELECTED, SELECTED
 	}
 	
+	public enum Contains {
+		INSIDE, SELECTION, OUTSIDE
+	}
+	
+	public enum Selection {
+		START, END, LL, LR, UL, UR, FALSE
+	}
+	
 	protected String mName;
 	protected Point mPosition;
 	protected Color mColor;
@@ -28,6 +36,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	protected final int contSize = 3;  // half size of control point
 	protected boolean mUpdated;
 	protected boolean mGrouped;
+	protected Selection mSelection;
 	
 	public Component() {
 		mDrawn = false;
@@ -41,6 +50,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mSelectMode = SelectMode.UNSELECTED;
 		mUpdated = false;
 		mGrouped = false;
+		mSelection = Selection.FALSE;
 	}
 	
 	public boolean getUpdated() {
@@ -73,6 +83,10 @@ public abstract class Component extends ComponentElement implements ISelection {
 	
 	public void setEndPosition(Point endPosition) {
 		mEndPosition = endPosition;
+	}
+	
+	public Selection getSelection() {
+		return mSelection;
 	}
 	
 	public String getName() {
@@ -204,6 +218,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	
 	public void unselect() {
 		mSelectMode = SelectMode.UNSELECTED;
+		mSelection = Selection.FALSE;
 	}
 	
 	public boolean isSelected() {
@@ -240,11 +255,20 @@ public abstract class Component extends ComponentElement implements ISelection {
 		mFillColor = SWTResourceManager.getColor(SWT.COLOR_WHITE);
 		mSelectMode = SelectMode.UNSELECTED;
 		mFill = false;
+		mSelection = Selection.FALSE;
 	}
 
+	public Selection containSelection(int x, int y) {
+		return Selection.FALSE;
+	}
+	
 	public abstract boolean contains (int x, int y);
 	
 	public abstract void move(int x, int y);
+	
+	public void resize(int x, int y) {
+		
+	}
 	
 	public abstract Point[] getBounds();
 	

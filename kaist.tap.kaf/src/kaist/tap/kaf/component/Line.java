@@ -16,7 +16,7 @@ public class Line extends Component {
 		boolean mConnected;
 		Component mStartComponent;
 		Component mEndComponent;
-		
+				
 		public Line()
 		{
 			mConnected = false;
@@ -99,20 +99,47 @@ public class Line extends Component {
 			}
 		}
 		
+		public Selection containSelection(int x, int y) {
+			if (Math.abs(x-mPosition.x) < contSize && Math.abs(y-mPosition.y) < contSize) return Selection.START;
+			else if (Math.abs(x-mEndPosition.x) < contSize && Math.abs(y-mEndPosition.y) < contSize) return Selection.END;
+			else return Selection.FALSE;
+		}
+				
 		public boolean contains(int x, int y) {
 			double xt, yt;		
 			
 			if (mGrouped==true) return false;
+			
+			mSelection = containSelection(x, y);
+			
+			if (this.isSelected()==true) {
+				if (mSelection != Selection.FALSE) return true;
+			}
 			
 			xt = ((double) x - mPosition.x) / ((double) mEndPosition.x - mPosition.x);
 			yt = ((double) y - mPosition.y) / ((double) mEndPosition.y - mPosition.y);
 			
 			if (xt < 0 || xt > 1 || yt < 0 || yt > 1) return false;
 			if (Math.abs(xt-yt) > 0.05) return false;
-			
+						
 			return true;
 		}
 
+		
+		public void resize(int x, int y) {
+			if (mSelection == Selection.FALSE) return;
+			
+			if (mSelection == Selection.START) {
+				mPosition.x = x;
+				mPosition.y = y;
+			}
+			else {
+				mEndPosition.x = x;
+				mEndPosition.y = y;
+			}
+		}
+		
+		
 		public void move(int x, int y) {
 			mPosition.x += x;
 			mPosition.y += y;

@@ -8,6 +8,7 @@ import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Parallelogram;
 import kaist.tap.kaf.component.Rectangle;
 import kaist.tap.kaf.component.Group;
+import kaist.tap.kaf.component.Component.Selection;
 import kaist.tap.kaf.manager.*;
 import kaist.tap.kaf.manager.View.viewType;
 
@@ -181,16 +182,18 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				// pick test
 				for (int i = repo.getNumberOfComponents()-1; i >=0; --i) {
 					current = repo.get(i); 
-					if (current.contains(e.x, e.y)) { 					
+					if (current.contains(e.x, e.y)) { 	
 						setSelection(new StructuredSelection(current));	
-		
+	
 						if (psel.size() > 0 && shift == false) {
 							for (int j = 0; j < psel.size(); ++j) {
-								psel.get(j).unselect();
+								Component comp = psel.get(j);
+								if (comp != current) {
+									comp.unselect();
+								}
 							}
 							psel.clear();
 						}
-						
 						current.select();
 						psel.add(current);
 						break;
@@ -221,7 +224,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				
 				if (selected.getDrawn() == false) {
 					if (selected instanceof Group) {
-						System.out.println("Group is selected");
 						selected = null;
 						sp = null;
 						return;
@@ -269,7 +271,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					}
 				}
 				else {
-					selected.move(e.x-sp.x, e.y-sp.y);
+					if (selected.getSelection() == Selection.FALSE) selected.move(e.x-sp.x, e.y-sp.y);
+					else selected.resize(e.x, e.y);
 				}
 				
 				redraw();
@@ -280,14 +283,14 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		
 		addMouseMoveListener(new MouseMoveListener() {
 			public void mouseMove(MouseEvent e) {
-				// TODO Auto-generated method stub
 				if (sp == null) return;
 				
 				if (selected != null) {
 					if (selected.getDrawn()==true) {
-						//selected.move(e.x-sp.x, e.y-sp.y);
 						for (int i = 0; i < psel.size(); ++i) {
-							psel.get(i).move(e.x-sp.x, e.y-sp.y);
+							Component sel = psel.get(i);
+							if (sel.getSelection() == Selection.FALSE) sel.move(e.x-sp.x, e.y-sp.y);
+							else sel.resize(e.x, e.y);
 						}
 						
 						sp.x = e.x; sp.y = e.y;
