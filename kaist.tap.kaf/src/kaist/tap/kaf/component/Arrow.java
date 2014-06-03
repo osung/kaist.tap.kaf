@@ -1,11 +1,14 @@
 package kaist.tap.kaf.component;
 
+import java.awt.Polygon;
 import java.awt.geom.AffineTransform;
 
 import kaist.tap.kaf.component.Component.SelectMode;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Transform;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -99,18 +102,42 @@ public class Arrow extends Line {
 	}
 	
 	
-	public void drawArrowHead(GC gc, double theta, int x, int y) {
+	
+	public void drawArrowHead(GC gc, int x, int y, float angle) {
+		Transform tx = new Transform(gc.getDevice());
 		
+		int arrowHead[] = new int[] {0, 5, -5, -5, 5, -5};
+				
+		tx.identity();
+		//tx.rotate(angle-(float) Math.PI/2f);
+		
+		tx.translate(x, y);
+		tx.rotate(angle);
+		
+		gc.setTransform(tx);
+		gc.fillPolygon(arrowHead);
+		
+		tx.identity();
+		gc.setTransform(tx);
+		tx.dispose();
 	}
 	
+		
 	
 	public void draw(GC gc) {
 		gc.setForeground(getColor());
+		gc.setBackground(getColor());
 		gc.setLineWidth(mLineThickness);
 		gc.setLineStyle(mLineStyle);
 		gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
 		
-		//drawArrowHead(gc);
+		float a = mEndPosition.x - mPosition.x;
+		float b = mEndPosition.y - mPosition.y;
+		float angle = (float) Math.acos(b/(Math.sqrt(a*a+b*b)));
+		angle = (float) Math.toDegrees(angle);
+		
+		drawArrowHead(gc, mPosition.x, mPosition.y, 180-angle);
+		drawArrowHead(gc, mEndPosition.x, mEndPosition.y, -angle);
 		
 		if (mSelectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
@@ -162,45 +189,26 @@ public class Arrow extends Line {
 		ComboBoxPropertyDescriptor lsDiscriptor = new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues);
 		lsDiscriptor.setCategory("Line");
 		
-		TextPropertyDescriptor astDiscriptor = new TextPropertyDescriptor("ArrowHeadType_Start", "Type");
-		astDiscriptor.setCategory("Start Arrow Head");
-		TextPropertyDescriptor assDiscriptor = new TextPropertyDescriptor("ArrowHeadSize_Start", "Size");
-		assDiscriptor.setCategory("Start Arrow Head");
-		TextPropertyDescriptor aetDiscriptor = new TextPropertyDescriptor("ArrowHeadType_End", "Type");
-		aetDiscriptor.setCategory("End Arrow Head");
-		TextPropertyDescriptor aesDiscriptor = new TextPropertyDescriptor("ArrowHeadSize_End", "Size");
-		aesDiscriptor.setCategory("End Arrow Head");
-		
 		return new IPropertyDescriptor[] {
 				nameDiscriptor, posxDiscriptor, posyDiscriptor, posexDiscriptor, poseyDiscriptor,
 				lcDiscriptor, ltDiscriptor, lsDiscriptor
 		};
 	}
-
-
+	
 	@Override
 	public Object getPropertyValue(Object id) {
 		// TODO Auto-generated method stub
-		if ("ArrowHeadType_Start".equals(id)) return headTypeToString(arrowHead[0].type);
-		else if ("ArrowHeadType_End".equals(id)) return headTypeToString(arrowHead[1].type);
-		else if ("ArrowHeadSize_Start".equals(id)) return Integer.toString(arrowHead[0].size);
-		else if ("ArrowHeadSize_End".equals(id)) return Integer.toString(arrowHead[1].size);
+		if ("EndPosition_X".equals(id)) return Integer.toString(mEndPosition.x);
+		else if ("EndPosition_Y".equals(id)) return Integer.toString(mEndPosition.y);
 		else return super.getPropertyValue(id);
 	}
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
-		// TODO Auto-generated method stub
-		String tmp = (String) value;
-
-		if ("ArrowHeadType_Start".equals(id)) arrowHead[0].type = stringToHeadType(tmp);
-		else if ("ArrowHeadType_End".equals(id)) arrowHead[1].type = stringToHeadType(tmp);
-		else if ("ArrowHeadSize_Start".equals(id)) arrowHead[0].size = Integer.parseInt(tmp); 
-		else if ("ArrowHeadSize_End".equals(id)) arrowHead[1].size = Integer.parseInt(tmp); 
+		if ("EndPosition_X".equals(id)) mEndPosition.x = Integer.parseInt((String) value);
+		else if ("EndPosition_Y".equals(id)) mEndPosition.y = Integer.parseInt((String) value);
 		else super.setPropertyValue(id, value);
 	}
-	
-	
 }
 
 

@@ -2,6 +2,7 @@ package kaist.tap.kaf.views;
 
 import java.util.Vector;
 
+import kaist.tap.kaf.component.Arrow;
 import kaist.tap.kaf.component.Component;
 import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Parallelogram;
@@ -253,6 +254,12 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						Rectangle rect = src.clone();
 						rect.setDrawn(true);
 						repo.register(rect);
+					}
+					else if (selected instanceof Arrow) {
+						Arrow src = (Arrow) selected;
+						Arrow arrow = src.clone();
+						arrow.setDrawn(true);
+						repo.register(arrow);
 					}
 					else if (selected instanceof Line) {
 						Line src = (Line) selected;
