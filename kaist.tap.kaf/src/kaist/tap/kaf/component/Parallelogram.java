@@ -95,7 +95,7 @@ public class Parallelogram extends Rectangle {
 	}
 	
 	public void setEndPosition(int x, int y) {
-		super.setEndPosition(x,  y);
+		super.setEndPosition(new Point(x, y));
 		setParallelType(type);
 	}
 	

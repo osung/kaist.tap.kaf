@@ -297,22 +297,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					}
 					else {
 						int x, y, w, h;
-						// rubber band effect 
-						/* if (selected instanceof Parallelogram) {
-							Parallelogram para = (Parallelogram) selected;
-							x = sp.x < e.x ? sp.x : e.x;
-							y = sp.y < e.y ? sp.y : e.y;
-					
-							w = Math.abs(e.x-sp.x);
-							h = Math.abs(e.y-sp.y);
-							w = (w < 5) ? 20 : w;
-							h = (h < 5) ? 20 : h;
-					
-							para.setPosition(new Point(x, y));
-							para.setWidth(w);
-							para.setHeight(h);
-						}
-						else */ if (selected instanceof Rectangle) {
+						if (selected instanceof Rectangle) {
 							Rectangle rect = (Rectangle) selected;
 							x = sp.x < e.x ? sp.x : e.x;
 							y = sp.y < e.y ? sp.y : e.y;
@@ -322,15 +307,13 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 							
 							rect.setPosition(new Point(x, y));
 							rect.setWidth(w);
-							rect.setHeight(h);
+							rect.setHeight(h); 
 						}
 						else if (selected instanceof Line) {
 							selected.setPosition(sp);
 							selected.setEndPosition(new Point(e.x, e.y));
 						}
-						
-						//if (selected instanceof Parallelogram) 
-						
+												
 						tmpComp = selected;
 					}
 						
