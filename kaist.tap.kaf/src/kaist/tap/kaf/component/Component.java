@@ -45,6 +45,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	public boolean getUpdated() {
 		if (mUpdated == true) {
 			mUpdated = false;
+			
 			return true;
 		}
 		

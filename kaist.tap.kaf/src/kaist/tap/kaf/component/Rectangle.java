@@ -162,6 +162,7 @@ public class Rectangle extends Component {
 	}
 
 	public void setPropertyValue(Object id, Object value) {
+		System.out.println("Rectangle: Updated");
 		if ("Width".equals(id)) {
 			mWidth = Integer.parseInt((String) value);
 			mEndPosition.x = mPosition.x+mWidth;

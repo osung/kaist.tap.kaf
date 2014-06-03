@@ -3,6 +3,7 @@ package kaist.tap.kaf.views;
 import java.util.Vector;
 
 import kaist.tap.kaf.component.Component;
+import kaist.tap.kaf.component.IComponentChangeListener;
 import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Parallelogram;
 import kaist.tap.kaf.component.Rectangle;
@@ -26,6 +27,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	protected ComponentRepository repo;
 	protected ViewManager vm;
 	ListenerList listeners = new ListenerList();
+	Vector<IComponentChangeListener> componentChangeListeners = new Vector<IComponentChangeListener>();
 	private Component selected = null;
 	private Vector<Component> psel, copy;
 	private Component tmpComp = null;
@@ -298,12 +300,11 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		System.out.println("SelectionChangedListener");
 		listeners.add(listener);
 	}
 
 	public ISelection getSelection() {
-		System.out.println("ShapeCanvas : getSelection");
+		//System.out.println("ShapeCanvas : getSelection");
 		
 		if (selected != null) {
 			return new StructuredSelection(selected);
@@ -321,5 +322,13 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		for (int i = 0; i < listeners.size(); ++i) {
 			((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, select));
 		}
+	}
+	
+	public void addComponentChangeListener(IComponentChangeListener l) {
+		componentChangeListeners.addElement(l);
+	}
+	
+	public void removeComponentChangeListener(IComponentChangeListener l) {
+		componentChangeListeners.removeElement(l);
 	}
 }
