@@ -28,12 +28,12 @@ public class Text extends Rectangle {
 	
 	public Text(int x, int y, int w, int h, String str) {
 		setName("Text");
-		mPosition.x = x;
-		mPosition.y = y;
-		mWidth = w;
-		mHeight = h;
-		mEndPosition.x = x + w;
-		mEndPosition.y = y + h;
+		position.x = x;
+		position.y = y;
+		width = w;
+		height = h;
+		endPosition.x = x + w;
+		endPosition.y = y + h;
 		text = str;
 		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
 		fontSize = 20;
@@ -84,10 +84,10 @@ public class Text extends Rectangle {
 	public void draw(GC gc) {
 		gc.setForeground(getColor());		
 		gc.setBackground(getFillColor());
-		gc.setLineWidth(mLineThickness);
-		gc.setLineStyle(mLineStyle);
-		gc.drawRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
-		if (mFill == true) gc.fillRectangle(mPosition.x+1, mPosition.y+1, mWidth-1, mHeight-1);
+		gc.setLineWidth(lineThickness);
+		gc.setLineStyle(lineStyle);
+		gc.drawRectangle(position.x, position.y, width, height);
+		if (fill == true) gc.fillRectangle(position.x+1, position.y+1, width-1, height-1);
 		
 		FontData[] fd = gc.getFont().getFontData();
 		fd[0].setHeight(fontSize);
@@ -97,26 +97,26 @@ public class Text extends Rectangle {
 		Point p = gc.stringExtent(text);
 				
 		gc.setForeground(fontColor);
-		gc.drawText(text, (int) (mPosition.x+(mWidth-p.x)*0.5), (int) (mPosition.y+(mHeight-p.y)*0.5));
+		gc.drawText(text, (int) (position.x+(width-p.x)*0.5), (int) (position.y+(height-p.y)*0.5));
 		
-		if (mSelectMode == SelectMode.SELECTED) {
+		if (selectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			// draw control	
-			gc.fillRectangle(mPosition.x-contSize, mPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mEndPosition.x-contSize, mEndPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mPosition.x-contSize, mEndPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mEndPosition.x-contSize, mPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(position.x-contSize, position.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(endPosition.x-contSize, endPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(position.x-contSize, endPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(endPosition.x-contSize, position.y-contSize, contSize*2, contSize*2);
 		}
 	}
 	
 	
 	public Text clone() {
-		Text text = new Text(mPosition.x, mPosition.y, mWidth, mHeight, this.text);
-		text.setColor(mColor);
-		text.setDrawn(mDrawn);
-		text.setLineStyle(mLineStyle);
-		text.setLineThickness(mLineThickness);
+		Text text = new Text(position.x, position.y, width, height, this.text);
+		text.setColor(color);
+		text.setDrawn(drawn);
+		text.setLineStyle(lineStyle);
+		text.setLineThickness(lineThickness);
 		text.setFill(this.getFill());
 		text.setFillColor(this.getFillColor());
 		text.setText(this.text);

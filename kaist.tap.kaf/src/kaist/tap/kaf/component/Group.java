@@ -19,40 +19,40 @@ public class Group extends Rectangle {
 	
 	public Group() {
 		components = new Vector<Component>();
-		mPosition.x = mPosition.y = mEndPosition.x = mEndPosition.y = mWidth = mHeight = -1;
+		position.x = position.y = endPosition.x = endPosition.y = width = height = -1;
 	}
 	
 	public void update() {
-		mPosition.x = mPosition.y = 65535;
-		mEndPosition.x = mEndPosition.y = 0;
+		position.x = position.y = 65535;
+		endPosition.x = endPosition.y = 0;
 		
 		for (int i = 0; i < components.size(); ++i) {
 			Point [] bounds = components.get(i).getBounds(); 
-			mPosition.x = Math.min(mPosition.x, bounds[0].x);
-			mPosition.y = Math.min(mPosition.y, bounds[0].y);
-			mEndPosition.x = Math.max(mEndPosition.x, bounds[1].x);
-			mEndPosition.y = Math.max(mEndPosition.y, bounds[1].y);
+			position.x = Math.min(position.x, bounds[0].x);
+			position.y = Math.min(position.y, bounds[0].y);
+			endPosition.x = Math.max(endPosition.x, bounds[1].x);
+			endPosition.y = Math.max(endPosition.y, bounds[1].y);
 		}
 		
-		mWidth = mEndPosition.x - mPosition.x;
-		mHeight = mEndPosition.y - mPosition.y;
+		width = endPosition.x - position.x;
+		height = endPosition.y - position.y;
 	}
 	
 	public void addComponent(Component c) {
 		components.add(c);
 		Point [] bounds = c.getBounds();
 		
-		if (mPosition.x == -1) mPosition.x = bounds[0].x;
-		else mPosition.x = Math.min(mPosition.x, bounds[0].x);
+		if (position.x == -1) position.x = bounds[0].x;
+		else position.x = Math.min(position.x, bounds[0].x);
 		
-		if (mPosition.y == -1) mPosition.y = bounds[0].y;
-		else mPosition.y = Math.min(mPosition.y, bounds[0].y);
+		if (position.y == -1) position.y = bounds[0].y;
+		else position.y = Math.min(position.y, bounds[0].y);
 		
-		mEndPosition.x = Math.max(mEndPosition.x, bounds[1].x);
-		mEndPosition.y = Math.max(mEndPosition.y, bounds[1].y);
+		endPosition.x = Math.max(endPosition.x, bounds[1].x);
+		endPosition.y = Math.max(endPosition.y, bounds[1].y);
 		
-		mWidth = mEndPosition.x - mPosition.x;
-		mHeight = mEndPosition.y - mPosition.y;
+		width = endPosition.x - position.x;
+		height = endPosition.y - position.y;
 	}
 	
 	public Component getComponent(int idx) {
@@ -89,25 +89,25 @@ public class Group extends Rectangle {
 		gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));		
 		gc.setLineWidth(1);
 		gc.setLineStyle(SWT.LINE_DOT);
-		gc.drawRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
+		gc.drawRectangle(position.x, position.y, width, height);
 		
-		if (mSelectMode == SelectMode.SELECTED) {
+		if (selectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			// draw control	
-			gc.fillRectangle(mPosition.x-contSize, mPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mEndPosition.x-contSize, mEndPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mPosition.x-contSize, mEndPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mEndPosition.x-contSize, mPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(position.x-contSize, position.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(endPosition.x-contSize, endPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(position.x-contSize, endPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(endPosition.x-contSize, position.y-contSize, contSize*2, contSize*2);
 		}
 	}
 	
 	public boolean contains(int x, int y) {
-		if (mSelectMode == SelectMode.SELECTED) {
+		if (selectMode == SelectMode.SELECTED) {
 			
 		}
 		
-		if (x < mPosition.x || x > mEndPosition.x || y < mPosition.y || y > mEndPosition.y) {
+		if (x < position.x || x > endPosition.x || y < position.y || y > endPosition.y) {
 			return false;
 		}
 		
@@ -117,15 +117,15 @@ public class Group extends Rectangle {
 	public Group clone() {
 		Group group = new Group();
 		
-		group.setPosition(mPosition);
-		group.setWidth(mWidth);
-		group.setHeight(mHeight);
+		group.setPosition(position);
+		group.setWidth(width);
+		group.setHeight(height);
 	
 		for (int i = 0; i < components.size(); ++i) {
 			group.addComponent(components.get(i));
 		}
 		
-		group.setDrawn(mDrawn);
+		group.setDrawn(drawn);
 		
 		return group;
 	}	

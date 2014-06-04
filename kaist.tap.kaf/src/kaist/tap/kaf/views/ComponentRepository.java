@@ -20,34 +20,34 @@ public class ComponentRepository {
 		}
 	}
 	
-	private LinkedList<Component> mComponents;
-	private LinkedList<Pair<Integer,Integer>> mConnectivity;
+	private LinkedList<Component> components;
+	private LinkedList<Pair<Integer,Integer>> connectivity;
 	
 	ComponentRepository()
 	{
-		mComponents = new LinkedList<Component>();
+		components = new LinkedList<Component>();
 	}
 	
 	public void register(Component comp)
 	{
-		mComponents.add(comp);	
+		components.add(comp);	
 		
 	}
 	
 	public void remove(Component comp)
 	{
-		mComponents.remove(comp);
+		components.remove(comp);
 	}
 	
 	public void remove(int idx)
 	{
-		mComponents.remove(idx);
+		components.remove(idx);
 	}
 	
 	public void remove(Component[] comps, int size) 
 	{
 		for (int i = 0; i < size; ++i) {
-			mComponents.remove(comps[i]);
+			components.remove(comps[i]);
 		}
 	}
 	
@@ -55,11 +55,11 @@ public class ComponentRepository {
 	{
 		while (comps.size() > 0) {
 			Component comp = comps.lastElement();
-			mComponents.remove(comp);
+			components.remove(comp);
 			if (comp instanceof Group) {
 				for (int i = 0; i < ((Group)comp).getSize(); ++i) {
 					Component c = ((Group) comp).getComponent(i);
-					mComponents.remove(c);
+					components.remove(c);
 				}
 			} 
 			comps.remove(comp);
@@ -67,34 +67,34 @@ public class ComponentRepository {
 	}
 	
 	public void raise(Component comp) {
-		int idx = mComponents.indexOf(comp);
-		if (idx < mComponents.size()-1) {
+		int idx = components.indexOf(comp);
+		if (idx < components.size()-1) {
 			idx++;
-			mComponents.remove(comp);
-			mComponents.add(idx, comp);
+			components.remove(comp);
+			components.add(idx, comp);
 		}
 	}
 	
 	
 	
 	public void lower(Component comp) {
-		int idx = mComponents.indexOf(comp);
+		int idx = components.indexOf(comp);
 		if (idx > 0) {
 			idx--;
-			mComponents.remove(comp);
-			mComponents.add(idx, comp);
+			components.remove(comp);
+			components.add(idx, comp);
 		}
 	}
 	
 	
 	public int getNumberOfComponents()
 	{
-		return mComponents.size();
+		return components.size();
 	}
 	
 	public Component get(int idx)
 	{
-		return mComponents.get(idx);
+		return components.get(idx);
 	}
 	
 	public boolean connect(int f, int s)
@@ -107,15 +107,15 @@ public class ComponentRepository {
 		}
 		
 		Pair<Integer,Integer> pair = new Pair<Integer,Integer>(f,s);
-		mConnectivity.add(pair); 
+		connectivity.add(pair); 
 		
 		return true;
 	}
 	
 	public void draw(GC gc)
 	{
-		for (int i = 0; i < mComponents.size(); ++i) {
-			mComponents.get(i).draw(gc);
+		for (int i = 0; i < components.size(); ++i) {
+			components.get(i).draw(gc);
 		}
 	}
 }

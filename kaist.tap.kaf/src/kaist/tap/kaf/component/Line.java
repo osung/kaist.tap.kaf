@@ -13,103 +13,103 @@ import kaist.tap.kaf.component.Component;
 
 public class Line extends Component {
 	
-		boolean mConnected;
-		Component mStartComponent;
-		Component mEndComponent;
+		boolean connected;
+		Component startComponent;
+		Component endComponent;
 				
 		public Line()
 		{
-			mConnected = false;
+			connected = false;
 			this.setName("Line");
-			mPosition.x = mPosition.y = mEndPosition.x = mEndPosition.y = 0;
+			position.x = position.y = endPosition.x = endPosition.y = 0;
 		}
 		
 		public Line(int x1, int y1, int x2, int y2) {
 			setName("Line");
-			mConnected = false;
-			mPosition.x = x1;
-			mPosition.y = y1;
-			mEndPosition.x = x2;
-			mEndPosition.y = y2;
+			connected = false;
+			position.x = x1;
+			position.y = y1;
+			endPosition.x = x2;
+			endPosition.y = y2;
 		}
 		
 		
 		public boolean IsConnected() {
-			return mConnected;
+			return connected;
 		}
 		
 		public Component GetStartComponent() {
-			return mStartComponent;
+			return startComponent;
 		}
 		
 		public Component GetEndComponent() {
-			return mEndComponent;
+			return endComponent;
 		}
 		
 		public void SetStartComponent(Component c) {
-			mStartComponent = c;
-			if (mEndComponent != null) {
-				mConnected = true;
+			startComponent = c;
+			if (endComponent != null) {
+				connected = true;
 			}
 		}
 		
 		public void SetEndComponent(Component c) {
-			mEndComponent = c;
-			if (mStartComponent != null) {
-				mConnected = true;
+			endComponent = c;
+			if (startComponent != null) {
+				connected = true;
 			}
 		}
 		
 		public void setStartPosition(Point p) {
-			mPosition = p;
+			position = p;
 		}
 		
 		public void setStartPosition(int x, int y) {
-			mPosition.x = x;
-			mPosition.y = y;
+			position.x = x;
+			position.y = y;
 		}
 		
 		public void setEndPosition(int x, int y) {
-			mEndPosition.x = x;
-			mEndPosition.y = y;
+			endPosition.x = x;
+			endPosition.y = y;
 		}
 		
 		public Point getMidPosition() {
 			Point mid = new Point(0, 0);
 		
-			mid.x = (int) ((mPosition.x + mEndPosition.x) * 0.5);
-			mid.y = (int) ((mPosition.y + mEndPosition.y) * 0.5);
+			mid.x = (int) ((position.x + endPosition.x) * 0.5);
+			mid.y = (int) ((position.y + endPosition.y) * 0.5);
 		
 			return mid;
 		}
 		
 		public void draw(GC gc) {
 			gc.setForeground(getColor());
-			gc.setLineWidth(mLineThickness);
-			gc.setLineStyle(mLineStyle);
-			gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
+			gc.setLineWidth(lineThickness);
+			gc.setLineStyle(lineStyle);
+			gc.drawLine(position.x, position.y, endPosition.x, endPosition.y);
 			
-			if (mSelectMode == SelectMode.SELECTED) {
+			if (selectMode == SelectMode.SELECTED) {
 				gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 				gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 				
 				// draw control			
-				gc.fillRectangle(mPosition.x-contSize, mPosition.y-contSize, contSize*2, contSize*2);
-				gc.fillRectangle(mEndPosition.x-contSize, mEndPosition.y-contSize, contSize*2, contSize*2);
+				gc.fillRectangle(position.x-contSize, position.y-contSize, contSize*2, contSize*2);
+				gc.fillRectangle(endPosition.x-contSize, endPosition.y-contSize, contSize*2, contSize*2);
 			}
 		}
 		
 		public Selection containSelection(int x, int y) {
-			if (Math.abs(x-mPosition.x) < contSize && Math.abs(y-mPosition.y) < contSize) {
-				mSelection = Selection.START;
+			if (Math.abs(x-position.x) < contSize && Math.abs(y-position.y) < contSize) {
+				selection = Selection.START;
 				return Selection.START;
 			}
-			else if (Math.abs(x-mEndPosition.x) < contSize && Math.abs(y-mEndPosition.y) < contSize) {
-				mSelection = Selection.END;
+			else if (Math.abs(x-endPosition.x) < contSize && Math.abs(y-endPosition.y) < contSize) {
+				selection = Selection.END;
 				return Selection.END;
 			}
 			else {
-				mSelection = Selection.FALSE;
+				selection = Selection.FALSE;
 				return Selection.FALSE;
 			}
 		}
@@ -117,16 +117,16 @@ public class Line extends Component {
 		public boolean contains(int x, int y) {
 			double xt, yt;		
 			
-			if (mGrouped==true) return false;
+			if (grouped==true) return false;
 			
-			mSelection = containSelection(x, y);
+			selection = containSelection(x, y);
 			
 			if (this.isSelected()==true) {
-				if (mSelection != Selection.FALSE) return true;
+				if (selection != Selection.FALSE) return true;
 			}
 			
-			xt = ((double) x - mPosition.x) / ((double) mEndPosition.x - mPosition.x);
-			yt = ((double) y - mPosition.y) / ((double) mEndPosition.y - mPosition.y);
+			xt = ((double) x - position.x) / ((double) endPosition.x - position.x);
+			yt = ((double) y - position.y) / ((double) endPosition.y - position.y);
 			
 			if (xt < 0 || xt > 1 || yt < 0 || yt > 1) return false;
 			if (Math.abs(xt-yt) > 0.05) return false;
@@ -136,33 +136,33 @@ public class Line extends Component {
 
 		
 		public void resize(int x, int y) {
-			if (mSelection == Selection.FALSE) return;
+			if (selection == Selection.FALSE) return;
 			
-			if (mSelection == Selection.START) {
-				mPosition.x = x;
-				mPosition.y = y;
+			if (selection == Selection.START) {
+				position.x = x;
+				position.y = y;
 			}
 			else {
-				mEndPosition.x = x;
-				mEndPosition.y = y;
+				endPosition.x = x;
+				endPosition.y = y;
 			}
 		}
 		
 		
 		public void move(int x, int y) {
-			mPosition.x += x;
-			mPosition.y += y;
+			position.x += x;
+			position.y += y;
 			
-			mEndPosition.x += x;
-			mEndPosition.y += y;
+			endPosition.x += x;
+			endPosition.y += y;
 		}
 
 		public Line clone() {
-			Line line = new Line(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
-			line.setColor(mColor);
-			line.setDrawn(mDrawn);
-			line.setLineThickness(mLineThickness);
-			line.setLineStyle(mLineStyle);
+			Line line = new Line(position.x, position.y, endPosition.x, endPosition.y);
+			line.setColor(color);
+			line.setDrawn(drawn);
+			line.setLineThickness(lineThickness);
+			line.setLineStyle(lineStyle);
 			
 			return line;
 		}
@@ -203,15 +203,15 @@ public class Line extends Component {
 		@Override
 		public Object getPropertyValue(Object id) {
 			// TODO Auto-generated method stub
-			if ("EndPosition_X".equals(id)) return Integer.toString(mEndPosition.x);
-			else if ("EndPosition_Y".equals(id)) return Integer.toString(mEndPosition.y);
+			if ("EndPosition_X".equals(id)) return Integer.toString(endPosition.x);
+			else if ("EndPosition_Y".equals(id)) return Integer.toString(endPosition.y);
 			else return super.getPropertyValue(id);
 		}
 
 		@Override
 		public void setPropertyValue(Object id, Object value) {
-			if ("EndPosition_X".equals(id)) mEndPosition.x = Integer.parseInt((String) value);
-			else if ("EndPosition_Y".equals(id)) mEndPosition.y = Integer.parseInt((String) value);
+			if ("EndPosition_X".equals(id)) endPosition.x = Integer.parseInt((String) value);
+			else if ("EndPosition_Y".equals(id)) endPosition.y = Integer.parseInt((String) value);
 			else super.setPropertyValue(id, value);
 		}
 
@@ -221,10 +221,10 @@ public class Line extends Component {
 			bounds[0] = new Point(0,0);
 			bounds[1] = new Point(0,0);
 			
-			bounds[0].x = Math.min(mPosition.x, mEndPosition.x);
-			bounds[1].x = Math.max(mPosition.x, mEndPosition.x);
-			bounds[0].y = Math.min(mPosition.y, mEndPosition.y);
-			bounds[1].y = Math.max(mPosition.y, mEndPosition.y);
+			bounds[0].x = Math.min(position.x, endPosition.x);
+			bounds[1].x = Math.max(position.x, endPosition.x);
+			bounds[0].y = Math.min(position.y, endPosition.y);
+			bounds[1].y = Math.max(position.y, endPosition.y);
 			
 			return bounds;
 		}

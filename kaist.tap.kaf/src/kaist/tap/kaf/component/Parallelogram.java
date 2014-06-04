@@ -44,7 +44,7 @@ public class Parallelogram extends Rectangle {
 	}
 	
 	public void setControlPoint(int cp) {
-		if (cp < 0 || cp > mWidth) {
+		if (cp < 0 || cp > width) {
 			return;
 		}
 		controlPoint = cp;
@@ -57,30 +57,30 @@ public class Parallelogram extends Rectangle {
 	public void setParallelType(ParallelType type) {
 		this.type = type;
 		
-		realPoints[0].x = mPosition.x;  	realPoints[0].y = mPosition.y;  
-		realPoints[1].x = mEndPosition.x;   realPoints[1].y = mPosition.y;
-		realPoints[2].x = mEndPosition.x;	realPoints[2].y = mEndPosition.y;
-		realPoints[3].x = mPosition.x; 		realPoints[3].y = mEndPosition.y;
+		realPoints[0].x = position.x;  	realPoints[0].y = position.y;  
+		realPoints[1].x = endPosition.x;   realPoints[1].y = position.y;
+		realPoints[2].x = endPosition.x;	realPoints[2].y = endPosition.y;
+		realPoints[3].x = position.x; 		realPoints[3].y = endPosition.y;
 		
 		switch(type) {
 		case LEFT :
-			realPoints[0].x = mPosition.x + controlPoint;
-			realPoints[2].x = mEndPosition.x - controlPoint;
+			realPoints[0].x = position.x + controlPoint;
+			realPoints[2].x = endPosition.x - controlPoint;
 			break;
 			
 		case RIGHT :
-			realPoints[1].x = mEndPosition.x - controlPoint;
-			realPoints[3].x = mPosition.x + controlPoint;
+			realPoints[1].x = endPosition.x - controlPoint;
+			realPoints[3].x = position.x + controlPoint;
 			break;
 			
 		case TOP :
-			realPoints[0].y = mPosition.y + controlPoint;
-			realPoints[2].y = mEndPosition.y - controlPoint;
+			realPoints[0].y = position.y + controlPoint;
+			realPoints[2].y = endPosition.y - controlPoint;
 			break;
 			
 		case BOTTOM :
-			realPoints[1].y = mPosition.y - controlPoint;
-			realPoints[3].y = mEndPosition.y + controlPoint;
+			realPoints[1].y = position.y - controlPoint;
+			realPoints[3].y = endPosition.y + controlPoint;
 			break;
 		}
 	}
@@ -123,19 +123,19 @@ public class Parallelogram extends Rectangle {
 	public void draw(GC gc) {
 		gc.setForeground(getColor());		
 		gc.setBackground(getFillColor());
-		gc.setLineWidth(mLineThickness);
-		gc.setLineStyle(mLineStyle);
+		gc.setLineWidth(lineThickness);
+		gc.setLineStyle(lineStyle);
 		
 		int polys[] = {realPoints[0].x, realPoints[0].y, realPoints[1].x, realPoints[1].y, 
 				       realPoints[2].x, realPoints[2].y, realPoints[3].x, realPoints[3].y};
 		gc.drawPolygon(polys);
 		
-		if (mFill == true) {
+		if (fill == true) {
 			polys[0]++; polys[1]++; polys[2]--; polys[3]++; polys[4]--; polys[5]--; polys[6]++; polys[7]--;
 			gc.fillPolygon(polys);
 		}
 		
-		if (mSelectMode == SelectMode.SELECTED) {
+		if (selectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 
@@ -148,13 +148,13 @@ public class Parallelogram extends Rectangle {
 	
 	public boolean contains(int x, int y) {
 		
-		if (mGrouped==true) return false;
+		if (grouped==true) return false;
 
-		if (mSelectMode == SelectMode.SELECTED) {
+		if (selectMode == SelectMode.SELECTED) {
 			
 		}
 		
-		if (x < mPosition.x || x > mEndPosition.x || y < mPosition.y || y > mEndPosition.y) {
+		if (x < position.x || x > endPosition.x || y < position.y || y > endPosition.y) {
 			return false;
 		}
 		
@@ -170,16 +170,16 @@ public class Parallelogram extends Rectangle {
 	
 	public Parallelogram clone() {
 		Parallelogram para = new Parallelogram();
-		para.setPosition(mPosition);
-		para.setWidth(mWidth);
-		para.setHeight(mHeight);
+		para.setPosition(position);
+		para.setWidth(width);
+		para.setHeight(height);
 		para.setControlPoint(controlPoint);
-		para.setColor(mColor);
-		para.setFillColor(mFillColor);
+		para.setColor(color);
+		para.setFillColor(fillColor);
 		para.setFill(getFill());
-		para.setDrawn(mDrawn);
-		para.setLineStyle(mLineStyle);
-		para.setLineThickness(mLineThickness);
+		para.setDrawn(drawn);
+		para.setLineStyle(lineStyle);
+		para.setLineThickness(lineThickness);
 		para.setParallelType(type);
 		
 		return para;

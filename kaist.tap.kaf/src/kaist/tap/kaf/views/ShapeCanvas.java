@@ -30,38 +30,38 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.*;
 
 public class ShapeCanvas extends Canvas implements ISelectionProvider {
-	protected ComponentRepository repo;
-	protected ViewManager vm;
-	ListenerList listeners = new ListenerList();
-	private Component selected = null;
-	private Vector<Component> psel, copy;
-	private Component tmpComp = null;
-	private Point sp = null;
 	private Canvas canvas = this;
-	
+	ListenerList listeners = new ListenerList();
+	private Vector<Component> psel, copy;
+	protected ComponentRepository repo;
+	private Component selected = null;
+	private Point sp = null;
+	private Component tmpComp = null;
+	protected ViewManager vm;
+
 	public ShapeCanvas(Composite parent, int style) {
 		super(parent, style);
-		
+
 		vm = new ViewManager();
 		vm.addView(new LogicalView());
 		vm.addRepo(new ComponentRepository());
 		vm.addView(new RunTimeView());
 		vm.addRepo(new ComponentRepository());
-		
+
 		repo = vm.getRepo(viewType.LOGICAL_VIEW);
-		
+
 		psel = new Vector<Component>();
 		copy = new Vector<Component>();
-		
+
 		this.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(final SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) event
+						.getSelection();
 				if (selection.isEmpty() == false) {
 					Object select = selection.getFirstElement();
 					if (select instanceof Component) {
 						selected = (Component) select;
-					}
-					else if (select instanceof View) {
+					} else if (select instanceof View) {
 						View v = (View) select;
 						repo = vm.getRepo(v.getViewType());
 						psel.clear();
@@ -71,7 +71,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				}
 			}
 		});
-		
+
 		addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
 				if (repo.getNumberOfComponents() > 0) {
@@ -82,35 +82,35 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				}
 				e.gc.dispose();
 			}
-		}); 
-				
+		});
+
 		this.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				
+
 				if (e.keyCode == SWT.DEL) {
 					// delete selected component
-					if (psel.size() == 0) return;
-					
+					if (psel.size() == 0)
+						return;
+
 					repo.remove(psel);
 					psel.clear();
-				}
-				else if ((e.stateMask & SWT.CTRL) != 0) {
+				} else if ((e.stateMask & SWT.CTRL) != 0) {
 					if (e.keyCode == 'c' || e.keyCode == 'C') {
 						// copy component
-						if (psel.size() == 0) return;
-						
+						if (psel.size() == 0)
+							return;
+
 						if (psel.get(0).isSelected() == true) {
 							for (int i = 0; i < psel.size(); ++i) {
 								copy.add(psel.get(i).clone());
 							}
-						}
-						else {
+						} else {
 							copy.clear();
 						}
-					}
-					else if (e.keyCode == 'x' || e.keyCode == 'X') {
-						if (psel.size() == 0) return;
-						
+					} else if (e.keyCode == 'x' || e.keyCode == 'X') {
+						if (psel.size() == 0)
+							return;
+
 						if (psel.get(0).isSelected() == true) {
 							for (int i = 0; i < psel.size(); ++i) {
 								copy.add(psel.get(i).clone());
@@ -118,22 +118,22 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						}
 						repo.remove(psel);
 						psel.clear();
-					}
-					else if (e.keyCode == 'v' || e.keyCode == 'V') {
+					} else if (e.keyCode == 'v' || e.keyCode == 'V') {
 						// paste component
-						if (copy.size() == 0) return;
-						
+						if (copy.size() == 0)
+							return;
+
 						for (int i = 0; i < copy.size(); ++i) {
 							Component comp = copy.get(i);
 							comp.move(10, 10);
 							repo.register(comp);
 						}
 						copy.clear();
-					}
-					else if (e.keyCode == 'G' || e.keyCode == 'g') {
-						if (psel.size() <= 1) return;
+					} else if (e.keyCode == 'G' || e.keyCode == 'g') {
+						if (psel.size() <= 1)
+							return;
 						System.out.println("G is pressed");
-						
+
 						Group group = new Group();
 						for (int i = 0; i < psel.size(); ++i) {
 							Component c = psel.get(i);
@@ -144,54 +144,52 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						group.setDrawn(true);
 						repo.register(group);
 						psel.clear();
-											}
-					else if (e.keyCode == 'U' || e.keyCode == 'u') {
+					} else if (e.keyCode == 'U' || e.keyCode == 'u') {
 						for (int i = 0; i < psel.size(); ++i) {
 							Component c = psel.get(i);
-							
+
 							if (c instanceof Group) {
 								((Group) c).clear();
 								psel.remove(c);
 								repo.remove(c);
 							}
 						}
-					}
-					else if (e.keyCode == '+' || e.keyCode == '=') {
-						if (psel.size() != 1) return;
-						
+					} else if (e.keyCode == '+' || e.keyCode == '=') {
+						if (psel.size() != 1)
+							return;
+
 						Component c = psel.get(0);
 						repo.raise(c);
-					}
-					else if (e.keyCode == '-' || e.keyCode == '_') {
-						if (psel.size() != 1) return;
-						
+					} else if (e.keyCode == '-' || e.keyCode == '_') {
+						if (psel.size() != 1)
+							return;
+
 						Component c = psel.get(0);
 						repo.lower(c);
-					}
-					else if (e.keyCode == 's' || e.keyCode == 'S') {
+					} else if (e.keyCode == 's' || e.keyCode == 'S') {
 						saveImage(e.display);
 					}
 				}
-				
+
 				redraw();
 			}
 		});
-		
-		addMouseListener(new MouseAdapter() {	
+
+		addMouseListener(new MouseAdapter() {
 			public void mouseDown(MouseEvent e) {
-				Component current = null;	
+				Component current = null;
 				boolean shift = false;
-				
+
 				if ((e.stateMask & SWT.SHIFT) != 0) {
 					shift = true;
 				}
-				
+
 				// pick test
-				for (int i = repo.getNumberOfComponents()-1; i >=0; --i) {
-					current = repo.get(i); 
-					if (current.contains(e.x, e.y)) { 	
-						setSelection(new StructuredSelection(current));	
-	
+				for (int i = repo.getNumberOfComponents() - 1; i >= 0; --i) {
+					current = repo.get(i);
+					if (current.contains(e.x, e.y)) {
+						setSelection(new StructuredSelection(current));
+
 						if (psel.size() > 0 && shift == false) {
 							for (int j = 0; j < psel.size(); ++j) {
 								Component comp = psel.get(j);
@@ -204,10 +202,10 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						current.select();
 						psel.add(current);
 						break;
-					}
-					else current = null;
+					} else
+						current = null;
 				}
-				
+
 				// if no one selected, but previous selection is existed
 				if (current == null && psel.size() > 0) {
 					for (int i = 0; i < psel.size(); ++i) {
@@ -215,154 +213,130 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						psel.clear();
 					}
 				}
-				
+
 				sp = new Point(e.x, e.y);
 				redraw();
 			}
-			
+
 			public void mouseUp(MouseEvent e) {
-				int x, y, w, h;				
-				
+				int x, y, w, h;
+
 				tmpComp = null;
 				if (selected == null) {
 					sp = null;
 					return;
 				}
-				
+
 				if (selected.getDrawn() == false) {
 					if (selected instanceof Group) {
 						selected = null;
 						sp = null;
 						return;
-					}
-					else if (selected instanceof Parallelogram) {
+					} else if (selected instanceof Parallelogram) {
 						x = sp.x < e.x ? sp.x : e.x;
 						y = sp.y < e.y ? sp.y : e.y;
-				
-						w = Math.abs(e.x-sp.x);
-						h = Math.abs(e.y-sp.y);
+
+						w = Math.abs(e.x - sp.x);
+						h = Math.abs(e.y - sp.y);
 						w = (w < 5) ? 20 : w;
 						h = (h < 5) ? 20 : h;
-				
+
 						Parallelogram src = (Parallelogram) selected;
 						Parallelogram para = src.clone();
-						para.setControlPoint(w/4);
+						para.setControlPoint(w / 4);
 						para.setDrawn(true);
 						repo.register(para);
-					}
-					else if (selected instanceof Rectangle) {
+					} else if (selected instanceof Rectangle) {
 						x = sp.x < e.x ? sp.x : e.x;
 						y = sp.y < e.y ? sp.y : e.y;
-				
-						w = Math.abs(e.x-sp.x);
-						h = Math.abs(e.y-sp.y);
+
+						w = Math.abs(e.x - sp.x);
+						h = Math.abs(e.y - sp.y);
 						w = (w < 5) ? 20 : w;
 						h = (h < 5) ? 20 : h;
-				
+
 						Rectangle src = (Rectangle) selected;
 						Rectangle rect = src.clone();
 						rect.setDrawn(true);
 						repo.register(rect);
-					}
-					else if (selected instanceof Arrow) {
+					} else if (selected instanceof Arrow) {
 						Arrow src = (Arrow) selected;
 						Arrow arrow = src.clone();
 						arrow.setDrawn(true);
 						repo.register(arrow);
-					}
-					else if (selected instanceof Line) {
+					} else if (selected instanceof Line) {
 						Line src = (Line) selected;
 						Line line = src.clone();
 						line.setDrawn(true);
 						repo.register(line);
 					}
+				} else {
+					if (selected.getSelection() == Selection.FALSE)
+						selected.move(e.x - sp.x, e.y - sp.y);
+					else {
+						selected.resize(e.x, e.y);
+						if (selected instanceof Line) {
+							for (int i = repo.getNumberOfComponents() - 1; i >= 0; i--) {
+								Component comp = repo.get(i);
+								if (comp == selected)
+									continue;
+								if (comp.contains(e.x, e.y) == true) {
+									// connection established
+								}
+							}
+						}
+					}
 				}
-				else {
-					if (selected.getSelection() == Selection.FALSE) selected.move(e.x-sp.x, e.y-sp.y);
-					else selected.resize(e.x, e.y);
-				}
-				
+
 				redraw();
 				sp = null;
 				selected = null;
-			}		
+			}
 		});
-		
+
 		addMouseMoveListener(new MouseMoveListener() {
 			public void mouseMove(MouseEvent e) {
-				if (sp == null) return;
-				
+				if (sp == null)
+					return;
+
 				if (selected != null) {
-					if (selected.getDrawn()==true) {
+					if (selected.getDrawn() == true) {
 						for (int i = 0; i < psel.size(); ++i) {
 							Component sel = psel.get(i);
-							if (sel.getSelection() == Selection.FALSE) sel.move(e.x-sp.x, e.y-sp.y);
-							else sel.resize(e.x, e.y);
+							if (sel.getSelection() == Selection.FALSE)
+								sel.move(e.x - sp.x, e.y - sp.y);
+							else
+								sel.resize(e.x, e.y);
 						}
-						
-						sp.x = e.x; sp.y = e.y;
-					}
-					else {
+
+						sp.x = e.x;
+						sp.y = e.y;
+					} else {
 						int x, y, w, h;
 						if (selected instanceof Rectangle) {
 							Rectangle rect = (Rectangle) selected;
 							x = sp.x < e.x ? sp.x : e.x;
 							y = sp.y < e.y ? sp.y : e.y;
-					
-							w = Math.abs(e.x-sp.x);
-							h = Math.abs(e.y-sp.y);
-							
+
+							w = Math.abs(e.x - sp.x);
+							h = Math.abs(e.y - sp.y);
+
 							rect.setPosition(new Point(x, y));
 							rect.setWidth(w);
-							rect.setHeight(h); 
-						}
-						else if (selected instanceof Line) {
+							rect.setHeight(h);
+						} else if (selected instanceof Line) {
 							selected.setPosition(sp);
 							selected.setEndPosition(new Point(e.x, e.y));
 						}
-												
+
 						tmpComp = selected;
 					}
-						
+
 					redraw();
 				}
 			}
-			
+
 		});
-	}
-	
-	public void saveImage(Display display) {
-		Image image = new Image(display, canvas.getBounds());
-		GC gc = new GC(image);
-		canvas.print(gc);
-		ImageLoader loader = new ImageLoader();
-		loader.data = new ImageData[] {image.getImageData()};
-		
-		FileDialog fd = new FileDialog(new Shell(display), SWT.SAVE);
-        fd.setText("Save");
-        fd.setFilterPath("C:/");
-        String[] filterExt = { "*.jpg", "*.jpeg", "*.*" };
-        fd.setFilterExtensions(filterExt);
-        String filename = fd.open();
-        System.out.println(selected);
-		
-		loader.save(filename, SWT.IMAGE_JPEG);
-		image.dispose();
-		gc.dispose();		
-	}
-	
-	public void deleteSelections() {
-		while (psel.size() > 0) {
-	//		psel.
-		}
-	}
-	
-	public void addSelectionListener(SelectionListener listener) {
-		this.addListener(SWT.Selection, new TypedListener(listener));
-	}
-	
-	public void removeSelectionListener(SelectionListener listener) {
-		this.removeListener(SWT.Selection, listener);
 	}
 
 	@Override
@@ -370,22 +344,58 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		listeners.add(listener);
 	}
 
+	public void addSelectionListener(SelectionListener listener) {
+		this.addListener(SWT.Selection, new TypedListener(listener));
+	}
+
+	public void deleteSelections() {
+		while (psel.size() > 0) {
+			// psel.
+		}
+	}
+
 	public ISelection getSelection() {
 		if (selected != null) {
 			return new StructuredSelection(selected);
 		}
-		
+
 		return new StructuredSelection();
 	}
 
-	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
+	public void removeSelectionChangedListener(
+			ISelectionChangedListener listener) {
 		listeners.remove(listener);
+	}
+
+	public void removeSelectionListener(SelectionListener listener) {
+		this.removeListener(SWT.Selection, listener);
+	}
+
+	public void saveImage(Display display) {
+		Image image = new Image(display, canvas.getBounds());
+		GC gc = new GC(image);
+		canvas.print(gc);
+		ImageLoader loader = new ImageLoader();
+		loader.data = new ImageData[] { image.getImageData() };
+
+		FileDialog fd = new FileDialog(new Shell(display), SWT.SAVE);
+		fd.setText("Save");
+		fd.setFilterPath("C:/");
+		String[] filterExt = { "*.jpg", "*.jpeg", "*.*" };
+		fd.setFilterExtensions(filterExt);
+		String filename = fd.open();
+		System.out.println(selected);
+
+		loader.save(filename, SWT.IMAGE_JPEG);
+		image.dispose();
+		gc.dispose();
 	}
 
 	public void setSelection(ISelection select) {
 		Object[] list = listeners.getListeners();
 		for (int i = 0; i < listeners.size(); ++i) {
-			((ISelectionChangedListener) list[i]).selectionChanged(new SelectionChangedEvent(this, select));
+			((ISelectionChangedListener) list[i])
+					.selectionChanged(new SelectionChangedEvent(this, select));
 		}
 	}
 }

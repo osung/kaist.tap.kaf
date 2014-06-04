@@ -12,166 +12,166 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 public class Rectangle extends Component {
 		
-	protected int mWidth;
-	protected int mHeight;
+	protected int width;
+	protected int height;
 	
 	public Rectangle() {
 		this.setName("Rectangle");
-		mPosition.x = mPosition.y = mEndPosition.x = mEndPosition.y = mWidth = mHeight = 0;
+		position.x = position.y = endPosition.x = endPosition.y = width = height = 0;
 	}
 	
-	public Rectangle(int x, int y, int width, int height) {
+	public Rectangle(int x, int y, int w, int h) {
 		setName("Rectangle");
-		mPosition.x = x;
-		mPosition.y = y;
-		mWidth = width;
-		mHeight = height;
-		mEndPosition.x = x + width;
-		mEndPosition.y = y + height;
+		position.x = x;
+		position.y = y;
+		width = w;
+		height = h;
+		endPosition.x = x + w;
+		endPosition.y = y + h;
 	}
 	
 	public void setPosition(Point p) {
 		super.setPosition(p);
 		
-		mWidth = Math.abs(mEndPosition.x-mPosition.x);
-		mHeight = Math.abs(mEndPosition.y-mPosition.y);
+		width = Math.abs(endPosition.x-position.x);
+		height = Math.abs(endPosition.y-position.y);
 	}
 	
 	public void setEndPosition(Point p) {
-		mEndPosition.x = p.x;
-		mEndPosition.y = p.y;
+		endPosition.x = p.x;
+		endPosition.y = p.y;
 		
-		mWidth = Math.abs(mEndPosition.x-mPosition.x);
-		mHeight = Math.abs(mEndPosition.y-mPosition.y);
+		width = Math.abs(endPosition.x-position.x);
+		height = Math.abs(endPosition.y-position.y);
 	}
 	
 	public void updatePosition(int x, int y) {
-		if (mEndPosition.x < x) {
-			mPosition.x = mEndPosition.x;
-			mEndPosition.x = x;
+		if (endPosition.x < x) {
+			position.x = endPosition.x;
+			endPosition.x = x;
 		}
-		else mPosition.x = x;
+		else position.x = x;
 		
-		if (mEndPosition.y < y) {
-			mPosition.y = mEndPosition.y;
-			mEndPosition.y = y;
+		if (endPosition.y < y) {
+			position.y = endPosition.y;
+			endPosition.y = y;
 		}
-		else mPosition.y = y;
+		else position.y = y;
 		
-		mWidth = Math.abs(mEndPosition.x-mPosition.x);
-		mHeight = Math.abs(mEndPosition.y-mPosition.y);
+		width = Math.abs(endPosition.x-position.x);
+		height = Math.abs(endPosition.y-position.y);
 	}
 	
 	public void updatePosition(Point p) {
-		if (mEndPosition.x < p.x) {
-			mPosition.x = mEndPosition.x;
-			mEndPosition.x = p.x;
+		if (endPosition.x < p.x) {
+			position.x = endPosition.x;
+			endPosition.x = p.x;
 		}
-		else mPosition.x = p.x;
+		else position.x = p.x;
 		
-		if (mEndPosition.y < p.y) {
-			mPosition.y = mEndPosition.y;
-			mEndPosition.y = p.y;
+		if (endPosition.y < p.y) {
+			position.y = endPosition.y;
+			endPosition.y = p.y;
 		}
-		else mPosition.y = p.y;
+		else position.y = p.y;
 		
-		mWidth = Math.abs(mEndPosition.x-mPosition.x);
-		mHeight = Math.abs(mEndPosition.y-mPosition.y);
+		width = Math.abs(endPosition.x-position.x);
+		height = Math.abs(endPosition.y-position.y);
 	}
 	
 	public void updateEndPosition(int x, int y) {
-		if (mPosition.x > x) {
-			mEndPosition.x = mPosition.x;
-			mPosition.x = x;
+		if (position.x > x) {
+			endPosition.x = position.x;
+			position.x = x;
 		}
-		else mEndPosition.x = x;
+		else endPosition.x = x;
 		
-		if (mPosition.y > y) {
-			mEndPosition.y = mPosition.y;
-			mPosition.y = y;
+		if (position.y > y) {
+			endPosition.y = position.y;
+			position.y = y;
 		}
-		else mEndPosition.y = y;
+		else endPosition.y = y;
 		
-		mWidth = Math.abs(mEndPosition.x-mPosition.x);
-		mHeight = Math.abs(mEndPosition.y-mPosition.y);
+		width = Math.abs(endPosition.x-position.x);
+		height = Math.abs(endPosition.y-position.y);
 	}
 	
 	public void updateEndPosition(Point p) {
-		if (mPosition.x > p.x) {
-			mEndPosition.x = mPosition.x;
-			mPosition.x = p.x;
+		if (position.x > p.x) {
+			endPosition.x = position.x;
+			position.x = p.x;
 		}
-		else mEndPosition.x = p.x;
+		else endPosition.x = p.x;
 		
-		if (mPosition.y > p.y) {
-			mEndPosition.y = mPosition.y;
-			mPosition.y = p.y;
+		if (position.y > p.y) {
+			endPosition.y = position.y;
+			position.y = p.y;
 		}
-		else mEndPosition.y = p.y;
+		else endPosition.y = p.y;
 
 		
-		mWidth = Math.abs(mEndPosition.x-mPosition.x);
-		mHeight = Math.abs(mEndPosition.y-mPosition.y);
+		width = Math.abs(endPosition.x-position.x);
+		height = Math.abs(endPosition.y-position.y);
 	}
 	
 	public int getWidth() {
-		return mWidth;
+		return width;
 	}
 	
-	public void setWidth(int width) {
-		mWidth = width;
-		mEndPosition.x = mPosition.x + mWidth;
+	public void setWidth(int w) {
+		width = w;
+		endPosition.x = position.x + w;
 	}
 	
 	public int getHeight() {
-		return mHeight;
+		return height;
 	}
 	
-	public void setHeight(int height) {
-		mHeight = height;
-		mEndPosition.y = mPosition.y + mHeight;
+	public void setHeight(int h) {
+		height = h;
+		endPosition.y = position.y + h;
 	}
 	
 	public void draw(GC gc) {
 		gc.setForeground(getColor());		
 		gc.setBackground(getFillColor());
-		gc.setLineWidth(mLineThickness);
-		gc.setLineStyle(mLineStyle);
-		gc.drawRectangle(mPosition.x, mPosition.y, mWidth, mHeight);
-		if (mFill == true) gc.fillRectangle(mPosition.x+1, mPosition.y+1, mWidth-1, mHeight-1);
+		gc.setLineWidth(lineThickness);
+		gc.setLineStyle(lineStyle);
+		gc.drawRectangle(position.x, position.y, width, height);
+		if (fill == true) gc.fillRectangle(position.x+1, position.y+1, width-1, height-1);
 		
-		if (mSelectMode == SelectMode.SELECTED) {
+		if (selectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			// draw control	
-			gc.fillRectangle(mPosition.x-contSize, mPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mEndPosition.x-contSize, mEndPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mPosition.x-contSize, mEndPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mEndPosition.x-contSize, mPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(position.x-contSize, position.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(endPosition.x-contSize, endPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(position.x-contSize, endPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(endPosition.x-contSize, position.y-contSize, contSize*2, contSize*2);
 		}
 	}
 	
 	public Selection containSelection(int x, int y) {
-		mSelection = Selection.FALSE;
+		selection = Selection.FALSE;
 		
-		if (Math.abs(x-mPosition.x) < contSize) {
-			if (Math.abs(y-mPosition.y) < contSize) {
-				mSelection = Selection.UL;
+		if (Math.abs(x-position.x) < contSize) {
+			if (Math.abs(y-position.y) < contSize) {
+				selection = Selection.UL;
 				return Selection.UL;
 			}
-			else if (Math.abs(y-mEndPosition.y) < contSize) {
-				mSelection = Selection.LL;
+			else if (Math.abs(y-endPosition.y) < contSize) {
+				selection = Selection.LL;
 				return Selection.LL;
 			}
 			else return Selection.FALSE;
 		}
-		else if (Math.abs(x-mEndPosition.x) < contSize) {
-			if (Math.abs(y-mPosition.y) < contSize) {
-				mSelection = Selection.UR;
+		else if (Math.abs(x-endPosition.x) < contSize) {
+			if (Math.abs(y-position.y) < contSize) {
+				selection = Selection.UR;
 				return Selection.UR;
 			}
-			else if (Math.abs(y-mEndPosition.y) < contSize) {
-				mSelection = Selection.LR;
+			else if (Math.abs(y-endPosition.y) < contSize) {
+				selection = Selection.LR;
 				return Selection.LR;
 			}
 			else return Selection.FALSE;
@@ -181,15 +181,15 @@ public class Rectangle extends Component {
 				
 	public boolean contains(int x, int y) {
 		
-		if (mGrouped==true) return false;
+		if (grouped==true) return false;
 		
-		mSelection = containSelection(x, y);
+		selection = containSelection(x, y);
 		
 		if (this.isSelected()==true) {
-			if (mSelection != Selection.FALSE) return true;
+			if (selection != Selection.FALSE) return true;
 		}
 		
-		if (x < mPosition.x || x > mEndPosition.x || y < mPosition.y || y > mEndPosition.y) {
+		if (x < position.x || x > endPosition.x || y < position.y || y > endPosition.y) {
 			return false;
 		}
 		
@@ -197,37 +197,37 @@ public class Rectangle extends Component {
 	}
 
 	public void move(int x, int y) {
-		mPosition.x += x;
-		mPosition.y += y;
-		mEndPosition.x += x;
-		mEndPosition.y += y;
+		position.x += x;
+		position.y += y;
+		endPosition.x += x;
+		endPosition.y += y;
 	}
 	
 	public void resize(int x, int y) {
-		if (mSelection == Selection.UL) {
+		if (selection == Selection.UL) {
 			this.updatePosition(x, y);
 		}
-		else if (mSelection == Selection.LR) {
+		else if (selection == Selection.LR) {
 			this.updateEndPosition(x, y);
 		}
-		else if (mSelection == Selection.LL) {
-			this.updatePosition(x, mPosition.y);
-			this.updateEndPosition(mEndPosition.x, y);
+		else if (selection == Selection.LL) {
+			this.updatePosition(x, position.y);
+			this.updateEndPosition(endPosition.x, y);
 		}
-		else if (mSelection == Selection.UR) {
-			this.updatePosition(mPosition.x, y);
-			this.updateEndPosition(x, mEndPosition.y);
+		else if (selection == Selection.UR) {
+			this.updatePosition(position.x, y);
+			this.updateEndPosition(x, endPosition.y);
 		}
 	}
 	
 	public Rectangle clone() {
-		Rectangle rect = new Rectangle(mPosition.x, mPosition.y, mWidth, mHeight);
-		rect.setColor(mColor);
-		rect.setFillColor(mFillColor);
-		rect.setFill(mFill);
-		rect.setDrawn(mDrawn);
-		rect.setLineStyle(mLineStyle);
-		rect.setLineThickness(mLineThickness);
+		Rectangle rect = new Rectangle(position.x, position.y, width, height);
+		rect.setColor(color);
+		rect.setFillColor(fillColor);
+		rect.setFill(fill);
+		rect.setDrawn(drawn);
+		rect.setLineStyle(lineStyle);
+		rect.setLineThickness(lineThickness);
 		
 		return rect;
 	}
@@ -271,19 +271,19 @@ public class Rectangle extends Component {
 	}
 
 	public Object getPropertyValue(Object id) {
-		if ("Width".equals(id)) return Integer.toString(mWidth);
-		else if ("Height".equals(id)) return Integer.toString(mHeight);
+		if ("Width".equals(id)) return Integer.toString(width);
+		else if ("Height".equals(id)) return Integer.toString(height);
 		else return super.getPropertyValue(id);
 	}
 
 	public void setPropertyValue(Object id, Object value) {
 		if ("Width".equals(id)) {
-			mWidth = Integer.parseInt((String) value);
-			mEndPosition.x = mPosition.x+mWidth;
+			width = Integer.parseInt((String) value);
+			endPosition.x = position.x+width;
 		}
 		else if ("Height".equals(id)) {
-			mHeight = Integer.parseInt((String) value);
-			mEndPosition.y = mPosition.y+mHeight;
+			height = Integer.parseInt((String) value);
+			endPosition.y = position.y+height;
 		}
 		else super.setPropertyValue(id, value);
 	}
@@ -294,10 +294,10 @@ public class Rectangle extends Component {
 		bounds[0] = new Point(0,0);
 		bounds[1] = new Point(0,0);
 		
-		bounds[0].x = mPosition.x;
-		bounds[1].x = mEndPosition.x;
-		bounds[0].y = mPosition.y;
-		bounds[1].y = mEndPosition.y;
+		bounds[0].x = position.x;
+		bounds[1].x = endPosition.x;
+		bounds[0].y = position.y;
+		bounds[1].y = endPosition.y;
 		
 		return bounds;
 	}

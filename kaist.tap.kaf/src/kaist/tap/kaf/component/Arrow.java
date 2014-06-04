@@ -47,10 +47,10 @@ public class Arrow extends Line {
 		arrowHead[0] = new Head(HeadType.NONE, 1);
 		arrowHead[1] = new Head(HeadType.LINEARROW, 1);
 		
-		mPosition.x = x;
-		mPosition.y = y;
-		mEndPosition.x = x2;
-		mEndPosition.y = y2;
+		position.x = x;
+		position.y = y;
+		endPosition.x = x2;
+		endPosition.y = y2;
 	}
 	
 	public void setArrowHeadSize(int index, int size) {
@@ -127,34 +127,34 @@ public class Arrow extends Line {
 	public void draw(GC gc) {
 		gc.setForeground(getColor());
 		gc.setBackground(getColor());
-		gc.setLineWidth(mLineThickness);
-		gc.setLineStyle(mLineStyle);
-		gc.drawLine(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
+		gc.setLineWidth(lineThickness);
+		gc.setLineStyle(lineStyle);
+		gc.drawLine(position.x, position.y, endPosition.x, endPosition.y);
 		
-		float a = mEndPosition.x - mPosition.x;
-		float b = mEndPosition.y - mPosition.y;
+		float a = endPosition.x - position.x;
+		float b = endPosition.y - position.y;
 		float angle = (float) Math.acos(b/(Math.sqrt(a*a+b*b)));
 		angle = (float) Math.toDegrees(angle);
 		
-		drawArrowHead(gc, mPosition.x, mPosition.y, 180-angle);
-		drawArrowHead(gc, mEndPosition.x, mEndPosition.y, -angle);
+		drawArrowHead(gc, position.x, position.y, 180-angle);
+		drawArrowHead(gc, endPosition.x, endPosition.y, -angle);
 		
-		if (mSelectMode == SelectMode.SELECTED) {
+		if (selectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			
 			// draw control			
-			gc.fillRectangle(mPosition.x-contSize, mPosition.y-contSize, contSize*2, contSize*2);
-			gc.fillRectangle(mEndPosition.x-contSize, mEndPosition.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(position.x-contSize, position.y-contSize, contSize*2, contSize*2);
+			gc.fillRectangle(endPosition.x-contSize, endPosition.y-contSize, contSize*2, contSize*2);
 		}
 	}
 	
 	public Arrow clone() {
-		Arrow arrow = new Arrow(mPosition.x, mPosition.y, mEndPosition.x, mEndPosition.y);
-		arrow.setColor(mColor);
-		arrow.setDrawn(mDrawn);
-		arrow.setLineThickness(mLineThickness);
-		arrow.setLineStyle(mLineStyle);
+		Arrow arrow = new Arrow(position.x, position.y, endPosition.x, endPosition.y);
+		arrow.setColor(color);
+		arrow.setDrawn(drawn);
+		arrow.setLineThickness(lineThickness);
+		arrow.setLineStyle(lineStyle);
 		arrow.setArrowHeadSize(0, getArrowHeadSize(0));
 		arrow.setArrowHeadSize(1, getArrowHeadSize(1));
 		arrow.setArrowHeadType(0, getArrowHeadType(0));
@@ -198,15 +198,15 @@ public class Arrow extends Line {
 	@Override
 	public Object getPropertyValue(Object id) {
 		// TODO Auto-generated method stub
-		if ("EndPosition_X".equals(id)) return Integer.toString(mEndPosition.x);
-		else if ("EndPosition_Y".equals(id)) return Integer.toString(mEndPosition.y);
+		if ("EndPosition_X".equals(id)) return Integer.toString(endPosition.x);
+		else if ("EndPosition_Y".equals(id)) return Integer.toString(endPosition.y);
 		else return super.getPropertyValue(id);
 	}
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
-		if ("EndPosition_X".equals(id)) mEndPosition.x = Integer.parseInt((String) value);
-		else if ("EndPosition_Y".equals(id)) mEndPosition.y = Integer.parseInt((String) value);
+		if ("EndPosition_X".equals(id)) endPosition.x = Integer.parseInt((String) value);
+		else if ("EndPosition_Y".equals(id)) endPosition.y = Integer.parseInt((String) value);
 		else super.setPropertyValue(id, value);
 	}
 }

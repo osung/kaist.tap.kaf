@@ -16,7 +16,7 @@ public class ParallelogramTest {
 	@Test
 	public void testParallelogram() {
 		Parallelogram para = new Parallelogram();
-		assertEquals(true, para.mFill);
+		assertEquals(true, para.fill);
 	}
 
 }
