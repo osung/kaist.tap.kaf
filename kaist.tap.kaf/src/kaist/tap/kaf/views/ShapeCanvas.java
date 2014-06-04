@@ -21,6 +21,10 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.*;
@@ -33,6 +37,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	private Vector<Component> psel, copy;
 	private Component tmpComp = null;
 	private Point sp = null;
+	private Canvas canvas = this;
 	
 	public ShapeCanvas(Composite parent, int style) {
 		super(parent, style);
@@ -163,7 +168,9 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						Component c = psel.get(0);
 						repo.lower(c);
 					}
-				
+					else if (e.keyCode == 's' || e.keyCode == 'S') {
+						saveImage(e.display);
+					}
 				}
 				
 				redraw();
@@ -322,6 +329,26 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			}
 			
 		});
+	}
+	
+	public void saveImage(Display display) {
+		Image image = new Image(display, canvas.getBounds());
+		GC gc = new GC(image);
+		canvas.print(gc);
+		ImageLoader loader = new ImageLoader();
+		loader.data = new ImageData[] {image.getImageData()};
+		
+		FileDialog fd = new FileDialog(new Shell(display), SWT.SAVE);
+        fd.setText("Save");
+        fd.setFilterPath("C:/");
+        String[] filterExt = { "*.jpg", "*.jpeg", "*.*" };
+        fd.setFilterExtensions(filterExt);
+        String filename = fd.open();
+        System.out.println(selected);
+		
+		loader.save(filename, SWT.IMAGE_JPEG);
+		image.dispose();
+		gc.dispose();		
 	}
 	
 	public void deleteSelections() {
