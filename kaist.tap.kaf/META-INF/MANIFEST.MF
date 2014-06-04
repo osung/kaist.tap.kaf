@@ -8,7 +8,8 @@ Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
- org.eclipse.ui.views;bundle-version="3.6.100"
+ org.eclipse.ui.views;bundle-version="3.6.100",
+ org.junit;bundle-version="4.11.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.ui.views.properties

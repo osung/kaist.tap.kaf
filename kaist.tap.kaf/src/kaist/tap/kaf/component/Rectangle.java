@@ -152,14 +152,28 @@ public class Rectangle extends Component {
 	}
 	
 	public Selection containSelection(int x, int y) {
+		mSelection = Selection.FALSE;
+		
 		if (Math.abs(x-mPosition.x) < contSize) {
-			if (Math.abs(y-mPosition.y) < contSize) return Selection.UL;
-			else if (Math.abs(y-mEndPosition.y) < contSize) return Selection.LL;
+			if (Math.abs(y-mPosition.y) < contSize) {
+				mSelection = Selection.UL;
+				return Selection.UL;
+			}
+			else if (Math.abs(y-mEndPosition.y) < contSize) {
+				mSelection = Selection.LL;
+				return Selection.LL;
+			}
 			else return Selection.FALSE;
 		}
 		else if (Math.abs(x-mEndPosition.x) < contSize) {
-			if (Math.abs(y-mPosition.y) < contSize) return Selection.UR;
-			else if (Math.abs(y-mEndPosition.y) < contSize) return Selection.LR;
+			if (Math.abs(y-mPosition.y) < contSize) {
+				mSelection = Selection.UR;
+				return Selection.UR;
+			}
+			else if (Math.abs(y-mEndPosition.y) < contSize) {
+				mSelection = Selection.LR;
+				return Selection.LR;
+			}
 			else return Selection.FALSE;
 		}
 		else return Selection.FALSE;

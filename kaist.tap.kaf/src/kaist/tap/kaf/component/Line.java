@@ -100,9 +100,18 @@ public class Line extends Component {
 		}
 		
 		public Selection containSelection(int x, int y) {
-			if (Math.abs(x-mPosition.x) < contSize && Math.abs(y-mPosition.y) < contSize) return Selection.START;
-			else if (Math.abs(x-mEndPosition.x) < contSize && Math.abs(y-mEndPosition.y) < contSize) return Selection.END;
-			else return Selection.FALSE;
+			if (Math.abs(x-mPosition.x) < contSize && Math.abs(y-mPosition.y) < contSize) {
+				mSelection = Selection.START;
+				return Selection.START;
+			}
+			else if (Math.abs(x-mEndPosition.x) < contSize && Math.abs(y-mEndPosition.y) < contSize) {
+				mSelection = Selection.END;
+				return Selection.END;
+			}
+			else {
+				mSelection = Selection.FALSE;
+				return Selection.FALSE;
+			}
 		}
 				
 		public boolean contains(int x, int y) {
