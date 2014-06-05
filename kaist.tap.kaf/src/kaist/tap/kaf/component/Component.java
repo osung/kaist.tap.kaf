@@ -272,6 +272,11 @@ public abstract class Component extends ComponentElement implements ISelection {
 	public void setPosition(Point pos) {
 		position = new Point(pos.x, pos.y);
 	}
+	
+	public void setPosition(int x, int y) {
+		position.x = x;
+		position.y = y;
+	}
 
 	public void setPropertyValue(Object id, Object value) {
 		if ("Name".equals(id)) name = (String) value;

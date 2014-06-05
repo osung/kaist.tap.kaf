@@ -55,22 +55,26 @@ public class Line extends Component {
 		}
 		
 		public void setStartComponent(Component c) {
+			System.out.println("Setting start component");
 			startComponent = c;
 			connected = true;
 		}
 		
 		public void setEndComponent(Component c) {
+			System.out.println("Setting end component");
 			endComponent = c;
 			connected = true;
 		}
 		
 		public void removeStartComponent() {
+			System.out.println("Removing start component");
 			startComponent = null;
 			if (endComponent == null) connected = false;
 		}
 		
 		
 		public void removeEndComponent() {
+			System.out.println("Removing end component");
 			endComponent = null;
 			if (startComponent == null) connected = false;
 		}
@@ -176,12 +180,15 @@ public class Line extends Component {
 		
 		
 		public void move(int x, int y) {
+			if (x < 2 && y < 2) return;
+			
 			position.x += x;
 			position.y += y;
 			
 			if (startComponent != null) {
 				startComponent.removeConnection(this);
 				startComponent = null;
+				removeStartComponent();
 			}
 			
 			endPosition.x += x;
@@ -190,6 +197,7 @@ public class Line extends Component {
 			if (endComponent != null) {
 				endComponent.removeConnection(this);
 				endComponent = null;
+				removeEndComponent();
 			}
 			
 			connected = false;

@@ -183,6 +183,7 @@ public class Rectangle extends Component {
 		else return Selection.FALSE;
 	}
 	
+
 	
 	public Point getConnectedPoint(Line line) {
 		int idx = connections.indexOf(line);
@@ -272,6 +273,18 @@ public class Rectangle extends Component {
 		position.y += y;
 		endPosition.x += x;
 		endPosition.y += y;
+		
+		for (int i = 0; i < connections.size(); ++i) {
+			Line line = connections.get(i);
+			if (line.startComponent == this) {
+				Point p = line.getPosition();
+				line.setPosition(p.x+x, p.y+y);
+			}
+			else {
+				Point p = line.getEndPosition();
+				line.setEndPosition(p.x+x, p.y+y);
+			}
+		}
 	}
 	
 	public void resize(int x, int y) {

@@ -263,7 +263,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						Line line = src.clone();
 						line.setDrawn(true);
 						repo.register(line);
-						
 						checkConnection(line, e.x, e.y);
 					}
 				} else {
@@ -332,7 +331,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			if ((comp instanceof Rectangle) == false) continue;
 			if (comp.contains(x, y) == true) {
 				// connection established
-				System.out.println("connection established");
+				//System.out.println("connection established");
 				
 				Selection sel = line.containSelection(x, y);
 				
