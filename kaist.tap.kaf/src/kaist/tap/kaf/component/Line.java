@@ -22,6 +22,7 @@ public class Line extends Component {
 			connected = false;
 			this.setName("Line");
 			position.x = position.y = endPosition.x = endPosition.y = 0;
+			startComponent = endComponent = null;
 		}
 		
 		public Line(int x1, int y1, int x2, int y2) {
@@ -34,31 +35,46 @@ public class Line extends Component {
 		}
 		
 		
-		public boolean IsConnected() {
+		public boolean isConnected() {
 			return connected;
 		}
 		
-		public Component GetStartComponent() {
+		
+		public Point getOppositePosition(Component comp) {
+			if (comp == startComponent) return endPosition;
+			else if (comp == endComponent) return position;
+			else return null;
+		}
+		
+		public Component getStartComponent() {
 			return startComponent;
 		}
 		
-		public Component GetEndComponent() {
+		public Component getEndComponent() {
 			return endComponent;
 		}
 		
-		public void SetStartComponent(Component c) {
+		public void setStartComponent(Component c) {
 			startComponent = c;
-			if (endComponent != null) {
-				connected = true;
-			}
+			connected = true;
 		}
 		
-		public void SetEndComponent(Component c) {
+		public void setEndComponent(Component c) {
 			endComponent = c;
-			if (startComponent != null) {
-				connected = true;
-			}
+			connected = true;
 		}
+		
+		public void removeStartComponent() {
+			startComponent = null;
+			if (endComponent == null) connected = false;
+		}
+		
+		
+		public void removeEndComponent() {
+			endComponent = null;
+			if (startComponent == null) connected = false;
+		}
+		
 		
 		public void setStartPosition(Point p) {
 			position = p;
@@ -101,15 +117,15 @@ public class Line extends Component {
 		
 		public Selection containSelection(int x, int y) {
 			if (Math.abs(x-position.x) < contSize && Math.abs(y-position.y) < contSize) {
-				selection = Selection.START;
+				//selection = Selection.START;
 				return Selection.START;
 			}
 			else if (Math.abs(x-endPosition.x) < contSize && Math.abs(y-endPosition.y) < contSize) {
-				selection = Selection.END;
+				//selection = Selection.END;
 				return Selection.END;
 			}
 			else {
-				selection = Selection.FALSE;
+				//selection = Selection.FALSE;
 				return Selection.FALSE;
 			}
 		}
@@ -139,13 +155,23 @@ public class Line extends Component {
 			if (selection == Selection.FALSE) return;
 			
 			if (selection == Selection.START) {
+				if (startComponent != null) {
+					startComponent.removeConnection(this);
+					startComponent = null;
+				}
 				position.x = x;
 				position.y = y;
 			}
 			else {
+				if (endComponent != null) {
+					endComponent.removeConnection(this);
+					endComponent = null;
+				}
 				endPosition.x = x;
 				endPosition.y = y;
 			}
+			
+			if (startComponent == null && endComponent == null) connected = false;
 		}
 		
 		
@@ -153,8 +179,20 @@ public class Line extends Component {
 			position.x += x;
 			position.y += y;
 			
+			if (startComponent != null) {
+				startComponent.removeConnection(this);
+				startComponent = null;
+			}
+			
 			endPosition.x += x;
 			endPosition.y += y;
+			
+			if (endComponent != null) {
+				endComponent.removeConnection(this);
+				endComponent = null;
+			}
+			
+			connected = false;
 		}
 
 		public Line clone() {

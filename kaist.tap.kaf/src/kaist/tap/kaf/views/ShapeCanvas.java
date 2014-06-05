@@ -219,7 +219,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			}
 
 			public void mouseUp(MouseEvent e) {
-				int x, y, w, h;
+				int w, h;
 
 				tmpComp = null;
 				if (selected == null) {
@@ -233,9 +233,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						sp = null;
 						return;
 					} else if (selected instanceof Parallelogram) {
-						x = sp.x < e.x ? sp.x : e.x;
-						y = sp.y < e.y ? sp.y : e.y;
-
 						w = Math.abs(e.x - sp.x);
 						h = Math.abs(e.y - sp.y);
 						w = (w < 5) ? 20 : w;
@@ -247,9 +244,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						para.setDrawn(true);
 						repo.register(para);
 					} else if (selected instanceof Rectangle) {
-						x = sp.x < e.x ? sp.x : e.x;
-						y = sp.y < e.y ? sp.y : e.y;
-
 						w = Math.abs(e.x - sp.x);
 						h = Math.abs(e.y - sp.y);
 						w = (w < 5) ? 20 : w;
@@ -269,25 +263,17 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						Line line = src.clone();
 						line.setDrawn(true);
 						repo.register(line);
+						
+						checkConnection(line, e.x, e.y);
 					}
 				} else {
-					if (selected.getSelection() == Selection.FALSE)
-						selected.move(e.x - sp.x, e.y - sp.y);
+					if (selected.getSelection() == Selection.FALSE) selected.move(e.x - sp.x, e.y - sp.y);
 					else {
 						selected.resize(e.x, e.y);
-						if (selected instanceof Line) {
-							for (int i = repo.getNumberOfComponents() - 1; i >= 0; i--) {
-								Component comp = repo.get(i);
-								if (comp == selected)
-									continue;
-								if (comp.contains(e.x, e.y) == true) {
-									// connection established
-								}
-							}
-						}
+						checkConnection((Line) selected, e.x, e.y);
 					}
 				}
-
+				
 				redraw();
 				sp = null;
 				selected = null;
@@ -339,6 +325,34 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		});
 	}
 
+	public void checkConnection(Line line, int x, int y) {
+		for (int i = repo.getNumberOfComponents() - 1; i >= 0; i--) {
+			Component comp = repo.get(i);
+			if (comp == line) continue;
+			if ((comp instanceof Rectangle) == false) continue;
+			if (comp.contains(x, y) == true) {
+				// connection established
+				System.out.println("connection established");
+				
+				Selection sel = line.containSelection(x, y);
+				
+				if (sel == Selection.FALSE) continue;
+				
+				if (sel == Selection.START) line.setStartComponent(comp);
+				else line.setEndComponent(comp);
+					
+				comp.addConnection(line);
+				
+				Rectangle rect = (Rectangle) comp;
+				Point cp = rect.getConnectedPoint(line);
+					if (sel == Selection.START) line.setStartPosition(cp);
+					else line.setEndPosition(cp);
+				
+				break;
+			}
+		}
+	}
+	
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		listeners.add(listener);

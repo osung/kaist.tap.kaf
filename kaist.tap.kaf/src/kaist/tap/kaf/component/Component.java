@@ -1,5 +1,7 @@
 package kaist.tap.kaf.component;
 
+import java.util.Vector;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
@@ -35,6 +37,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 	protected Selection selection;
 	protected SelectMode selectMode;
 	protected boolean updated;
+	protected Vector<Line> connections;
+	
 	
 	public Component() {
 		drawn = false;
@@ -49,6 +53,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		updated = false;
 		grouped = false;
 		selection = Selection.FALSE;
+		connections = new Vector<Line>();
 	}
 	
 	public abstract Component clone();
@@ -157,6 +162,11 @@ public abstract class Component extends ComponentElement implements ISelection {
 	public Selection getSelection() {
 		return selection;
 	}
+	
+	public void setSelection(Selection sel) {
+		selection = sel;
+	}
+	
 	public boolean getUpdated() {
 		if (updated == true) {
 			updated = false;
@@ -318,5 +328,24 @@ public abstract class Component extends ComponentElement implements ISelection {
 
 	public void unsetGrouped() {
 		grouped = false;
+	}
+	
+	public void addConnection(Line line) {
+		connections.add(line);
+	}
+	
+	public int getNumberOfConnections() {
+		return connections.size();
+	}
+	
+	public void removeConnection(Line line) {
+		connections.remove(line);
+	}
+	
+	
+	public Line getConnection(int idx) {
+		if (idx >= connections.size()) return null;
+		
+		return connections.get(idx);
 	}
 }

@@ -12,6 +12,10 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 public class Rectangle extends Component {
 		
+	enum Edge {
+		NONE, LEFT, RIGHT, TOP, BOTTOM
+	}
+	
 	protected int width;
 	protected int height;
 	
@@ -177,6 +181,73 @@ public class Rectangle extends Component {
 			else return Selection.FALSE;
 		}
 		else return Selection.FALSE;
+	}
+	
+	
+	public Point getConnectedPoint(Line line) {
+		int idx = connections.indexOf(line);
+		if (idx == -1) return null;
+		
+		Point opposite = line.getOppositePosition(this);
+		
+		int zone = 0;
+		Edge edge = Edge.NONE;
+		
+		if (opposite.x <= position.x) zone = 1;
+		else if (opposite.x >= endPosition.x) zone = 7;
+		else zone = 4;
+		
+		if (opposite.y <= position.y) zone += 0;
+		else if (opposite.y >= endPosition.y) zone += 2;
+		else zone += 1;
+		
+		switch (zone) {
+		case 1:
+			if (position.x - opposite.x < position.y - opposite.y) edge = Edge.TOP;
+			else edge = Edge.LEFT;
+			break;
+		case 2:
+			edge = Edge.LEFT;
+			break;
+		case 3:
+			if (position.x - opposite.x < opposite.y - position.y) edge = Edge.BOTTOM;
+			else edge = Edge.LEFT;
+			break;
+		case 4:
+			edge = Edge.TOP;
+			break;
+		case 5:
+			edge = Edge.NONE;
+			break;
+		case 6:
+			edge = Edge.BOTTOM;
+			break;
+		case 7:
+			if (opposite.x - position.x < position.y - opposite.y) edge = Edge.TOP;
+			else edge = Edge.RIGHT;
+			break;
+		case 8:
+			edge = Edge.RIGHT;
+			break;
+		case 9:
+			if (opposite.x - position.x < opposite.y - position.y) edge = Edge.BOTTOM;
+			else edge = Edge.RIGHT;
+			break;
+		}
+		
+		switch(edge) {
+		case LEFT:
+			return new Point(position.x, (int) ((position.y+endPosition.y)*0.5));
+		case RIGHT:
+			return new Point(endPosition.x, (int) ((position.y+endPosition.y)*0.5));
+		case TOP:
+			return new Point((int) ((position.x+endPosition.x)*0.5), position.y);
+		case BOTTOM:
+			return new Point((int) ((position.x+endPosition.x)*0.5), endPosition.y);
+		case NONE:
+		default:
+			return null;
+		}	
 	}
 				
 	public boolean contains(int x, int y) {

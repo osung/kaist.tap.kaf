@@ -57,9 +57,8 @@ public class LineTest {
 		Point start = line.getPosition();
 		
 		Selection expected = Selection.START;
-		line.containSelection(start.x, start.y);
-		Selection actual = line.getSelection();
-		
+		Selection actual = line.containSelection(start.x, start.y);
+				
 		assertEquals(expected, actual);
 	}
 
@@ -72,7 +71,8 @@ public class LineTest {
 		expected[0] = new Point(0, 0);
 		expected[1] = new Point(end.x, end.y);	
 		
-		line.containSelection(start.x, start.y);
+		Selection sel = line.containSelection(start.x, start.y);
+		line.setSelection(sel);
 		line.resize(0, 0);
 		Point[] actual = new Point[2];
 		actual[0] = line.getPosition();
