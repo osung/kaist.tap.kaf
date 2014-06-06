@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -110,7 +111,6 @@ public abstract class Component extends ComponentElement implements ISelection {
 	}
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		// TODO Auto-generated method stub
 		String[] lsvalues = {"Solid", "Dot", "Dash", "Dashdot", "Dashdotdot"};
 		return new IPropertyDescriptor[] {
 				new TextPropertyDescriptor("Name", "Name"),
@@ -120,14 +120,12 @@ public abstract class Component extends ComponentElement implements ISelection {
 				new TextPropertyDescriptor("FillColor", "Fill Color"),
 				new TextPropertyDescriptor("Fill", "Fill"), 
 				new TextPropertyDescriptor("Line_Thickness", "Line Thickness"),
-				//new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues)
-				new TextPropertyDescriptor("Line_Style", "Line Style")
+				new ComboBoxPropertyDescriptor("Line_Style", "Line Style", lsvalues)
 		};
 	}
 	
 	@Override
 	public Object getPropertyValue(Object id) {
-		// TODO Auto-generated method stub
 		if ("Name".equals(id)) {
 			if (name != null) return name;
 			else return "None";

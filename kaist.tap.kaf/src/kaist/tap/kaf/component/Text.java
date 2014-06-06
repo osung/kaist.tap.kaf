@@ -153,13 +153,14 @@ public class Text extends Rectangle {
 		tcDiscriptor.setCategory("Text");
 		TextPropertyDescriptor tsiDiscriptor = new TextPropertyDescriptor("FontSize", "Size");
 		tsiDiscriptor.setCategory("Text");
-		TextPropertyDescriptor tsyDiscriptor = new TextPropertyDescriptor("FontStyle", "Style");
-		tsyDiscriptor.setCategory("Text");
+		String[] fsvalues = {"Normal", "Bold", "Italic", "Bold Italic"};
+		ComboBoxPropertyDescriptor fsDiscriptor = new ComboBoxPropertyDescriptor("FontStyle", "Style", fsvalues);
+		fsDiscriptor.setCategory("Text");
 		
 		return new IPropertyDescriptor[] {
 				nameDiscriptor, posxDiscriptor, posyDiscriptor, lcDiscriptor, ltDiscriptor, lsDiscriptor, 
 				pcDiscriptor, pfDiscriptor,
-				tsDiscriptor, tcDiscriptor, tsiDiscriptor, tsyDiscriptor
+				tsDiscriptor, tcDiscriptor, tsiDiscriptor, fsDiscriptor
 		};
 	}
 	
@@ -172,15 +173,15 @@ public class Text extends Rectangle {
 		else if ("FontStyle".equals(id)) {
 			switch(fontStyle) {
 			case SWT.NORMAL :
-				return "Normal";
-			case SWT.ITALIC :
-				return "Italic";
+				return 0;
 			case SWT.BOLD :
-				return "Bold";
+				return 1;
+			case SWT.ITALIC :
+				return 2;
 			case SWT.ITALIC | SWT.BOLD :
-				return "BoldItalic";
+				return 3;
 			default :
-				return "Normal";
+				return 0;
 			}
 		}
 		else return super.getPropertyValue(id);
@@ -196,21 +197,17 @@ public class Text extends Rectangle {
 			fontSize = Integer.parseInt((String) value);
 		}
 		else if ("FontStyle".equals(id)) {
-			switch((String) value) {
-			case "Italic" :
-			case "italic" :
-				fontStyle = SWT.ITALIC;
-				break;
-			case "Bold" :
-			case "bold" :
-				fontStyle = SWT.BOLD;
-				break;
-			case "Normal" :
-			case "normal" :
+			switch((int) value) {
+			case 0:
 				fontStyle = SWT.NORMAL;
 				break;
-			case "BoldItalic" :
-			case "bolditalic" :
+			case 1:
+				fontStyle = SWT.BOLD;
+				break;
+			case 2:
+				fontStyle = SWT.ITALIC;
+				break;			
+			case 3:
 				fontStyle = SWT.ITALIC | SWT.BOLD;
 				break;
 			}

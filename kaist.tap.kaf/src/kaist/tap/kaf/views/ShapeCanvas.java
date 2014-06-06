@@ -266,10 +266,14 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						checkConnection(line, e.x, e.y);
 					}
 				} else {
-					if (selected.getSelection() == Selection.FALSE) selected.move(e.x - sp.x, e.y - sp.y);
+					Selection sel = selected.getSelection();
+					if (sel == Selection.FALSE) selected.move(e.x - sp.x, e.y - sp.y);
 					else {
 						selected.resize(e.x, e.y);
-						checkConnection((Line) selected, e.x, e.y);
+						
+						if (sel == Selection.START || sel == Selection.END) {
+							checkConnection((Line) selected, e.x, e.y);
+						}
 					}
 				}
 				

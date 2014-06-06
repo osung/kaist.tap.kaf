@@ -17,7 +17,10 @@ public class ComponentSelectionListener implements ISelectionListener {
 	
 	public void selectionChanged(IWorkbenchPart p, ISelection sel) {
 		if (p != this.part) {
-			ISelection selected = (ISelection) ((IStructuredSelection)sel).getFirstElement();
+			Object obj = ((IStructuredSelection)sel).getFirstElement();
+			if (obj instanceof String) return;
+			
+			ISelection selected = (ISelection) obj;
 			Object current = ((IStructuredSelection) viewer.getSelection()).getFirstElement();
 			if (selected != current && (selected instanceof Component || selected instanceof View)) {
 				viewer.setSelection(sel);
