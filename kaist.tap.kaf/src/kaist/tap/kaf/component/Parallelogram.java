@@ -1,6 +1,7 @@
 package kaist.tap.kaf.component;
 
 import kaist.tap.kaf.component.Component.SelectMode;
+import kaist.tap.kaf.component.Rectangle.Edge;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
@@ -158,10 +159,77 @@ public class Parallelogram extends Rectangle {
 			return false;
 		}
 		
-		System.out.println("Parallelogram : in");
 		return true;
 	}
 
+	
+	public Point getConnectedPoint(Line line) {
+		int idx = connections.indexOf(line);
+		if (idx == -1) return null;
+		
+		Point opposite = line.getOppositePosition(this);
+		
+		int zone = 0;
+		Edge edge = Edge.NONE;
+		
+		if (opposite.x <= position.x) zone = 1;
+		else if (opposite.x >= endPosition.x) zone = 7;
+		else zone = 4;
+		
+		if (opposite.y <= position.y) zone += 0;
+		else if (opposite.y >= endPosition.y) zone += 2;
+		else zone += 1;
+		
+		switch (zone) {
+		case 1:
+			if (position.x - opposite.x < position.y - opposite.y) edge = Edge.TOP;
+			else edge = Edge.LEFT;
+			break;
+		case 2:
+			edge = Edge.LEFT;
+			break;
+		case 3:
+			if (position.x - opposite.x < opposite.y - position.y) edge = Edge.BOTTOM;
+			else edge = Edge.LEFT;
+			break;
+		case 4:
+			edge = Edge.TOP;
+			break;
+		case 5:
+			edge = Edge.NONE;
+			break;
+		case 6:
+			edge = Edge.BOTTOM;
+			break;
+		case 7:
+			if (opposite.x - position.x < position.y - opposite.y) edge = Edge.TOP;
+			else edge = Edge.RIGHT;
+			break;
+		case 8:
+			edge = Edge.RIGHT;
+			break;
+		case 9:
+			if (opposite.x - position.x < opposite.y - position.y) edge = Edge.BOTTOM;
+			else edge = Edge.RIGHT;
+			break;
+		}
+		
+		switch(edge) {
+		case LEFT:
+			return new Point((int)((realPoints[0].x+realPoints[3].x)*0.5), (int) ((realPoints[0].y+realPoints[3].y)*0.5));
+		case RIGHT:
+			return new Point((int)((realPoints[1].x+realPoints[2].x)*0.5), (int) ((realPoints[1].y+realPoints[2].y)*0.5));
+		case TOP:
+			return new Point((int) ((realPoints[0].x+realPoints[1].x)*0.5), position.y);
+		case BOTTOM:
+			return new Point((int) ((realPoints[3].x+realPoints[2].x)*0.5), endPosition.y);
+		case NONE:
+		default:
+			return null;
+		}	
+	}
+	
+	
 	public void move(int x, int y) {
 		super.move(x, y);
 		setParallelType(type);
