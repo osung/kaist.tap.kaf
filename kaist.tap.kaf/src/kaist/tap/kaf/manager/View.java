@@ -29,6 +29,9 @@ public class View implements ISelection {
 	public void setRestrictedComponent(int mRestrictedComponent) {
 		this.mRestrictedComponent = mRestrictedComponent;
 	}
+	public String toString() {
+		return mName;
+	}
 	
 	@Override
 	public boolean isEmpty() {

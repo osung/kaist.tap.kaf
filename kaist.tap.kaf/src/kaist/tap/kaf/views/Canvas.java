@@ -19,26 +19,6 @@ public class Canvas extends ViewPart {
 
 	public static final String ID = "kaist.tap.kaf.views.Canvas"; //$NON-NLS-1$
 	protected ShapeCanvas canvas;
-	/*
-	private ISelectionListener mylistener = new ISelectionListener() {
-
-		@Override
-		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-			// TODO Auto-generated method stub
-			//if (part !=  && selection instanceof IStructuredSelection) {
-				
-			//}
-			
-			if (selection instanceof IStructuredSelection) {
-				if (selection.isEmpty() == false) {
-					canvas.selectComponent((Component) ((IStructuredSelection) selection).getFirstElement());
-					//canvas.setSelection(selection);
-					System.out.println("111111");
-				}
-			}
-		}
-		
-	}; */
 	
 	public Canvas() {
 		
@@ -50,27 +30,15 @@ public class Canvas extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		//Canvas c2 = new Canvas(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-		
 		final ShapeCanvas canvas = new ShapeCanvas(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		
-		//final org.eclipse.swt.widgets.Canvas canvas = new org.eclipse.swt.widgets.Canvas(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-		//Composite container = new Composite(parent, SWT.NONE);
 		canvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		canvas.setFocus();
 		getSite().setSelectionProvider(canvas);
-		//getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(mylistener);
 
 		createActions();
 		initializeToolBar();
 		initializeMenu();
-		
-		/*
-		canvas.addListener(SWT.Selection, new Listener() { 
-			public void handleEvent(Event e) {
-				canvas.notifyListeners(SWT.Selection, new Event());
-			}
-		});  */
 		
 		canvas.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -86,7 +54,7 @@ public class Canvas extends ViewPart {
 		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 	
-		
+	
 	/**
 	 * Create the actions.
 	 */

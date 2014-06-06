@@ -1,6 +1,7 @@
 package kaist.tap.kaf.views;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
@@ -25,10 +26,11 @@ public class ProjectExplorer extends ViewPart {
 	private Action action1;
 	private Action action2;
 	private Action doubleClickAction;
-
+	private String[] treeRoot = new String[1];
+	
 	class ViewContentProvider implements IStructuredContentProvider, 
 										   ITreeContentProvider {
-		private String[] treeRoot = new String[1];
+		
 		private View[] children;
 		
 		public ViewContentProvider() {
@@ -104,19 +106,54 @@ public class ProjectExplorer extends ViewPart {
 		viewer.setSorter(new NameSorter());
 		viewer.setInput(getElements());
 		viewer.expandAll();
+		
+		viewer.setCellEditors(new CellEditor[] {new TextCellEditor(viewer.getTree())}); 
+		viewer.setCellModifier(new ICellModifier() {
+
+			public void modify(Object element, String property, Object value) {
+		   		System.out.println(property);
+		   		TreeItem item = (TreeItem) element;
+		   		Object data = item.getData();
+		   		
+		   		if (data instanceof String) {
+		   			item.setData(new String((String) value));
+		   			item.setText((String) value);
+		   		}
+			}
+
+		    @Override
+		    public Object getValue(Object element, String property) {
+		        return element.toString();
+		    }
+
+		    @Override
+		    public boolean canModify(Object element, String property) {
+		        if (property.equals("Title")) {
+		        	return true;
+		        }
+		        else return false;
+		    }
+	    });
+		
+		viewer.setColumnProperties(new String[] {"Title", "View1", "View2"});
 
 		getSite().setSelectionProvider(viewer);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(final SelectionChangedEvent event) {
-				System.out.println("Tree Selection changed");
 			}
 		});
+		
+		TreeViewerEditor.create(viewer, new ColumnViewerEditorActivationStrategy(viewer){
+		    protected boolean isEditorActivationEvent(ColumnViewerEditorActivationEvent event) {  
+		        return event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION;
+		    }}, ColumnViewerEditor.KEEP_EDITOR_ON_DOUBLE_CLICK | ColumnViewerEditor.KEYBOARD_ACTIVATION);
+		
 		
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "kaist.tap.kaf.viewer");
 		makeActions();
 		hookContextMenu();
-		hookDoubleClickAction();
+		//hookDoubleClickAction();
 		contributeToActionBars();
 	}
 
@@ -185,7 +222,9 @@ public class ProjectExplorer extends ViewPart {
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
+				if (obj instanceof String) {
+					showMessage("Double-click detected on "+obj.toString());
+				}
 			}
 		};
 	}
@@ -196,7 +235,8 @@ public class ProjectExplorer extends ViewPart {
 				doubleClickAction.run();
 			}
 		});
-	}
+ 	}
+	
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),

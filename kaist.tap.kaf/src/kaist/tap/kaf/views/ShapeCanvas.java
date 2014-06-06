@@ -84,7 +84,9 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			}
 		});
 
-		this.addKeyListener(new KeyAdapter() {
+		
+		
+		addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 
 				if (e.keyCode == SWT.DEL) {
@@ -324,7 +326,15 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					redraw();
 				}
 			}
+		});
+		
+		addModifyListener(new ModifyListener() {
 
+			@Override
+			public void modifyText(ModifyEvent e) {
+				System.out.println(e.getSource());
+				System.out.println(e.data);
+			}
 		});
 	}
 
@@ -355,6 +365,11 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			}
 		}
 	}
+	
+	public void addModifyListener(ModifyListener listener) {
+		this.addListener(SWT.Modify, new TypedListener(listener));
+	}
+	
 	
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
