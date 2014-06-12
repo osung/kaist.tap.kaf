@@ -14,24 +14,25 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-
 public class Canvas extends ViewPart {
 
 	public static final String ID = "kaist.tap.kaf.views.Canvas"; //$NON-NLS-1$
 	protected ShapeCanvas canvas;
-	
+
 	public Canvas() {
-		
+
 	}
 
 	/**
 	 * Create contents of the view part.
+	 * 
 	 * @param parent
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		final ShapeCanvas canvas = new ShapeCanvas(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-		
+		final ShapeCanvas canvas = new ShapeCanvas(parent, SWT.H_SCROLL
+				| SWT.V_SCROLL);
+
 		canvas.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		canvas.setFocus();
 		getSite().setSelectionProvider(canvas);
@@ -39,22 +40,23 @@ public class Canvas extends ViewPart {
 		createActions();
 		initializeToolBar();
 		initializeMenu();
-		
+
 		canvas.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("widgetSelected");
 			}
-			
+
 			public void widgetDefaultSelected(SelectionEvent e) {
 				System.out.println("widgetDefaultSelected");
 			}
 		});
-		
-		ComponentSelectionListener selectionListener = new ComponentSelectionListener(canvas, getSite().getPart());
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
+
+		ComponentSelectionListener selectionListener = new ComponentSelectionListener(
+				canvas, getSite().getPart());
+		getSite().getWorkbenchWindow().getSelectionService()
+				.addSelectionListener(selectionListener);
 	}
-	
-	
+
 	/**
 	 * Create the actions.
 	 */
@@ -83,6 +85,4 @@ public class Canvas extends ViewPart {
 		// Set the focus
 	}
 
-	
-	
 }

@@ -13,7 +13,7 @@ import org.junit.Test;
 public class LineTest {
 
 	public Line line;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -38,27 +38,26 @@ public class LineTest {
 		Point[] expected = new Point[2];
 		Point start = line.getPosition();
 		Point end = line.getEndPosition();
-		
-		expected[0] = new Point(start.x+20, start.y+10);
-		expected[1] = new Point(end.x+20, end.y+10);
-		
+
+		expected[0] = new Point(start.x + 20, start.y + 10);
+		expected[1] = new Point(end.x + 20, end.y + 10);
+
 		line.move(20, 10);
 		Point[] actual = new Point[2];
 		actual[0] = line.getPosition();
 		actual[1] = line.getEndPosition();
-		
+
 		assertEquals(expected[0], actual[0]);
 		assertEquals(expected[1], actual[1]);
 	}
-	
-	
+
 	@Test
 	public void testContainSelection() {
 		Point start = line.getPosition();
-		
+
 		Selection expected = Selection.START;
 		Selection actual = line.containSelection(start.x, start.y);
-				
+
 		assertEquals(expected, actual);
 	}
 
@@ -67,17 +66,17 @@ public class LineTest {
 		Point[] expected = new Point[2];
 		Point start = line.getPosition();
 		Point end = line.getEndPosition();
-		
+
 		expected[0] = new Point(0, 0);
-		expected[1] = new Point(end.x, end.y);	
-		
+		expected[1] = new Point(end.x, end.y);
+
 		Selection sel = line.containSelection(start.x, start.y);
 		line.setSelection(sel);
 		line.resize(0, 0);
 		Point[] actual = new Point[2];
 		actual[0] = line.getPosition();
 		actual[1] = line.getEndPosition();
-		
+
 		assertEquals(expected[0], actual[0]);
 		assertEquals(expected[1], actual[1]);
 	}
@@ -85,10 +84,10 @@ public class LineTest {
 	@Test
 	public void testGetBounds() {
 		Point[] expected = new Point[2];
-		
-		expected[0] = new Point(10,10);
-		expected[1] = new Point(20,20);
-		
+
+		expected[0] = new Point(10, 10);
+		expected[1] = new Point(20, 20);
+
 		Point[] actual = line.getBounds();
 		assertEquals(expected[0], actual[0]);
 		assertEquals(expected[1], actual[1]);

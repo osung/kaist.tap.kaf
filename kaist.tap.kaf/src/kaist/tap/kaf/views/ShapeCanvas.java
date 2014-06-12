@@ -1,5 +1,6 @@
 package kaist.tap.kaf.views;
 
+import java.beans.PropertyChangeListener;
 import java.util.Vector;
 
 import kaist.tap.kaf.component.Arrow;
@@ -84,8 +85,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			}
 		});
 
-		
-		
 		addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 
@@ -170,6 +169,18 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						repo.lower(c);
 					} else if (e.keyCode == 's' || e.keyCode == 'S') {
 						saveImage(e.display);
+					} else if (e.keyCode == 'p' || e.keyCode == 'P') {
+						for (int i = 0; i < psel.size(); ++i) {
+							Component c = psel.get(i);
+
+							if (c instanceof Group) {
+								continue;
+							}
+							else {
+								System.out.println("Adding port");
+								c.addPort();
+							}
+						}
 					}
 				}
 
@@ -269,16 +280,17 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					}
 				} else {
 					Selection sel = selected.getSelection();
-					if (sel == Selection.FALSE) selected.move(e.x - sp.x, e.y - sp.y);
+					if (sel == Selection.FALSE)
+						selected.move(e.x - sp.x, e.y - sp.y);
 					else {
 						selected.resize(e.x, e.y);
-						
+
 						if (sel == Selection.START || sel == Selection.END) {
 							checkConnection((Line) selected, e.x, e.y);
 						}
 					}
 				}
-				
+
 				redraw();
 				sp = null;
 				selected = null;
@@ -327,7 +339,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				}
 			}
 		});
-		
+
 		addModifyListener(new ModifyListener() {
 
 			@Override
@@ -341,36 +353,42 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	public void checkConnection(Line line, int x, int y) {
 		for (int i = repo.getNumberOfComponents() - 1; i >= 0; i--) {
 			Component comp = repo.get(i);
-			if (comp == line) continue;
-			if ((comp instanceof Rectangle) == false) continue;
+			if (comp == line)
+				continue;
+			if ((comp instanceof Rectangle) == false)
+				continue;
 			if (comp.contains(x, y) == true) {
 				// connection established
-				//System.out.println("connection established");
-				
+				// System.out.println("connection established");
+
 				Selection sel = line.containSelection(x, y);
-				
-				if (sel == Selection.FALSE) continue;
-				
-				if (sel == Selection.START) line.setStartComponent(comp);
-				else line.setEndComponent(comp);
-					
+
+				if (sel == Selection.FALSE)
+					continue;
+
+				if (sel == Selection.START)
+					line.setStartComponent(comp);
+				else
+					line.setEndComponent(comp);
+
 				comp.addConnection(line);
-				
+
 				Rectangle rect = (Rectangle) comp;
 				Point cp = rect.getConnectedPoint(line);
-					if (sel == Selection.START) line.setStartPosition(cp);
-					else line.setEndPosition(cp);
-				
+				if (sel == Selection.START)
+					line.setStartPosition(cp);
+				else
+					line.setEndPosition(cp);
+
 				break;
 			}
 		}
 	}
-	
+
 	public void addModifyListener(ModifyListener listener) {
 		this.addListener(SWT.Modify, new TypedListener(listener));
 	}
-	
-	
+
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		listeners.add(listener);

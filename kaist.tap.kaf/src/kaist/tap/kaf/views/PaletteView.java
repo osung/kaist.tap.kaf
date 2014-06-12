@@ -1,6 +1,5 @@
 package kaist.tap.kaf.views;
 
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;
@@ -14,20 +13,17 @@ import org.eclipse.swt.SWT;
 import kaist.tap.kaf.component.*;
 
 /**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
+ * This sample class demonstrates how to plug-in a new workbench view. The view
+ * shows data obtained from the model. The sample creates a dummy model on the
+ * fly, but a real implementation would connect to the model available either in
+ * this or another plug-in (e.g. the workspace). The view is connected to the
+ * model using a content provider.
  * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
+ * The view uses a label provider to define how model objects should be
+ * presented in the view. Each view can present the same model objects using
+ * different labels and icons, if needed. Alternatively, a single label provider
+ * can be shared between views in order to ensure that objects of the same type
+ * are presented in the same way everywhere.
  * <p>
  */
 
@@ -43,43 +39,39 @@ public class PaletteView extends ViewPart {
 	private Action action2;
 	private Action doubleClickAction;
 	private ComponentSelectionListener selectionListener;
-	
 
 	/*
-	 * The content provider class is responsible for
-	 * providing objects to the view. It can wrap
-	 * existing objects in adapters or simply return
-	 * objects as-is. These objects may be sensitive
-	 * to the current input of the view, or ignore
-	 * it and always show the same content 
-	 * (like Task List, for example).
+	 * The content provider class is responsible for providing objects to the
+	 * view. It can wrap existing objects in adapters or simply return objects
+	 * as-is. These objects may be sensitive to the current input of the view,
+	 * or ignore it and always show the same content (like Task List, for
+	 * example).
 	 */
-/*	 
-	class ViewContentProvider implements IStructuredContentProvider {
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-		}
-		public void dispose() {
-		}
-		
-		public Object[] getElements(Object parent) {
-			if (parent instanceof )
-		} 
-	}
-*/
-	
-	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
+	/*
+	 * class ViewContentProvider implements IStructuredContentProvider { public
+	 * void inputChanged(Viewer v, Object oldInput, Object newInput) { } public
+	 * void dispose() { }
+	 * 
+	 * public Object[] getElements(Object parent) { if (parent instanceof ) } }
+	 */
+
+	class ViewLabelProvider extends LabelProvider implements
+			ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			Component component = (Component) obj;
-			return component.getName(); //getText(obj);
+			return component.getName(); // getText(obj);
 		}
+
 		public Image getColumnImage(Object obj, int index) {
 			return getImage(obj);
 		}
+
 		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().
-					getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+			return PlatformUI.getWorkbench().getSharedImages()
+					.getImage(ISharedImages.IMG_OBJ_ELEMENT);
 		}
 	}
+
 	class NameSorter extends ViewerSorter {
 	}
 
@@ -90,46 +82,50 @@ public class PaletteView extends ViewPart {
 	}
 
 	/**
-	 * This is a callback that will allow us
-	 * to create the viewer and initialize it.
+	 * This is a callback that will allow us to create the viewer and initialize
+	 * it.
 	 */
-	
-	
+
 	public void createPartControl(Composite parent) {
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		//viewer.setContentProvider(new ViewContentProvider());
+		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
+				| SWT.V_SCROLL);
+		// viewer.setContentProvider(new ViewContentProvider());
 		viewer.getControl().setFocus();
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setSorter(new NameSorter());
-		//viewer.setInput(getViewSite());
+		// viewer.setInput(getViewSite());
 		viewer.setInput(getElements());
 		getSite().setSelectionProvider(viewer);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(final SelectionChangedEvent event) {
 				System.out.println("Selection changed");
-				//IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				// IStructuredSelection selection = (IStructuredSelection)
+				// event.getSelection();
 			}
 		});
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "kaist.tap.kaf.viewer");
+		PlatformUI.getWorkbench().getHelpSystem()
+				.setHelp(viewer.getControl(), "kaist.tap.kaf.viewer");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
-		
-		//selectionListener = new ComponentSelectionListener(viewer, getSite().getPart());
-		//getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
+
+		// selectionListener = new ComponentSelectionListener(viewer,
+		// getSite().getPart());
+		// getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 
 	public void dispose() {
 		if (selectionListener != null) {
-			getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(selectionListener);
+			getSite().getWorkbenchWindow().getSelectionService()
+					.removeSelectionListener(selectionListener);
 			selectionListener = null;
 		}
 		super.dispose();
 	}
-	
+
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
@@ -161,10 +157,10 @@ public class PaletteView extends ViewPart {
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
-	
+
 	private void fillLocalToolBar(IToolBarManager manager) {
-		//manager.add(action1);
-		//manager.add(action2);
+		// manager.add(action1);
+		// manager.add(action2);
 	}
 
 	private void makeActions() {
@@ -175,9 +171,9 @@ public class PaletteView extends ViewPart {
 		};
 		action1.setText("Action 1");
 		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		
+		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+
 		action2 = new Action() {
 			public void run() {
 				showMessage("Action 2 executed");
@@ -185,13 +181,14 @@ public class PaletteView extends ViewPart {
 		};
 		action2.setText("Action 2");
 		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
+				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
+				Object obj = ((IStructuredSelection) selection)
+						.getFirstElement();
+				showMessage("Double-click detected on " + obj.toString());
 			}
 		};
 	}
@@ -203,11 +200,10 @@ public class PaletteView extends ViewPart {
 			}
 		});
 	}
+
 	private void showMessage(String message) {
-		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
-			"Palette",
-			message);
+		MessageDialog.openInformation(viewer.getControl().getShell(),
+				"Palette", message);
 	}
 
 	/**
@@ -216,16 +212,16 @@ public class PaletteView extends ViewPart {
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
-	
+
 	private Component[] getElements() {
 		Component[] components = new Component[5];
-		
+
 		components[0] = new Line();
 		components[1] = new Arrow();
 		components[2] = new Rectangle();
 		components[3] = new Parallelogram();
 		components[4] = new Text();
-		
+
 		return components;
 	}
 }

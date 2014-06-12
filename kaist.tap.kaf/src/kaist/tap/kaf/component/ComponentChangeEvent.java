@@ -14,4 +14,3 @@ public class ComponentChangeEvent extends EventObject {
 		// TODO Auto-generated constructor stub
 	}
 }
-
