@@ -218,7 +218,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	public void addPort(int x, int y) {
 		if (portable == false) return;
 		
-		Port port = new Port();
+		Port port = new Port(this);
 		port.setPosition(x, y);
 		
 		ports.add(port);
@@ -384,6 +384,10 @@ public abstract class Component extends ComponentElement implements ISelection {
 
 	public void removeConnection(Line line) {
 		connections.remove(line);
+		
+		for (int i = 0; i < ports.size(); ++i) {
+			ports.get(i).removeConnection(line);			
+		}
 	}
 
 	public Line getConnection(int idx) {

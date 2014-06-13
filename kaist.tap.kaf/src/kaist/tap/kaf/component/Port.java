@@ -12,10 +12,12 @@ public class Port {
 	protected Vector<Line> connections;
 	protected final int width = 10;
 	protected final int halfWidth = (int) (width * 0.5);
+	protected Component comp;
 	
-	public Port() {
+	public Port(Component c) {
 		position = new Point(0, 0);
 		connections = new Vector<Line>();
+		comp = c;
 	}
 	
 	public void setPosition(int x, int y) {
@@ -26,24 +28,12 @@ public class Port {
 	public Point getPosition() {
 		return position;
 	}
-	
-	
-	public void move(int x, int y) {
-		for (int i = 0; i < connections.size(); ++i) {
-			Line line = connections.get(i);
-			Point spos = line.getPosition();
-			Point epos = line.getEndPosition();
-			
-			if (spos.x == position.x && spos.y == position.y) {
-				spos.x += x; spos.y += y;
-			}
-			else {
-				epos.x += x; epos.y += y;
-			}
-		}
 		
+	public void move(int x, int y) {
 		position.x += x;
 		position.y += y;
+		
+		updateConnection();
 	}
 	
 	public Line getConnection(int idx) {
@@ -54,6 +44,10 @@ public class Port {
 	
 	public void addConnection(Line line) {
 		connections.add(line);
+	}
+	
+	public void removeConnection(Line line) {
+		connections.remove(line);
 	}
 	
 	public int getWidth() {
@@ -77,5 +71,17 @@ public class Port {
 		gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		gc.fillRectangle(position.x-halfWidth, position.y-halfWidth, width, width);
 		gc.drawRectangle(position.x-halfWidth, position.y-halfWidth, width, width);
+	}
+	
+	public void updateConnection() {
+		for (int i = 0; i < connections.size(); ++i) {
+			Line line = connections.get(i);
+			if (line.getStartComponent() == comp ) {
+				line.setPosition(position.x, position.y);
+			}
+			else {
+				line.setEndPosition(position.x, position.y);
+			}
+		}
 	}
 }

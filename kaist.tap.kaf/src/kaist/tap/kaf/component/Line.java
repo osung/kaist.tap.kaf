@@ -55,26 +55,28 @@ public class Line extends Component {
 	}
 
 	public void setStartComponent(Component c) {
-		System.out.println("Setting start component");
 		startComponent = c;
 		connected = true;
 	}
 
 	public void setEndComponent(Component c) {
-		System.out.println("Setting end component");
 		endComponent = c;
 		connected = true;
 	}
 
 	public void removeStartComponent() {
-		System.out.println("Removing start component");
+		if (startComponent == null) return;
+		
+		startComponent.removeConnection(this);
 		startComponent = null;
 		if (endComponent == null)
 			connected = false;
 	}
 
 	public void removeEndComponent() {
-		System.out.println("Removing end component");
+		if (endComponent == null) return;
+		
+		endComponent.removeConnection(this);
 		endComponent = null;
 		if (startComponent == null)
 			connected = false;

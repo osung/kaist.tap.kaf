@@ -197,16 +197,26 @@ public class Rectangle extends Component {
 	
 	
 	public Point getConnectedPointFromPorts(Line line) {
-		Point result = null;
+		Port minport = null;
+		float mindist = Float.MAX_VALUE;
+		Point opp = line.getOppositePosition(this);
 		
-		//for (int i = 0; i < ports.size(); ++i)
-		//{
-		   	result = ports.get(0).getPosition();
-		   	
-		   	//return port;
-		//}
+		for (int i = 0; i < ports.size(); ++i)
+		{
+			Port port = ports.get(i);
+			Point p = port.getPosition();
+			float dist = (opp.x-p.x)*(opp.x-p.x)+(opp.y-p.y)*(opp.y-p.y);
+			if (mindist > dist) {
+				mindist = dist;
+				minport = port;
+			}
+		}
 		
-		return result;
+		if (minport == null) return null;
+		
+		minport.addConnection(line);
+		Point p = minport.getPosition();
+		return new Point(p.x, p.y);
 	}
 	
 	
@@ -359,27 +369,39 @@ public class Rectangle extends Component {
 	public void updatePorts(int x, int y, Selection sel) {
 		if (sel == Selection.UL) {
 			for (int i = 0; i < ports.size(); ++i) {
-				Point port = ports.get(i).getPosition();
-				if (port.y < position.y) port.y = position.y;
-				if (port.x < position.x) port.x = position.x;
+				Port port = ports.get(i);
+				Point p = port.getPosition();
+				if (p.y < position.y) p.y = position.y;
+				if (p.x < position.x) p.x = position.x;
+				
+				port.updateConnection();
 			}
 		} else if (sel == Selection.LR) {
 			for (int i = 0; i < ports.size(); ++i) {
-				Point port = ports.get(i).getPosition();
-				if (port.y > endPosition.y) port.y = endPosition.y;
-				if (port.x > endPosition.x) port.x = endPosition.x;
+				Port port = ports.get(i);
+				Point p = port.getPosition();
+				if (p.y > endPosition.y) p.y = endPosition.y;
+				if (p.x > endPosition.x) p.x = endPosition.x;
+				
+				port.updateConnection();
 			}
 		} else if (sel == Selection.LL) {
 			for (int i = 0; i < ports.size(); ++i) {
-				Point port = ports.get(i).getPosition();
-				if (port.y > endPosition.y) port.y = endPosition.y;
-				if (port.x < position.x) port.x = position.x;
+				Port port = ports.get(i);
+				Point p = port.getPosition();
+				if (p.y > endPosition.y) p.y = endPosition.y;
+				if (p.x < position.x) p.x = position.x;
+				
+				port.updateConnection();
 			}			
 		} else if (sel == Selection.UR) {
 			for (int i = 0; i < ports.size(); ++i) {
-				Point port = ports.get(i).getPosition();
-				if (port.y < position.y) port.y = position.y;
-				if (port.x > endPosition.x) port.x = endPosition.x;
+				Port port = ports.get(i);
+				Point p = port.getPosition();
+				if (p.y < position.y) p.y = position.y;
+				if (p.x > endPosition.x) p.x = endPosition.x;
+				
+				port.updateConnection();
 			}			
 		}
 	}
