@@ -149,11 +149,8 @@ public class Rectangle extends Component {
 
 		// draw ports
 		for (int i = 0; i < ports.size(); ++i) {
-			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
-			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-			Point port = ports.get(i);
-			gc.fillRectangle(port.x-portSize, port.y-portSize, portSize*2, portSize*2);
-			gc.drawRectangle(port.x-portSize, port.y-portSize, portSize*2, portSize*2);
+			Port port = ports.get(i);
+			port.draw(gc);
 		}
 		
 		if (selport != null) return;
@@ -197,12 +194,23 @@ public class Rectangle extends Component {
 		} else
 			return Selection.FALSE;
 	}
-
-	public Point getConnectedPoint(Line line) {
-		int idx = connections.indexOf(line);
-		if (idx == -1)
-			return null;
-
+	
+	
+	public Point getConnectedPointFromPorts(Line line) {
+		Point result = null;
+		
+		//for (int i = 0; i < ports.size(); ++i)
+		//{
+		   	result = ports.get(0).getPosition();
+		   	
+		   	//return port;
+		//}
+		
+		return result;
+	}
+	
+	
+	public Point getConnectedPointByMidPoint(Line line) {
 		Point opposite = line.getOppositePosition(this);
 
 		int zone = 0;
@@ -282,6 +290,17 @@ public class Rectangle extends Component {
 			return null;
 		}
 	}
+	
+
+	public Point getConnectedPoint(Line line) {
+		int idx = connections.indexOf(line);
+		if (idx == -1)
+			return null;
+
+		if (portable == true && ports.size() > 0) {
+			return getConnectedPointFromPorts(line);
+		} else return getConnectedPointByMidPoint(line);
+	}
 
 	public boolean contains(int x, int y) {
 		if (grouped == true)
@@ -331,9 +350,8 @@ public class Rectangle extends Component {
 		}
 		
 		for (int i = 0; i < ports.size(); ++i) {
-			Point port = ports.get(i);
-			port.x += x;
-			port.y += y;
+			Port port = ports.get(i);
+			port.move(x, y);
 		}
 	}
 
@@ -341,25 +359,25 @@ public class Rectangle extends Component {
 	public void updatePorts(int x, int y, Selection sel) {
 		if (sel == Selection.UL) {
 			for (int i = 0; i < ports.size(); ++i) {
-				Point port = ports.get(i);
+				Point port = ports.get(i).getPosition();
 				if (port.y < position.y) port.y = position.y;
 				if (port.x < position.x) port.x = position.x;
 			}
 		} else if (sel == Selection.LR) {
 			for (int i = 0; i < ports.size(); ++i) {
-				Point port = ports.get(i);
+				Point port = ports.get(i).getPosition();
 				if (port.y > endPosition.y) port.y = endPosition.y;
 				if (port.x > endPosition.x) port.x = endPosition.x;
 			}
 		} else if (sel == Selection.LL) {
 			for (int i = 0; i < ports.size(); ++i) {
-				Point port = ports.get(i);
+				Point port = ports.get(i).getPosition();
 				if (port.y > endPosition.y) port.y = endPosition.y;
 				if (port.x < position.x) port.x = position.x;
 			}			
 		} else if (sel == Selection.UR) {
 			for (int i = 0; i < ports.size(); ++i) {
-				Point port = ports.get(i);
+				Point port = ports.get(i).getPosition();
 				if (port.y < position.y) port.y = position.y;
 				if (port.x > endPosition.x) port.x = endPosition.x;
 			}			
@@ -484,22 +502,27 @@ public class Rectangle extends Component {
 		if (selport == null) return;
 		
 		dx = x; dy = y;
-		if (selport.x == position.x || selport.x == endPosition.x) dx = 0;
-		if (selport.y == position.y || selport.y == endPosition.y) dy = 0;
+		Point pos = selport.getPosition();
+		if (pos.x == position.x || pos.x == endPosition.x) dx = 0;
+		if (pos.y == position.y || pos.y == endPosition.y) dy = 0;
 		
-		if ((selport.x == position.x || selport.x == endPosition.x) &&
-		    (selport.y == position.y || selport.y == endPosition.y)	) {
+		if ((pos.x == position.x || pos.x == endPosition.x) &&
+		    (pos.y == position.y || pos.y == endPosition.y)	) {
 			if (Math.abs(x) > Math.abs(y)) dx = x;
 			else dy = y;
 		}
 		
-		selport.x += dx;
-		selport.y += dy;
+		Point newpos = new Point(pos.x, pos.y);
 		
-		if (selport.x < position.x) selport.x = position.x;
-		if (selport.x > endPosition.x) selport.x = endPosition.x;
-		if (selport.y < position.y) selport.y = position.y;
-		if (selport.y > endPosition.y) selport.y = endPosition.y;
+		newpos.x += dx;
+		newpos.y += dy;
+		
+		if (newpos.x < position.x) newpos.x = position.x;
+		if (newpos.x > endPosition.x) newpos.x = endPosition.x;
+		if (newpos.y < position.y) newpos.y = position.y;
+		if (newpos.y > endPosition.y) newpos.y = endPosition.y;
+		
+		selport.move(newpos.x - pos.x, newpos.y - pos.y);
 	}
 	
 	

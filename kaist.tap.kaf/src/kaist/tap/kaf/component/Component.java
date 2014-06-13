@@ -41,8 +41,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 	protected boolean updated;
 	protected Vector<Line> connections;
 	protected boolean portable;
-	protected Vector<Point> ports;
-	protected Point selport;  // selected port
+	protected Vector<Port> ports;
+	protected Port selport;  // selected port
 
 	public Component() {
 		drawn = false;
@@ -59,7 +59,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		selection = Selection.FALSE;
 		connections = new Vector<Line>();
 		portable = false;
-		ports = new Vector<Point>();
+		ports = new Vector<Port>();
 		selport = null;
 	}
 
@@ -218,7 +218,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 	public void addPort(int x, int y) {
 		if (portable == false) return;
 		
-		Point port = new Point(x, y);
+		Port port = new Port();
+		port.setPosition(x, y);
 		
 		ports.add(port);
 	}
@@ -392,14 +393,14 @@ public abstract class Component extends ComponentElement implements ISelection {
 		return connections.get(idx);
 	}
 	
-	public Point containPort(int x, int y) {
+	public Port containPort(int x, int y) {
 		if (portable == false || ports.size() == 0) return null;
 		
 		for (int i = 0; i < ports.size(); ++i) {
-			Point p = ports.get(i);
+			Port port = ports.get(i);
 			
-			if (x >= p.x-portSize && x <= p.x+portSize && y >= p.y-portSize && y <= p.y+portSize) {
-				return p;
+			if (port.contains(x,  y) == true) {
+				return port;
 			}
 		}
 		
