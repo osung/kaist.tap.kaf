@@ -43,6 +43,7 @@ public class Parallelogram extends Rectangle {
 			realPoints[i] = new Point(0, 0);
 		setParallelType(ParallelType.LEFT);
 		setControlPoint(10);
+		portable = true;
 	}
 
 	public void setControlPoint(int cp) {

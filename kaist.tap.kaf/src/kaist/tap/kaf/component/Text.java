@@ -24,6 +24,7 @@ public class Text extends Rectangle {
 		setName("Text");
 		text = new String();
 		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
+		portable = true;
 	}
 
 	public Text(int x, int y, int w, int h, String str) {
@@ -38,6 +39,7 @@ public class Text extends Rectangle {
 		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
 		fontSize = 20;
 		fontStyle = SWT.NORMAL;
+		portable = true;
 	}
 
 	public void setText(String str) {
@@ -101,6 +103,14 @@ public class Text extends Rectangle {
 		gc.drawText(text, (int) (position.x + (width - p.x) * 0.5),
 				(int) (position.y + (height - p.y) * 0.5));
 
+		// draw ports
+		for (int i = 0; i < ports.size(); ++i) {
+			Port port = ports.get(i);
+			port.draw(gc);
+		}
+				
+		if (selport != null) return;
+		
 		if (selectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));

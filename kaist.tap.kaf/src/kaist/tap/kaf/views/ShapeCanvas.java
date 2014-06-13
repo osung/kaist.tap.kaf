@@ -177,7 +177,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 								continue;
 							}
 							else {
-								System.out.println("Adding port");
 								c.addPort();
 							}
 						}
