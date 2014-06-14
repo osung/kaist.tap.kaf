@@ -350,35 +350,37 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	}
 
 	public void checkConnection(Line line, int x, int y) {
+		boolean result = false;
+		
 		for (int i = repo.getNumberOfComponents() - 1; i >= 0; i--) {
 			Component comp = repo.get(i);
 			if (comp == line)
 				continue;
-			if ((comp instanceof Rectangle) == false)
+			// prevent connecting to the Group
+			if ((comp instanceof Rectangle) == false || (comp instanceof Group))
 				continue;
 			if (comp.contains(x, y) == true) {
 				// connection established
-				// System.out.println("connection established");
-
 				Selection sel = line.containSelection(x, y);
 
 				if (sel == Selection.FALSE)
 					continue;
 
 				if (sel == Selection.START)
-					line.setStartComponent(comp);
+					result = line.setStartComponent(comp);
 				else
-					line.setEndComponent(comp);
+					result = line.setEndComponent(comp);
 
-				comp.addConnection(line);
-
-				Rectangle rect = (Rectangle) comp;
-				Point cp = rect.getConnectedPoint(line);
-				if (sel == Selection.START)
-					line.setStartPosition(cp);
-				else
-					line.setEndPosition(cp);
-
+				if (result == true) {
+					comp.addConnection(line);
+				
+					Rectangle rect = (Rectangle) comp;
+					Point cp = rect.getConnectedPoint(line);
+					if (sel == Selection.START)
+						line.setStartPosition(cp);
+					else
+						line.setEndPosition(cp);
+				}
 				break;
 			}
 		}

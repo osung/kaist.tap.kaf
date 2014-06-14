@@ -90,12 +90,12 @@ public class Group extends Rectangle {
 	}
 
 	public void draw(GC gc) {
-		gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
-		gc.setLineWidth(1);
-		gc.setLineStyle(SWT.LINE_DOT);
-		gc.drawRectangle(position.x, position.y, width, height);
-
 		if (selectMode == SelectMode.SELECTED) {
+			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY));
+			gc.setLineWidth(1);
+			gc.setLineStyle(SWT.LINE_DASH);
+			gc.drawRectangle(position.x, position.y, width, height);
+			
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			// draw control

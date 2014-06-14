@@ -54,14 +54,20 @@ public class Line extends Component {
 		return endComponent;
 	}
 
-	public void setStartComponent(Component c) {
+	public boolean setStartComponent(Component c) {
+		if (endComponent == c) return false;  // prevent self connection
 		startComponent = c;
 		connected = true;
+		
+		return true;
 	}
 
-	public void setEndComponent(Component c) {
+	public boolean  setEndComponent(Component c) {
+		if (startComponent == c) return false; // prevent self connection;
 		endComponent = c;
 		connected = true;
+		
+		return true;
 	}
 
 	public void removeStartComponent() {
@@ -123,6 +129,7 @@ public class Line extends Component {
 		}
 	}
 
+	// return the selected point between satart point and end point
 	public Selection containSelection(int x, int y) {
 		if (Math.abs(x - position.x) < contSize
 				&& Math.abs(y - position.y) < contSize) {
