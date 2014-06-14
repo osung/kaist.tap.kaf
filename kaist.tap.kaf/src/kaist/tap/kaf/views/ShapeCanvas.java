@@ -222,8 +222,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				if (current == null && psel.size() > 0) {
 					for (int i = 0; i < psel.size(); ++i) {
 						psel.get(i).unselect();
-						psel.clear();
 					}
+					psel.clear();
 				}
 
 				sp = new Point(e.x, e.y);
