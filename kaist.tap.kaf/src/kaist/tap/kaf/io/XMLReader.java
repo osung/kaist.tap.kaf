@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 import kaist.tap.kaf.component.Rectangle;
+import kaist.tap.kaf.component.Text;
 import kaist.tap.kaf.views.ComponentRepository;
 
 import org.jdom2.Document;
@@ -50,6 +51,23 @@ public class XMLReader {
 					Rectangle rect = new Rectangle(el);
 					rect.setDrawn(true);
 					repo.register(rect);
+				}
+				else if (name.compareTo("TEXT")==0) {
+					Text text = new Text(el);
+					text.setDrawn(true);
+					repo.register(text);
+				}
+				else if (name.compareTo("PARALLOGRAM")==0) {
+					
+				}
+				else if (name.compareTo("LINE")==0) {
+					
+				}
+				else if (name.compareTo("ARROW")==0) {
+					
+				}
+				else if (name.compareTo("GROUP")==0) {
+					
 				}
 			}
 

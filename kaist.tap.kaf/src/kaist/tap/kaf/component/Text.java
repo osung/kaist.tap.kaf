@@ -12,6 +12,7 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.jdom2.Element;
 
 public class Text extends Rectangle {
 
@@ -40,6 +41,40 @@ public class Text extends Rectangle {
 		fontSize = 20;
 		fontStyle = SWT.NORMAL;
 		portable = true;
+	}
+	
+	public Text(Element el) {
+		setName("Text");
+		portable = true;
+		
+		Element posel = el.getChild("POSITION");
+		position.x = Integer.parseInt(posel.getChildText("X"));
+		position.y = Integer.parseInt(posel.getChildText("Y"));
+		setWidth(Integer.parseInt(el.getChildText("WIDTH")));
+		setHeight(Integer.parseInt(el.getChildText("HEIGHT")));
+		//line
+		Element lc = el.getChild("LINECOLOR");
+		setColor(new RGB(Integer.parseInt(lc.getChildText("R")), 
+				         Integer.parseInt(lc.getChildText("G")),
+				         Integer.parseInt(lc.getChildText("B"))));
+		setLineStyle(Integer.parseInt(el.getChildText("LINESTYLE")));
+		setLineThickness(Integer.parseInt(el.getChildText("LINETHICKNESS")));
+		
+		//fill
+		setFill(Boolean.parseBoolean(el.getChildText("FILL")));
+		Element fc = el.getChild("FILLCOLOR");
+		setFillColor(new RGB(Integer.parseInt(fc.getChildText("R")), 
+				             Integer.parseInt(fc.getChildText("G")),
+				             Integer.parseInt(fc.getChildText("B"))));
+		
+		//string
+		setText(el.getChildText("STRING"));
+		Element fontc = el.getChild("FONTCOLOR");
+		setFontColor(new RGB(Integer.parseInt(fontc.getChildText("R")), 
+	             			 Integer.parseInt(fontc.getChildText("G")),
+	             			 Integer.parseInt(fontc.getChildText("B"))));
+		setFontStyle(Integer.parseInt(el.getChildText("FONTSTYLE")));
+		setFontSize(Integer.parseInt(el.getChildText("FONTSIZE")));
 	}
 
 	public void setText(String str) {
@@ -237,5 +272,55 @@ public class Text extends Rectangle {
 			}
 		} else
 			super.setPropertyValue(id, value);
+	}
+	
+	
+	public Element getXMLElement(int id) {
+		Element el = new Element("TEXT");
+		el.setAttribute("id", Integer.toString(id));
+		
+		el.addContent(getPositionXMLElement());
+		
+		Element w = new Element("WIDTH");
+		w.setText(Integer.toString(width));
+		el.addContent(w);
+		
+		Element h = new Element("HEIGHT");
+		h.setText(Integer.toString(height));
+		el.addContent(h);
+		
+		el.addContent(getLineColorXMLElement());
+		el.addContent(getLineStyleXMLElement());
+		el.addContent(getLineThicknessXMLElement());
+		
+		el.addContent(getFillXMLElement());		
+		el.addContent(getFillColorXMLElement());
+	
+		// text related properties
+		Element string = new Element("STRING");
+		string.setText(text);
+		el.addContent(string);
+		
+		Element fc = new Element("FONTCOLOR");
+		Element r = new Element("R");
+		Element g = new Element("G");
+		Element b = new Element("B");
+		r.setText(Integer.toString(fontColor.getRed()));
+		g.setText(Integer.toString(fontColor.getGreen()));
+		b.setText(Integer.toString(fontColor.getBlue()));
+		fc.addContent(r);
+		fc.addContent(g);
+		fc.addContent(b);
+		el.addContent(fc);
+		
+		Element fs = new Element("FONTSIZE");
+		fs.setText(Integer.toString(fontSize));
+		el.addContent(fs);
+		
+		Element fst = new Element("FONTSTYLE");
+		fst.setText(Integer.toString(fontStyle));
+		el.addContent(fst);
+		
+		return el;
 	}
 }
