@@ -22,11 +22,11 @@ public class ComponentRepository {
 	private LinkedList<Pair<Integer, Integer>> connectivity;
 	private String name = null;
 	
-	ComponentRepository() {
+	public ComponentRepository() {
 		components = new LinkedList<Component>();
 	}
 
-	ComponentRepository(String n) {
+	public ComponentRepository(String n) {
 		components = new LinkedList<Component>();
 		name = n;
 	}

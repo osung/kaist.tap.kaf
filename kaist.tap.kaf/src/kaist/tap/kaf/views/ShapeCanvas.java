@@ -171,7 +171,10 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						saveImage(e.display);
 					} else if (e.keyCode == 's' || e.keyCode == 'S') {
 						save(e.display);
-					} else if (e.keyCode == 'p' || e.keyCode == 'P') {
+					} else if (e.keyCode == 'o' || e.keyCode == 'O') {
+						open(e.display);
+					}
+					else if (e.keyCode == 'p' || e.keyCode == 'P') {
 						for (int i = 0; i < psel.size(); ++i) {
 							Component c = psel.get(i);
 
@@ -451,8 +454,20 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		String[] filterExt = { "*.xml", "*.XML", "*.*" };
 		fd.setFilterExtensions(filterExt);
 		String filename = fd.open();
-		
-		vm.WriteXML(filename);
+		if (filename != null) vm.WriteXML(filename);
+	}
+	
+	public void open(Display display) {
+		FileDialog fd = new FileDialog(new Shell(display), SWT.OPEN);
+		fd.setText("Open");
+		fd.setFilterPath("C:/");
+		String[] filterExt = {"*.xml", "*.XML", "*.*"};
+		fd.setFilterExtensions(filterExt);
+		String filename = fd.open();
+		if (filename != null) {
+			vm.ReadXML(filename);
+			repo = vm.getRepo(viewType.LOGICAL_VIEW);
+		}
 	}
 	
 	public void setSelection(ISelection select) {

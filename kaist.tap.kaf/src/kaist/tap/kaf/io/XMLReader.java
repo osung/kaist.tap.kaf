@@ -1,5 +1,61 @@
 package kaist.tap.kaf.io;
 
-public class XMLReader {
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Vector;
 
+import kaist.tap.kaf.component.Rectangle;
+import kaist.tap.kaf.views.ComponentRepository;
+
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
+public class XMLReader {
+	protected Document docu = null;
+	protected List<Element> views;
+	
+	public XMLReader(String file) {
+		SAXBuilder builder = new SAXBuilder();
+		File xmlFile = new File(file);
+		
+		try {
+			docu = (Document) builder.build(xmlFile);
+			Element root = docu.getRootElement();
+			views = root.getChildren("VIEW");		
+		} catch (IOException io) {
+			System.out.println(io.getMessage());
+		} catch (JDOMException jdomex) {
+			System.out.println(jdomex.getMessage());
+		}
+	}
+	
+	public Vector<ComponentRepository> getRepositories() {
+		Vector<ComponentRepository> repos = new Vector<ComponentRepository>();
+		
+		for (int i = 0; i < views.size(); ++i) {
+			Element v = views.get(i);
+			Element comp = v.getChild("COMPONENTS");
+			List<Element> els = comp.getChildren();
+			String title = v.getAttributeValue("title");
+			ComponentRepository repo = new ComponentRepository(title);
+			
+			for (int j = 0; j < els.size(); ++j) {
+				Element el = els.get(j);
+				String name = el.getName();
+				
+				if (name.compareTo("RECT")==0) {
+					Rectangle rect = new Rectangle(el);
+					rect.setDrawn(true);
+					repo.register(rect);
+				}
+			}
+
+			repos.add(repo);
+		}
+		
+		return repos;
+	}
 }

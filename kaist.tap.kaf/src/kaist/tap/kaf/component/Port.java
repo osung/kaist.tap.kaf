@@ -69,6 +69,8 @@ public class Port {
 	public void draw(GC gc) {
 		gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		gc.setLineStyle(SWT.LINE_SOLID);
+		gc.setLineWidth(0);
 		gc.fillRectangle(position.x-halfWidth, position.y-halfWidth, width, width);
 		gc.drawRectangle(position.x-halfWidth, position.y-halfWidth, width, width);
 	}

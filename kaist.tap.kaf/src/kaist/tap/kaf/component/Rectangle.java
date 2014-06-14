@@ -37,6 +37,31 @@ public class Rectangle extends Component {
 		portable = true;
 	}
 
+	public Rectangle(Element el) {
+		setName("Rectangle");
+		portable = true;
+		
+		Element posel = el.getChild("POSITION");
+		position.x = Integer.parseInt(posel.getChildText("X"));
+		position.y = Integer.parseInt(posel.getChildText("Y"));
+		setWidth(Integer.parseInt(el.getChildText("WIDTH")));
+		setHeight(Integer.parseInt(el.getChildText("HEIGHT")));
+		//line
+		Element lc = el.getChild("LINECOLOR");
+		setColor(new RGB(Integer.parseInt(lc.getChildText("R")), 
+				         Integer.parseInt(lc.getChildText("G")),
+				         Integer.parseInt(lc.getChildText("B"))));
+		setLineStyle(Integer.parseInt(el.getChildText("LINESTYLE")));
+		setLineThickness(Integer.parseInt(el.getChildText("LINETHICKNESS")));
+		
+		//fill
+		setFill(Boolean.parseBoolean(el.getChildText("FILL")));
+		Element fc = el.getChild("FILLCOLOR");
+		setFillColor(new RGB(Integer.parseInt(fc.getChildText("R")), 
+				             Integer.parseInt(fc.getChildText("G")),
+				             Integer.parseInt(fc.getChildText("B"))));
+	}
+	
 	public void setPosition(Point p) {
 		super.setPosition(p);
 
@@ -553,10 +578,7 @@ public class Rectangle extends Component {
 		Element el = new Element("RECT");
 		el.setAttribute("id", Integer.toString(id));
 		
-		// add position
-		Element pos = new Element("POSITION");
-		pos.setText(position.toString());
-		el.addContent(pos);
+		el.addContent(getPositionXMLElement());
 		
 		Element w = new Element("WIDTH");
 		w.setText(Integer.toString(width));
@@ -566,26 +588,13 @@ public class Rectangle extends Component {
 		h.setText(Integer.toString(height));
 		el.addContent(h);
 		
-		Element lc = new Element("LINECOLOR");
-		lc.setText(color.toString());
-		el.addContent(lc);
+		el.addContent(getLineColorXMLElement());
+		el.addContent(getLineStyleXMLElement());
+		el.addContent(getLineThicknessXMLElement());
 		
-		Element ls = new Element("LINESTYLE");
-		ls.setText(Integer.toString(lineStyle));
-		el.addContent(ls);
-		
-		Element lt = new Element("LINETHICKNESS");
-		lt.setText(Integer.toString(lineThickness));
-		el.addContent(lt);
-		
-		Element f = new Element("FILL");
-		f.setText(Boolean.toString(fill));
-		el.addContent(f);
-		
-		Element fc = new Element("FILLCOLOR");
-		fc.setText(fillColor.toString());
-		el.addContent(fc);
-		
+		el.addContent(getFillXMLElement());		
+		el.addContent(getFillColorXMLElement());
+	
 		return el;
 	}
 	

@@ -414,4 +414,62 @@ public abstract class Component extends ComponentElement implements ISelection {
 	}
 	
 	public abstract Element getXMLElement(int id);
+	
+	public Element getPositionXMLElement() {
+		Element pos = new Element("POSITION");
+		Element posx = new Element("X");
+		Element posy = new Element("Y");
+		posx.setText(Integer.toString(position.x));
+		posy.setText(Integer.toString(position.y));
+		pos.addContent(posx);
+		pos.addContent(posy);
+		
+		return pos;
+	}
+	
+	public Element getLineColorXMLElement() {
+		Element lc = new Element("LINECOLOR");
+		Element r = new Element("R");
+		Element g = new Element("G");
+		Element b = new Element("B");
+		r.setText(Integer.toString(color.getRed()));
+		g.setText(Integer.toString(color.getGreen()));
+		b.setText(Integer.toString(color.getBlue()));
+		lc.addContent(r);
+		lc.addContent(g);
+		lc.addContent(b);
+		return lc;
+	}
+	
+	public Element getFillColorXMLElement() {
+		Element fc = new Element("FILLCOLOR");
+		Element r = new Element("R");
+		Element g = new Element("G");
+		Element b = new Element("B");
+		r.setText(Integer.toString(fillColor.getRed()));
+		g.setText(Integer.toString(fillColor.getGreen()));
+		b.setText(Integer.toString(fillColor.getBlue()));
+		fc.addContent(r);
+		fc.addContent(g);
+		fc.addContent(b);
+		return fc;
+	}
+	
+	public Element getLineStyleXMLElement() {
+		Element ls = new Element("LINESTYLE");
+		ls.setText(Integer.toString(lineStyle));
+		return ls;
+	}
+	
+	public Element getLineThicknessXMLElement() {
+		Element lt = new Element("LINETHICKNESS");
+		lt.setText(Integer.toString(lineThickness));
+		return lt;
+	}
+	
+	public Element getFillXMLElement() {
+		Element f = new Element("FILL");
+		f.setText(Boolean.toString(fill));	
+		return f;
+	}
 }
