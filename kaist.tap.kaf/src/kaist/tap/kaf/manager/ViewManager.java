@@ -1,6 +1,7 @@
 package kaist.tap.kaf.manager;
 
 import kaist.tap.kaf.views.*;
+import kaist.tap.kaf.io.XMLWriter;
 import kaist.tap.kaf.manager.View.viewType;
 
 import java.util.*;
@@ -67,5 +68,22 @@ public class ViewManager {
 		}
 
 		return null;
+	}
+	
+	
+	public void WriteXML(String file) {
+		XMLWriter writer = new XMLWriter("test");
+		
+		for (int i = 0; i < mRepos.size(); ++i) {
+			ComponentRepository repo = mRepos.get(i);
+			writer.addView(repo);
+		}
+		
+		writer.write(file);
+	}
+	
+	
+	public void ReadXML() {
+		
 	}
 }

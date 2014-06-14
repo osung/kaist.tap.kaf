@@ -20,11 +20,27 @@ public class ComponentRepository {
 
 	private LinkedList<Component> components;
 	private LinkedList<Pair<Integer, Integer>> connectivity;
-
+	private String name = null;
+	
 	ComponentRepository() {
 		components = new LinkedList<Component>();
 	}
 
+	ComponentRepository(String n) {
+		components = new LinkedList<Component>();
+		name = n;
+	}
+	
+	public void setName(String n) {
+		name = n;
+	}
+	
+	
+	public String getName() {
+		if (name == null) return new String("untitled");
+		return name;
+	}
+	
 	public void register(Component comp) {
 		components.add(comp);
 

@@ -9,6 +9,8 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.jdom2.Element;
+
 
 public abstract class Component extends ComponentElement implements ISelection {
 
@@ -410,4 +412,6 @@ public abstract class Component extends ComponentElement implements ISelection {
 		
 		return null;
 	}
+	
+	public abstract Element getXMLElement(int id);
 }

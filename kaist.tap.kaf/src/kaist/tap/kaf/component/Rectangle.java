@@ -9,6 +9,7 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.jdom2.Element;
 
 public class Rectangle extends Component {
 
@@ -545,6 +546,47 @@ public class Rectangle extends Component {
 		if (newpos.y > endPosition.y) newpos.y = endPosition.y;
 		
 		selport.move(newpos.x - pos.x, newpos.y - pos.y);
+	}
+
+	@Override
+	public Element getXMLElement(int id) {
+		Element el = new Element("RECT");
+		el.setAttribute("id", Integer.toString(id));
+		
+		// add position
+		Element pos = new Element("POSITION");
+		pos.setText(position.toString());
+		el.addContent(pos);
+		
+		Element w = new Element("WIDTH");
+		w.setText(Integer.toString(width));
+		el.addContent(w);
+		
+		Element h = new Element("HEIGHT");
+		h.setText(Integer.toString(height));
+		el.addContent(h);
+		
+		Element lc = new Element("LINECOLOR");
+		lc.setText(color.toString());
+		el.addContent(lc);
+		
+		Element ls = new Element("LINESTYLE");
+		ls.setText(Integer.toString(lineStyle));
+		el.addContent(ls);
+		
+		Element lt = new Element("LINETHICKNESS");
+		lt.setText(Integer.toString(lineThickness));
+		el.addContent(lt);
+		
+		Element f = new Element("FILL");
+		f.setText(Boolean.toString(fill));
+		el.addContent(f);
+		
+		Element fc = new Element("FILLCOLOR");
+		fc.setText(fillColor.toString());
+		el.addContent(fc);
+		
+		return el;
 	}
 	
 	

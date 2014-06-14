@@ -8,6 +8,7 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.jdom2.Element;
 
 import kaist.tap.kaf.component.Component;
 
@@ -307,6 +308,12 @@ public class Line extends Component {
 	public void movePort(int x, int y) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Element getXMLElement(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
