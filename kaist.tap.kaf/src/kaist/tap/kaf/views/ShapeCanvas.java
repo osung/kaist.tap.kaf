@@ -169,7 +169,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						repo.lower(c);
 					} else if (e.keyCode == 'i' || e.keyCode == 'I') {
 						saveImage(e.display);
-					} else if (e.keyCode == 's' || e.keyCode == 'S') {
+					} else if (e.keyCode == 'v' || e.keyCode == 'V') {
 						save(e.display);
 					} else if (e.keyCode == 'o' || e.keyCode == 'O') {
 						open(e.display);

@@ -603,6 +603,4 @@ public class Rectangle extends Component {
 		
 		return el;
 	}
-	
-	
 }

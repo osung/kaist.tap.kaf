@@ -179,15 +179,36 @@ public class Line extends Component {
 			if (selection != Selection.FALSE)
 				return true;
 		}
+		
+		if (Math.abs(endPosition.x-position.x) <= 2) {
+		   if (Math.abs((double) x - position.x) <= 2) {
+			   double min = Math.min(position.y, endPosition.y);
+			   double max = Math.max(position.y, endPosition.y);
+			   if (y >= min && y <= max) return true;
+		   }
+		   
+		   return false;
+		}
+		else if (Math.abs(endPosition.y-position.y) <= 2) {
+			   if (Math.abs((double) y - position.y) <= 2) {
+				   double min = Math.min(position.x, endPosition.x);
+				   double max = Math.max(position.x, endPosition.x);
+				   if (x >= min && x <= max) return true;
+			   }
+			   
+			   return false;
+		}
+		else {
+		
+			xt = ((double) x - position.x) / ((double) endPosition.x - position.x);
+			yt = ((double) y - position.y) / ((double) endPosition.y - position.y);
 
-		xt = ((double) x - position.x) / ((double) endPosition.x - position.x);
-		yt = ((double) y - position.y) / ((double) endPosition.y - position.y);
-
-		if (xt < 0 || xt > 1 || yt < 0 || yt > 1)
-			return false;
-		if (Math.abs(xt - yt) > 0.05)
-			return false;
-
+			if (xt < -0.05 || xt > 1.05 || yt < -0.05 || yt > 1.05)
+				return false;
+			if (Math.abs(xt - yt) > 1.0)
+				return false;
+		}
+		
 		return true;
 	}
 

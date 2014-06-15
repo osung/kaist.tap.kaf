@@ -9,9 +9,7 @@ import java.io.Serializable;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-public abstract class ComponentElement implements IPropertySource { // ,
-																	// Serializable
-																	// {
+public abstract class ComponentElement implements IPropertySource { 
 
 	private transient PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(
 			this);
