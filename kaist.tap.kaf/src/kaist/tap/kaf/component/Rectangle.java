@@ -39,6 +39,7 @@ public class Rectangle extends Component {
 
 	public Rectangle(Element el) {
 		portable = true;
+		setName("Rectangle");
 		
 		Element posel = el.getChild("POSITION");
 		position.x = Integer.parseInt(posel.getChildText("X"));

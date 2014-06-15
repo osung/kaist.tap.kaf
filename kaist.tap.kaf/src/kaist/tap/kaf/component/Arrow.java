@@ -8,12 +8,14 @@ import kaist.tap.kaf.component.Component.SelectMode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.jdom2.Element;
 
 public class Arrow extends Line {
 
@@ -52,6 +54,14 @@ public class Arrow extends Line {
 		endPosition.y = y2;
 	}
 
+	public Arrow(Element el) {
+		super(el);
+		setName("Arrow");
+		portable = false;
+	}
+
+	
+	
 	public void setArrowHeadSize(int index, int size) {
 		if (index > 1)
 			return;
@@ -223,5 +233,28 @@ public class Arrow extends Line {
 			endPosition.y = Integer.parseInt((String) value);
 		else
 			super.setPropertyValue(id, value);
+	}
+
+	@Override
+	public Element getXMLElement(int id) {
+		Element el = new Element("ARROW");
+		el.setAttribute("id", Integer.toString(id));
+		
+		el.addContent(getPositionXMLElement());
+		
+		Element ep = new Element("ENDPOSITION");
+		Element epx = new Element("X");
+		Element epy = new Element("Y");
+		epx.setText(Integer.toString(endPosition.x));
+		epy.setText(Integer.toString(endPosition.y));
+		ep.addContent(epx);
+		ep.addContent(epy);
+		el.addContent(ep);
+		
+		el.addContent(getLineColorXMLElement());
+		el.addContent(getLineStyleXMLElement());
+		el.addContent(getLineThicknessXMLElement());
+	
+		return el;
 	}
 }

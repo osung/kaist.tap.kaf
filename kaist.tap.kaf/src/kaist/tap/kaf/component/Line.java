@@ -33,6 +33,27 @@ public class Line extends Component {
 		endPosition.x = x2;
 		endPosition.y = y2;
 	}
+	
+	public Line(Element el) {
+		setName("Line");
+		portable = false;
+		
+		Element posel = el.getChild("POSITION");
+		position.x = Integer.parseInt(posel.getChildText("X"));
+		position.y = Integer.parseInt(posel.getChildText("Y"));
+		
+		Element eposel = el.getChild("ENDPOSITION");
+		endPosition.x = Integer.parseInt(eposel.getChildText("X"));
+		endPosition.y = Integer.parseInt(eposel.getChildText("Y"));
+		
+		//line
+		Element lc = el.getChild("LINECOLOR");
+		setColor(new RGB(Integer.parseInt(lc.getChildText("R")), 
+				         Integer.parseInt(lc.getChildText("G")),
+				         Integer.parseInt(lc.getChildText("B"))));
+		setLineStyle(Integer.parseInt(el.getChildText("LINESTYLE")));
+		setLineThickness(Integer.parseInt(el.getChildText("LINETHICKNESS")));
+	}
 
 	public boolean isConnected() {
 		return connected;
@@ -312,8 +333,25 @@ public class Line extends Component {
 
 	@Override
 	public Element getXMLElement(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Element el = new Element("LINE");
+		el.setAttribute("id", Integer.toString(id));
+		
+		el.addContent(getPositionXMLElement());
+		
+		Element ep = new Element("ENDPOSITION");
+		Element epx = new Element("X");
+		Element epy = new Element("Y");
+		epx.setText(Integer.toString(endPosition.x));
+		epy.setText(Integer.toString(endPosition.y));
+		ep.addContent(epx);
+		ep.addContent(epy);
+		el.addContent(ep);
+		
+		el.addContent(getLineColorXMLElement());
+		el.addContent(getLineStyleXMLElement());
+		el.addContent(getLineThicknessXMLElement());
+
+		return el;
 	}
 
 }

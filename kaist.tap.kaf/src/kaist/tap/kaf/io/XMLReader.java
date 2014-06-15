@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+import kaist.tap.kaf.component.Arrow;
+import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Parallelogram;
 import kaist.tap.kaf.component.Rectangle;
 import kaist.tap.kaf.component.Text;
@@ -64,10 +66,14 @@ public class XMLReader {
 					repo.register(parallel);
 				}
 				else if (name.compareTo("LINE")==0) {
-					
+					Line line = new Line(el);
+					line.setDrawn(true);
+					repo.register(line);
 				}
 				else if (name.compareTo("ARROW")==0) {
-					
+					Arrow arrow = new Arrow(el);
+					arrow.setDrawn(true);
+					repo.register(arrow);
 				}
 				else if (name.compareTo("GROUP")==0) {
 					
