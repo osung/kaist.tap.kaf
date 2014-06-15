@@ -28,13 +28,6 @@
             id="kaist.tap.kaf.views.Canvas"
             name="Canvas">
       </view>
-      <view
-      		category="kaist.tap.kaf"
-            class="kaist.tap.kaf.views.Property"
-            icon="icons/sample.gif"
-            id="kaist.tap.kaf.views.Property"
-            name="Propert">
-      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">

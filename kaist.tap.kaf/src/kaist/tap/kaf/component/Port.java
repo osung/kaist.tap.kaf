@@ -6,6 +6,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.jdom2.Element;
 
 public class Port {
 	protected Point position;
@@ -85,5 +86,33 @@ public class Port {
 				line.setEndPosition(position.x, position.y);
 			}
 		}
+	}
+	
+	public Element getPortXMLElement(int id) {
+		Element pel = new Element("PORT");
+		pel.setAttribute("id", Integer.toString(id));
+		
+		Element pos = new Element("POSITION");
+		Element posx = new Element("X");
+		Element posy = new Element("Y");
+		posx.setText(Integer.toString(position.x));
+		posy.setText(Integer.toString(position.y));
+		pos.addContent(posx);
+		pos.addContent(posy);
+		pel.addContent(pos);
+		/*
+		if (connections.size() > 0) {
+			Element conn = new Element("CONNECTION");
+			conn.setAttribute("num", Integer.toString(connections.size()));
+			String conns = new String("");
+			
+			for (int i = 0; i < connections.size(); ++i) {
+				conns += Integer.toString(connections.get(i).getId()) + " ";
+			}
+			conn.setText(conns);
+			pel.addContent(conn);
+		} */
+		
+		return pel;
 	}
 }

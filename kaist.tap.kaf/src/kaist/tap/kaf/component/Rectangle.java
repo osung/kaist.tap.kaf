@@ -241,7 +241,7 @@ public class Rectangle extends Component {
 		}
 		
 		if (minport == null) return null;
-		
+
 		minport.addConnection(line);
 		Point p = minport.getPosition();
 		return new Point(p.x, p.y);
@@ -334,7 +334,6 @@ public class Rectangle extends Component {
 		int idx = connections.indexOf(line);
 		if (idx == -1)
 			return null;
-
 		if (portable == true && ports.size() > 0) {
 			return getConnectedPointFromPorts(line);
 		} else return getConnectedPointByMidPoint(line);
@@ -599,6 +598,8 @@ public class Rectangle extends Component {
 		
 		Element conn = getConnectionXMLElement();
 		if (conn != null) el.addContent(conn);
+		
+		if (ports.size() > 0) el.addContent(getPortXMLElement());
 		
 		return el;
 	}

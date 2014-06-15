@@ -486,6 +486,8 @@ public class Parallelogram extends Rectangle {
 		Element conn = getConnectionXMLElement();
 		if (conn != null) el.addContent(conn);
 		
+		if (ports.size() > 0) el.addContent(getPortXMLElement());
+
 		return el;
 	}
 }

@@ -10,6 +10,7 @@ import kaist.tap.kaf.component.Component;
 import kaist.tap.kaf.component.Group;
 import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Parallelogram;
+import kaist.tap.kaf.component.Port;
 import kaist.tap.kaf.component.Rectangle;
 import kaist.tap.kaf.component.Text;
 import kaist.tap.kaf.views.ComponentRepository;
@@ -39,10 +40,22 @@ public class XMLReader {
 		}
 	}
 	
+	protected void addPort(Element el, Rectangle rect) {
+		Element ports = el.getChild("PORTS");
+		if (ports != null) {
+			List<Element> ps = ports.getChildren("PORT");
+			for (int i = 0; i < ps.size(); ++i) {
+				Element p = ps.get(i);
+				Element pos = p.getChild("POSITION");
+				rect.addPort(Integer.parseInt(pos.getChildText("X")), 
+						     Integer.parseInt(pos.getChildText("Y")));
+			}
+		}
+	}
+	
 	protected void addConnection(Element el, ComponentRepository repo, Rectangle rect) {
 		Element conn = el.getChild("CONNECTION");
 		if (conn != null) {
-			//int size = Integer.parseInt(conn.getAttributeValue("num"));
 			String[] lines = conn.getText().split(" ");
 			
 			for (int k = 0; k < lines.length; ++k) {
@@ -94,18 +107,21 @@ public class XMLReader {
 					Rectangle rect = new Rectangle(el);
 					rect.setDrawn(true);
 					repo.register(rect);
+					addPort(el, rect);
 					addConnection(el, repo, rect);
 				}
 				else if (name.compareTo("TEXT")==0) {
 					Text text = new Text(el);
 					text.setDrawn(true);
 					repo.register(text);
+					addPort(el, text);
 					addConnection(el, repo, text);
 				}
 				else if (name.compareTo("PARALLELOGRAM")==0) {
 					Parallelogram parallel = new Parallelogram(el);
 					parallel.setDrawn(true);
 					repo.register(parallel);
+					addPort(el, parallel);
 					addConnection(el, repo, parallel);
 				}
 				else if (name.compareTo("LINE")==0) {
@@ -121,7 +137,10 @@ public class XMLReader {
 							if (sidx < repo.getNumberOfComponents()) {
 								Component c = repo.get(sidx);
 								line.setStartComponent(c);
-								c.addConnection(line);
+								if (c instanceof Rectangle) {
+									c.addConnection(line);
+									Point p = ((Rectangle) c).getConnectedPoint(line);
+								}
 							}
 						}
 						
@@ -131,7 +150,10 @@ public class XMLReader {
 							if (eidx < repo.getNumberOfComponents()) {
 								Component c = repo.get(eidx);
 								line.setEndComponent(c);
-								c.addConnection(line);
+								if (c instanceof Rectangle) {
+									c.addConnection(line);
+									Point p = ((Rectangle) c).getConnectedPoint(line);
+								}
 							}
 						}
 					}

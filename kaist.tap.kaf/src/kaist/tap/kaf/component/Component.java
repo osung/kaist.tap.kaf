@@ -499,4 +499,19 @@ public abstract class Component extends ComponentElement implements ISelection {
 		}
 		else return null;
 	}
+	
+	public Element getPortXMLElement() {
+		if (ports.size() > 0) {
+			Element pels = new Element("PORTS");
+			pels.setAttribute("num", Integer.toString(ports.size()));
+			for (int i = 0; i < ports.size(); ++i) {
+				Port p = ports.get(i);
+				Element pel = p.getPortXMLElement(i);
+				pels.addContent(pel);
+			}
+			
+			return pels; 
+		}
+		else return null;		
+	} 
 }
