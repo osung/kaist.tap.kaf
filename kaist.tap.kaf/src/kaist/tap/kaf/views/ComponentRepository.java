@@ -43,20 +43,35 @@ public class ComponentRepository {
 	
 	public void register(Component comp) {
 		components.add(comp);
-
+		comp.setId(components.indexOf(comp));
 	}
 
 	public void remove(Component comp) {
+		int idx = components.indexOf(comp);
 		components.remove(comp);
+		comp.setId(-1);
+		for (int i = idx; i < components.size(); ++i) {
+			Component c = components.get(i);
+			c.setId(i);
+		}
 	}
 
 	public void remove(int idx) {
 		components.remove(idx);
+		for (int i = idx; i < components.size(); ++i) {
+			Component c = components.get(i);
+			c.setId(i);
+		}
 	}
 
 	public void remove(Component[] comps, int size) {
 		for (int i = 0; i < size; ++i) {
 			components.remove(comps[i]);
+		}
+		
+		for (int i = 0; i < components.size(); ++i) {
+			Component c = components.get(i);
+			c.setId(i);
 		}
 	}
 
@@ -72,6 +87,11 @@ public class ComponentRepository {
 			}
 			comps.remove(comp);
 		}
+		
+		for (int i = 0; i < components.size(); ++i) {
+			Component c = components.get(i);
+			c.setId(i);
+		}
 	}
 
 	public void raise(Component comp) {
@@ -80,6 +100,9 @@ public class ComponentRepository {
 			idx++;
 			components.remove(comp);
 			components.add(idx, comp);
+			comp.setId(idx);
+			Component c = components.get(idx-1);
+			c.setId(idx-1);
 		}
 	}
 
@@ -89,6 +112,9 @@ public class ComponentRepository {
 			idx--;
 			components.remove(comp);
 			components.add(idx, comp);
+			comp.setId(idx);
+			Component c = components.get(idx+1);
+			c.setId(idx+1);
 		}
 	}
 

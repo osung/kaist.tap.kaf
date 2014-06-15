@@ -7,11 +7,13 @@ import kaist.tap.kaf.component.Component.SelectMode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.jdom2.Element;
 
 public class Group extends Rectangle {
 
@@ -20,6 +22,25 @@ public class Group extends Rectangle {
 	public Group() {
 		components = new Vector<Component>();
 		position.x = position.y = endPosition.x = endPosition.y = width = height = -1;
+	}
+	
+	
+	public Group(Element el) {
+		setName("Group");
+		components = new Vector<Component>();
+		
+		Element posel = el.getChild("POSITION");
+		position.x = Integer.parseInt(posel.getChildText("X"));
+		position.y = Integer.parseInt(posel.getChildText("Y"));
+		
+		setWidth(Integer.parseInt(el.getChildText("WIDTH")));
+		setHeight(Integer.parseInt(el.getChildText("HEIGHT")));
+		/*
+		String members = el.getChildText("MEMBERS");
+		String[] comps = members.split(" ");
+		for (int i = 0; i < comps.length; ++i) {
+			
+		} */
 	}
 
 	public void update() {
@@ -152,6 +173,36 @@ public class Group extends Rectangle {
 
 	public void setPropertyValue(Object id, Object value) {
 		super.setPropertyValue(id, value);
+	}
+
+	@Override
+	public Element getXMLElement(int id) {
+		Element el = new Element("GROUP");
+		el.setAttribute("id", Integer.toString(id));
+		
+		el.addContent(getPositionXMLElement());
+		
+		Element w = new Element("WIDTH");
+		w.setText(Integer.toString(width));
+		el.addContent(w);
+		
+		Element h = new Element("HEIGHT");
+		h.setText(Integer.toString(height));
+		el.addContent(h);
+				
+		Element members = new Element("MEMBERS");
+		String mem = new String(""); 
+		System.out.println("size : " + components.size());
+		
+		for (int i = 0; i < components.size(); ++i) {
+			System.out.println(" id : " + components.get(i).getId());
+			mem += Integer.toString(components.get(i).getId()) + " ";		
+		} 
+		
+		members.setText(mem);
+		el.addContent(members);
+		
+		return el;
 	}
 
 }

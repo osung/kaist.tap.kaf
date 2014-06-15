@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Vector;
 
 import kaist.tap.kaf.component.Arrow;
+import kaist.tap.kaf.component.Component;
+import kaist.tap.kaf.component.Group;
 import kaist.tap.kaf.component.Line;
 import kaist.tap.kaf.component.Parallelogram;
 import kaist.tap.kaf.component.Rectangle;
@@ -76,7 +78,16 @@ public class XMLReader {
 					repo.register(arrow);
 				}
 				else if (name.compareTo("GROUP")==0) {
+					Group group = new Group(el);
 					
+					String members = el.getChildText("MEMBERS");
+					String[] comps = members.split(" ");
+					for (int k = 0; k < comps.length; ++k) {
+						Component c = repo.get(Integer.parseInt(comps[k]));
+						group.addComponent(c);
+					} 
+					group.setDrawn(true);
+					repo.register(group);
 				}
 			}
 

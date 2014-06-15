@@ -45,6 +45,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	protected boolean portable;
 	protected Vector<Port> ports;
 	protected Port selport;  // selected port
+	protected int id;
 
 	public Component() {
 		drawn = false;
@@ -63,12 +64,9 @@ public abstract class Component extends ComponentElement implements ISelection {
 		portable = false;
 		ports = new Vector<Port>();
 		selport = null;
+		id = -1;
 	}
 	
-	public Component(Element el) {
-		
-	}
-
 	public abstract Component clone();
 
 	public abstract boolean contains(int x, int y);
@@ -81,6 +79,15 @@ public abstract class Component extends ComponentElement implements ISelection {
 
 	public abstract Point[] getBounds();
 
+	public int getId() {
+		return id;
+	}
+	
+	
+	public void setId(int i) {
+		id = i;
+	}
+	
 	public Color getColor() {
 		return color;
 	}
