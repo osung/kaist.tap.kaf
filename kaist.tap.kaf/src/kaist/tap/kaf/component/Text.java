@@ -301,6 +301,9 @@ public class Text extends Rectangle {
 		fst.setText(Integer.toString(fontStyle));
 		el.addContent(fst);
 		
+		Element conn = getConnectionXMLElement();
+		if (conn != null) el.addContent(conn);
+		
 		return el;
 	}
 }

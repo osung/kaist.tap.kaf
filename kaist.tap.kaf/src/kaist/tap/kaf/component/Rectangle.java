@@ -596,7 +596,10 @@ public class Rectangle extends Component {
 		
 		el.addContent(getFillXMLElement());		
 		el.addContent(getFillColorXMLElement());
-	
+		
+		Element conn = getConnectionXMLElement();
+		if (conn != null) el.addContent(conn);
+		
 		return el;
 	}
 	

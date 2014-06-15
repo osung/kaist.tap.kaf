@@ -350,6 +350,21 @@ public class Line extends Component {
 		el.addContent(getLineColorXMLElement());
 		el.addContent(getLineStyleXMLElement());
 		el.addContent(getLineThicknessXMLElement());
+		
+		if (connected == true) {
+			Element conn = new Element("CONNECTION");
+			if (startComponent != null) {
+				Element sc = new Element("START");
+				sc.setText(Integer.toString(startComponent.getId()));
+				conn.addContent(sc);
+			}
+			if (endComponent != null) {
+				Element ec = new Element("END");
+				ec.setText(Integer.toString(endComponent.getId()));
+				conn.addContent(ec);
+			}
+			el.addContent(conn);
+		}
 
 		return el;
 	}

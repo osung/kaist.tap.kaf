@@ -483,4 +483,20 @@ public abstract class Component extends ComponentElement implements ISelection {
 		f.setText(Boolean.toString(fill));	
 		return f;
 	}
+	
+	public Element getConnectionXMLElement() {
+		if (connections.size() > 0) {
+			Element conn = new Element("CONNECTION");
+			conn.setAttribute("num", Integer.toString(connections.size()));
+			String conns = new String("");
+			for (int i = 0; i < connections.size(); ++i) {
+				Line line = connections.get(i);
+				conns += Integer.toString(line.getId()) + " ";
+			}
+			conn.setText(conns);
+			
+			return conn;
+		}
+		else return null;
+	}
 }
