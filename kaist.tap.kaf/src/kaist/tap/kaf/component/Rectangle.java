@@ -38,14 +38,12 @@ public class Rectangle extends Component {
 	}
 
 	public Rectangle(Element el) {
-		setName("Rectangle");
 		portable = true;
 		
 		Element posel = el.getChild("POSITION");
 		position.x = Integer.parseInt(posel.getChildText("X"));
 		position.y = Integer.parseInt(posel.getChildText("Y"));
-		setWidth(Integer.parseInt(el.getChildText("WIDTH")));
-		setHeight(Integer.parseInt(el.getChildText("HEIGHT")));
+		
 		//line
 		Element lc = el.getChild("LINECOLOR");
 		setColor(new RGB(Integer.parseInt(lc.getChildText("R")), 
@@ -60,6 +58,9 @@ public class Rectangle extends Component {
 		setFillColor(new RGB(Integer.parseInt(fc.getChildText("R")), 
 				             Integer.parseInt(fc.getChildText("G")),
 				             Integer.parseInt(fc.getChildText("B"))));
+		
+		setWidth(Integer.parseInt(el.getChildText("WIDTH")));
+		setHeight(Integer.parseInt(el.getChildText("HEIGHT")));
 	}
 	
 	public void setPosition(Point p) {

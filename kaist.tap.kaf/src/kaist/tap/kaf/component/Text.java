@@ -44,28 +44,8 @@ public class Text extends Rectangle {
 	}
 	
 	public Text(Element el) {
+		super(el);
 		setName("Text");
-		portable = true;
-		
-		Element posel = el.getChild("POSITION");
-		position.x = Integer.parseInt(posel.getChildText("X"));
-		position.y = Integer.parseInt(posel.getChildText("Y"));
-		setWidth(Integer.parseInt(el.getChildText("WIDTH")));
-		setHeight(Integer.parseInt(el.getChildText("HEIGHT")));
-		//line
-		Element lc = el.getChild("LINECOLOR");
-		setColor(new RGB(Integer.parseInt(lc.getChildText("R")), 
-				         Integer.parseInt(lc.getChildText("G")),
-				         Integer.parseInt(lc.getChildText("B"))));
-		setLineStyle(Integer.parseInt(el.getChildText("LINESTYLE")));
-		setLineThickness(Integer.parseInt(el.getChildText("LINETHICKNESS")));
-		
-		//fill
-		setFill(Boolean.parseBoolean(el.getChildText("FILL")));
-		Element fc = el.getChild("FILLCOLOR");
-		setFillColor(new RGB(Integer.parseInt(fc.getChildText("R")), 
-				             Integer.parseInt(fc.getChildText("G")),
-				             Integer.parseInt(fc.getChildText("B"))));
 		
 		//string
 		setText(el.getChildText("STRING"));

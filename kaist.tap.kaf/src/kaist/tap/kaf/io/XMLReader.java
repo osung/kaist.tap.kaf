@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+import kaist.tap.kaf.component.Parallelogram;
 import kaist.tap.kaf.component.Rectangle;
 import kaist.tap.kaf.component.Text;
 import kaist.tap.kaf.views.ComponentRepository;
@@ -57,8 +58,10 @@ public class XMLReader {
 					text.setDrawn(true);
 					repo.register(text);
 				}
-				else if (name.compareTo("PARALLOGRAM")==0) {
-					
+				else if (name.compareTo("PARALLELOGRAM")==0) {
+					Parallelogram parallel = new Parallelogram(el);
+					parallel.setDrawn(true);
+					repo.register(parallel);
 				}
 				else if (name.compareTo("LINE")==0) {
 					

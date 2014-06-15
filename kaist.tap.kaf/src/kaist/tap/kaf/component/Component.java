@@ -64,6 +64,10 @@ public abstract class Component extends ComponentElement implements ISelection {
 		ports = new Vector<Port>();
 		selport = null;
 	}
+	
+	public Component(Element el) {
+		
+	}
 
 	public abstract Component clone();
 

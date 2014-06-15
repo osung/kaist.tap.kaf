@@ -1,16 +1,20 @@
 package kaist.tap.kaf.component;
 
+import java.util.List;
+
 import kaist.tap.kaf.component.Component.SelectMode;
 import kaist.tap.kaf.component.Rectangle.Edge;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.jdom2.Element;
 
 public class Parallelogram extends Rectangle {
 	public enum ParallelType {
@@ -30,6 +34,24 @@ public class Parallelogram extends Rectangle {
 				return "";
 			}
 		}
+		
+		static public ParallelType parse(String str) {
+			if (str == null) return null;
+			
+			if (str.compareTo("Left") == 0) {
+				return LEFT;
+			}
+			else if (str.compareTo("Right") == 0) {
+				return RIGHT;
+			}
+			else if (str.compareTo("Top") == 0) {
+				return TOP;
+			}
+			else if (str.compareTo("Bottom") == 0) {
+				return BOTTOM;
+			}
+			else return null;
+		}
 	}
 
 	protected int controlPoint;
@@ -46,6 +68,55 @@ public class Parallelogram extends Rectangle {
 		portable = true;
 	}
 
+	public Parallelogram(Element el) {
+		setName("Parallelogram");
+		portable = true;
+		
+		Element posel = el.getChild("POSITION");
+		position.x = Integer.parseInt(posel.getChildText("X"));
+		position.y = Integer.parseInt(posel.getChildText("Y"));
+		
+		//line
+		Element lc = el.getChild("LINECOLOR");
+		setColor(new RGB(Integer.parseInt(lc.getChildText("R")), 
+				         Integer.parseInt(lc.getChildText("G")),
+				         Integer.parseInt(lc.getChildText("B"))));
+		setLineStyle(Integer.parseInt(el.getChildText("LINESTYLE")));
+		setLineThickness(Integer.parseInt(el.getChildText("LINETHICKNESS")));
+		
+		//fill
+		setFill(Boolean.parseBoolean(el.getChildText("FILL")));
+		Element fc = el.getChild("FILLCOLOR");
+		setFillColor(new RGB(Integer.parseInt(fc.getChildText("R")), 
+				             Integer.parseInt(fc.getChildText("G")),
+				             Integer.parseInt(fc.getChildText("B"))));
+		
+		realPoints = new Point[4];
+		Element rp = el.getChild("REALPOINTS");
+		if (rp != null) {
+			List<Element> points = rp.getChildren("POINT");
+		
+			for (int i = 0; i < points.size(); ++i) {
+				Element p = points.get(i);
+				int id = Integer.parseInt(p.getAttributeValue("id"));
+				int x = Integer.parseInt(p.getChildText("X"));
+				int y = Integer.parseInt(p.getChildText("Y"));
+				realPoints[id] = new Point(x, y);
+			}
+		}
+		else {
+			for (int i = 0; i < 4; ++i) {
+				realPoints[i] = new Point(0,0);
+			}
+		}
+		
+		super.setWidth(Integer.parseInt(el.getChildText("WIDTH")));
+		super.setHeight(Integer.parseInt(el.getChildText("HEIGHT")));
+		
+		type = ParallelType.parse(el.getChildText("PARALLELTYPE"));
+		controlPoint = Integer.parseInt(el.getChildText("CONTROLPOINT"));
+	}
+	
 	public void setControlPoint(int cp) {
 		if (cp < 0 || cp > width) {
 			return;
@@ -366,5 +437,52 @@ public class Parallelogram extends Rectangle {
 			super.setPropertyValue(id, value);
 
 		setParallelType(type);
+	}
+
+	@Override
+	public Element getXMLElement(int id) {
+		Element el = new Element("PARALLELOGRAM");
+		el.setAttribute("id", Integer.toString(id));
+		
+		el.addContent(getPositionXMLElement());
+		
+		Element w = new Element("WIDTH");
+		w.setText(Integer.toString(width));
+		el.addContent(w);
+		
+		Element h = new Element("HEIGHT");
+		h.setText(Integer.toString(height));
+		el.addContent(h);
+		
+		Element cp = new Element("CONTROLPOINT");
+		cp.setText(Integer.toString(controlPoint));
+		el.addContent(cp);
+		
+		Element ct = new Element("PARALLELTYPE");
+		ct.setText(type.toString());
+		el.addContent(ct);
+		
+		Element rp = new Element("REALPOINTS");
+		for (int i = 0; i < 4; ++i) {
+			Element rpp = new Element("POINT");
+			rpp.setAttribute("id", Integer.toString(i));
+			Element rppx = new Element("X");
+			Element rppy = new Element("Y");
+			rppx.setText(Integer.toString(realPoints[i].x));
+			rppy.setText(Integer.toString(realPoints[i].y));
+			rpp.addContent(rppx);
+			rpp.addContent(rppy);
+			rp.addContent(rpp);
+		}
+		el.addContent(rp);
+		
+		el.addContent(getLineColorXMLElement());
+		el.addContent(getLineStyleXMLElement());
+		el.addContent(getLineThicknessXMLElement());
+		
+		el.addContent(getFillXMLElement());		
+		el.addContent(getFillColorXMLElement());
+	
+		return el;
 	}
 }
