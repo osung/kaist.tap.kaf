@@ -239,7 +239,7 @@ public class Line extends Component {
 	public void move(int x, int y) {
 		if (x < 2 && y < 2)
 			return;
-
+		
 		position.x += x;
 		position.y += y;
 

@@ -3,6 +3,7 @@ package kaist.tap.kaf.component;
 import java.util.List;
 
 import kaist.tap.kaf.component.Component.SelectMode;
+import kaist.tap.kaf.component.Component.Selection;
 import kaist.tap.kaf.component.Rectangle.Edge;
 
 import org.eclipse.swt.SWT;
@@ -235,13 +236,40 @@ public class Parallelogram extends Rectangle {
 		}
 	}
 
-	public boolean contains(int x, int y) {
+	public Selection containSelection(int x, int y) {
+		selection = Selection.FALSE;
 
+		if (Math.abs(x - realPoints[0].x) < contSize && Math.abs(y - realPoints[0].y) < contSize) {
+			selection = Selection.UL;
+			return Selection.UL;
+		} else if (Math.abs(x - realPoints[3].x) < contSize && Math.abs(y - realPoints[3].y) < contSize) {
+			selection = Selection.LL;
+			return Selection.LL;
+		} else if (Math.abs(x - realPoints[1].x) < contSize && Math.abs(y - realPoints[1].y) < contSize) {
+			selection = Selection.UR;
+			return Selection.UR;
+		} else if (Math.abs(x - realPoints[2].x) < contSize && Math.abs(y - realPoints[2].y) < contSize) {
+			selection = Selection.LR;
+			return Selection.LR;
+		} else return Selection.FALSE;
+	}
+		
+	
+	public boolean contains(int x, int y) {
 		if (grouped == true)
 			return false;
 
-		if (selectMode == SelectMode.SELECTED) {
+		if (portable == true) {
+			selport = containPort(x, y);
+			if (selport != null) return true;
+		}
+		
+		selport = null;
+		selection = containSelection(x, y);
 
+		if (this.isSelected() == true) {
+			if (selection != Selection.FALSE)
+				return true;
 		}
 
 		if (x < position.x || x > endPosition.x || y < position.y
@@ -339,6 +367,12 @@ public class Parallelogram extends Rectangle {
 
 	public void move(int x, int y) {
 		super.move(x, y);
+		setParallelType(type);
+	}
+	
+	
+	public void resize(int x, int y) {
+		super.resize(x, y);
 		setParallelType(type);
 	}
 
