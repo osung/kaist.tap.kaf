@@ -12,34 +12,12 @@ import org.jdom2.Element;
 
 public class Arrow extends Line {
 
-	public enum HeadType {
-		LINEARROW, TRIANGLE, NONE
-	}
-
-	public class Head {
-		public HeadType type;
-		public int size;
-
-		public Head(HeadType t, int s) {
-			type = t;
-			size = s;
-		}
-	}
-
-	protected Head[] arrowHead;
-
 	public Arrow() {
 		setName("Arrow");
-		arrowHead = new Head[2];
-		arrowHead[0] = new Head(HeadType.NONE, 1);
-		arrowHead[1] = new Head(HeadType.LINEARROW, 1);
 	}
 
 	public Arrow(int x, int y, int x2, int y2) {
 		setName("Arrow");
-		arrowHead = new Head[2];
-		arrowHead[0] = new Head(HeadType.NONE, 1);
-		arrowHead[1] = new Head(HeadType.LINEARROW, 1);
 
 		position.x = x;
 		position.y = y;
@@ -51,58 +29,6 @@ public class Arrow extends Line {
 		super(el);
 		setName("Arrow");
 		portable = false;
-	}
-
-	public void setArrowHeadSize(int index, int size) {
-		if (index > 1)
-			return;
-
-		arrowHead[index].size = size;
-	}
-
-	public void setArrowHeadType(int index, HeadType type) {
-		if (index > 1)
-			return;
-
-		arrowHead[index].type = type;
-	}
-
-	public int getArrowHeadSize(int index) {
-		if (index > 1)
-			return 0;
-
-		return arrowHead[index].size;
-	}
-
-	public HeadType getArrowHeadType(int index) {
-		if (index > 1)
-			return null;
-
-		return arrowHead[index].type;
-	}
-
-	public String headTypeToString(HeadType type) {
-		switch (type) {
-		case LINEARROW:
-			return "Line Arrow";
-		case TRIANGLE:
-			return "Triangle";
-		case NONE:
-			return "None";
-		}
-		return "N/A";
-	}
-
-	public HeadType stringToHeadType(String type) {
-		switch (type) {
-		case "Line Arrow":
-			return HeadType.LINEARROW;
-		case "Triangle":
-			return HeadType.TRIANGLE;
-		case "None":
-		default:
-			return HeadType.NONE;
-		}
 	}
 
 	public void drawArrowHead(GC gc, int x, int y, float angle) {
@@ -160,10 +86,6 @@ public class Arrow extends Line {
 		arrow.setDrawn(drawn);
 		arrow.setLineThickness(lineThickness);
 		arrow.setLineStyle(lineStyle);
-		arrow.setArrowHeadSize(0, getArrowHeadSize(0));
-		arrow.setArrowHeadSize(1, getArrowHeadSize(1));
-		arrow.setArrowHeadType(0, getArrowHeadType(0));
-		arrow.setArrowHeadType(1, getArrowHeadType(1));
 
 		return arrow;
 	}

@@ -60,6 +60,16 @@ public class ViewManager {
 	public void removeRepo(ComponentRepository repo) {
 		mRepos.remove(repo);
 	}
+	
+	public void clear() {
+		for (int i = 0; i < mRepos.size(); ++i) {
+			ComponentRepository repo = mRepos.get(i);
+			
+			while (repo.getNumberOfComponents() > 0) {
+				repo.remove(0);
+			}
+		}
+	}
 
 	public ComponentRepository getRepo(viewType type) {
 		int size = mViews.size();

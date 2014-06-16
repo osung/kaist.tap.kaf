@@ -1,5 +1,6 @@
 package kaist.tap.kaf.views;
 
+import java.util.Date;
 import java.util.Vector;
 
 import kaist.tap.kaf.component.Arrow;
@@ -76,6 +77,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		addPaintListener(new PaintListener() {
 			@Override
 			public void paintControl(PaintEvent e) {
+				//long startTime = new Date().getTime();
+				
 				if (repo.getNumberOfComponents() > 0) {
 					repo.draw(e.gc);
 				}
@@ -83,6 +86,10 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					tmpComp.draw(e.gc);
 				}
 				e.gc.dispose();
+			
+				//long endTime = new Date().getTime();
+				//long difference = endTime - startTime;
+				//System.out.println("Elapsed time : " + Float.toString((float) difference / 1000000));
 			}
 		});
 
@@ -185,6 +192,9 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 								c.addPort();
 							}
 						}
+					} else if (e.keyCode == 'n' || e.keyCode == 'N') {
+						vm.clear();
+						
 					}
 				}
 
@@ -197,7 +207,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			public void mouseDown(MouseEvent e) {
 				Component current = null;
 				boolean shift = false;
-
+				
 				if ((e.stateMask & SWT.SHIFT) != 0) {
 					shift = true;
 				}
@@ -234,6 +244,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 
 				sp = new Point(e.x, e.y);
 				redraw();
+				
+				
 			}
 
 			@Override
