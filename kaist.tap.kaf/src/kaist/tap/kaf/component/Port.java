@@ -14,84 +14,86 @@ public class Port {
 	protected final int width = 10;
 	protected final int halfWidth = (int) (width * 0.5);
 	protected Component comp;
-	
+
 	public Port(Component c) {
 		position = new Point(0, 0);
 		connections = new Vector<Line>();
 		comp = c;
 	}
-	
+
 	public void setPosition(int x, int y) {
 		position.x = x;
 		position.y = y;
 	}
-	
+
 	public Point getPosition() {
 		return position;
 	}
-		
+
 	public void move(int x, int y) {
 		position.x += x;
 		position.y += y;
-		
+
 		updateConnection();
 	}
-	
+
 	public Line getConnection(int idx) {
-		if (idx >= connections.size()) return null;
-		
+		if (idx >= connections.size())
+			return null;
+
 		return connections.get(idx);
 	}
-	
+
 	public void addConnection(Line line) {
 		connections.add(line);
 	}
-	
+
 	public void removeConnection(Line line) {
 		connections.remove(line);
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
-	
+
 	public int getConnectionSize() {
 		return connections.size();
 	}
-	
+
 	public boolean contains(int x, int y) {
-		if (x >= position.x-halfWidth && x <= position.x+halfWidth && 
-			y >= position.y-halfWidth && y <= position.y+halfWidth) {
+		if (x >= position.x - halfWidth && x <= position.x + halfWidth
+				&& y >= position.y - halfWidth && y <= position.y + halfWidth) {
 			return true;
-		}
-		else return false;
+		} else
+			return false;
 	}
-	
+
 	public void draw(GC gc) {
 		gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		gc.setLineStyle(SWT.LINE_SOLID);
 		gc.setLineWidth(0);
-		gc.fillRectangle(position.x-halfWidth, position.y-halfWidth, width, width);
-		gc.drawRectangle(position.x-halfWidth, position.y-halfWidth, width, width);
+		gc.fillRectangle(position.x - halfWidth, position.y - halfWidth, width,
+				width);
+		gc.drawRectangle(position.x - halfWidth, position.y - halfWidth, width,
+				width);
 	}
-	
+
 	public void updateConnection() {
 		for (int i = 0; i < connections.size(); ++i) {
 			Line line = connections.get(i);
-			if (line.getStartComponent() == comp ) {
+			if (line.getStartComponent() == comp) {
 				line.setPosition(position.x, position.y);
-			}
-			else {
+			} else {
 				line.setEndPosition(position.x, position.y);
 			}
 		}
 	}
-	
+
 	public Element getPortXMLElement(int id) {
 		Element pel = new Element("PORT");
 		pel.setAttribute("id", Integer.toString(id));
-		
+
 		Element pos = new Element("POSITION");
 		Element posx = new Element("X");
 		Element posy = new Element("Y");
@@ -101,18 +103,15 @@ public class Port {
 		pos.addContent(posy);
 		pel.addContent(pos);
 		/*
-		if (connections.size() > 0) {
-			Element conn = new Element("CONNECTION");
-			conn.setAttribute("num", Integer.toString(connections.size()));
-			String conns = new String("");
-			
-			for (int i = 0; i < connections.size(); ++i) {
-				conns += Integer.toString(connections.get(i).getId()) + " ";
-			}
-			conn.setText(conns);
-			pel.addContent(conn);
-		} */
-		
+		 * if (connections.size() > 0) { Element conn = new
+		 * Element("CONNECTION"); conn.setAttribute("num",
+		 * Integer.toString(connections.size())); String conns = new String("");
+		 * 
+		 * for (int i = 0; i < connections.size(); ++i) { conns +=
+		 * Integer.toString(connections.get(i).getId()) + " "; }
+		 * conn.setText(conns); pel.addContent(conn); }
+		 */
+
 		return pel;
 	}
 }

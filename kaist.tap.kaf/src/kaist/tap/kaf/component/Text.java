@@ -28,8 +28,7 @@ public class Text extends Rectangle {
 		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
 		portable = true;
 	}
-	
-	
+
 	public Text(Canvas c) {
 		setName("Text");
 		text = new String();
@@ -37,7 +36,6 @@ public class Text extends Rectangle {
 		portable = true;
 		canvas = c;
 	}
-	
 
 	public Text(int x, int y, int w, int h, String str) {
 		setName("Text");
@@ -54,17 +52,17 @@ public class Text extends Rectangle {
 		color = SWTResourceManager.getColor(SWT.COLOR_WHITE);
 		portable = true;
 	}
-	
+
 	public Text(Element el) {
 		super(el);
 		setName("Text");
-		
-		//string
+
+		// string
 		setText(el.getChildText("STRING"));
 		Element fontc = el.getChild("FONTCOLOR");
-		setFontColor(new RGB(Integer.parseInt(fontc.getChildText("R")), 
-	             			 Integer.parseInt(fontc.getChildText("G")),
-	             			 Integer.parseInt(fontc.getChildText("B"))));
+		setFontColor(new RGB(Integer.parseInt(fontc.getChildText("R")),
+				Integer.parseInt(fontc.getChildText("G")),
+				Integer.parseInt(fontc.getChildText("B"))));
 		setFontStyle(Integer.parseInt(el.getChildText("FONTSTYLE")));
 		setFontSize(Integer.parseInt(el.getChildText("FONTSIZE")));
 	}
@@ -109,6 +107,7 @@ public class Text extends Rectangle {
 		return fontStyle;
 	}
 
+	@Override
 	public void draw(GC gc) {
 		gc.setForeground(getColor());
 		gc.setBackground(getFillColor());
@@ -135,9 +134,10 @@ public class Text extends Rectangle {
 			Port port = ports.get(i);
 			port.draw(gc);
 		}
-				
-		if (selport != null) return;
-		
+
+		if (selport != null)
+			return;
+
 		if (selectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
@@ -153,6 +153,7 @@ public class Text extends Rectangle {
 		}
 	}
 
+	@Override
 	public Text clone() {
 		Text text = new Text(position.x, position.y, width, height, this.text);
 		text.setColor(color);
@@ -169,6 +170,7 @@ public class Text extends Rectangle {
 		return text;
 	}
 
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		TextPropertyDescriptor nameDiscriptor = new TextPropertyDescriptor(
 				"Name", "Type");
@@ -240,9 +242,11 @@ public class Text extends Rectangle {
 			return super.getPropertyValue(id);
 	}
 
+	@Override
 	public void setPropertyValue(Object id, Object value) {
-		if (canvas != null) canvas.redraw();
-		
+		if (canvas != null)
+			canvas.redraw();
+
 		if ("Text".equals(id))
 			text = (String) value;
 		else if ("FontColor".equals(id)) {
@@ -267,34 +271,34 @@ public class Text extends Rectangle {
 		} else
 			super.setPropertyValue(id, value);
 	}
-	
-	
+
+	@Override
 	public Element getXMLElement(int id) {
 		Element el = new Element("TEXT");
 		el.setAttribute("id", Integer.toString(id));
-		
+
 		el.addContent(getPositionXMLElement());
-		
+
 		Element w = new Element("WIDTH");
 		w.setText(Integer.toString(width));
 		el.addContent(w);
-		
+
 		Element h = new Element("HEIGHT");
 		h.setText(Integer.toString(height));
 		el.addContent(h);
-		
+
 		el.addContent(getLineColorXMLElement());
 		el.addContent(getLineStyleXMLElement());
 		el.addContent(getLineThicknessXMLElement());
-		
-		el.addContent(getFillXMLElement());		
+
+		el.addContent(getFillXMLElement());
 		el.addContent(getFillColorXMLElement());
-	
+
 		// text related properties
 		Element string = new Element("STRING");
 		string.setText(text);
 		el.addContent(string);
-		
+
 		Element fc = new Element("FONTCOLOR");
 		Element r = new Element("R");
 		Element g = new Element("G");
@@ -306,20 +310,22 @@ public class Text extends Rectangle {
 		fc.addContent(g);
 		fc.addContent(b);
 		el.addContent(fc);
-		
+
 		Element fs = new Element("FONTSIZE");
 		fs.setText(Integer.toString(fontSize));
 		el.addContent(fs);
-		
+
 		Element fst = new Element("FONTSTYLE");
 		fst.setText(Integer.toString(fontStyle));
 		el.addContent(fst);
-		
+
 		Element conn = getConnectionXMLElement();
-		if (conn != null) el.addContent(conn);
-		
-		if (ports.size() > 0) el.addContent(getPortXMLElement());
-		
+		if (conn != null)
+			el.addContent(conn);
+
+		if (ports.size() > 0)
+			el.addContent(getPortXMLElement());
+
 		return el;
 	}
 }

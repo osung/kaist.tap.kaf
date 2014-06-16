@@ -15,6 +15,7 @@ public class ComponentSelectionListener implements ISelectionListener {
 		this.part = p;
 	}
 
+	@Override
 	public void selectionChanged(IWorkbenchPart p, ISelection sel) {
 		if (p != this.part) {
 			Object obj = ((IStructuredSelection) sel).getFirstElement();

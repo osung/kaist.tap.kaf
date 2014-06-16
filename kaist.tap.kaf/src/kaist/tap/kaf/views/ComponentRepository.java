@@ -21,7 +21,7 @@ public class ComponentRepository {
 	private LinkedList<Component> components;
 	private LinkedList<Pair<Integer, Integer>> connectivity;
 	private String name = null;
-	
+
 	public ComponentRepository() {
 		components = new LinkedList<Component>();
 	}
@@ -30,17 +30,17 @@ public class ComponentRepository {
 		components = new LinkedList<Component>();
 		name = n;
 	}
-	
+
 	public void setName(String n) {
 		name = n;
 	}
-	
-	
+
 	public String getName() {
-		if (name == null) return new String("untitled");
+		if (name == null)
+			return new String("untitled");
 		return name;
 	}
-	
+
 	public void register(Component comp) {
 		components.add(comp);
 		comp.setId(components.indexOf(comp));
@@ -68,7 +68,7 @@ public class ComponentRepository {
 		for (int i = 0; i < size; ++i) {
 			components.remove(comps[i]);
 		}
-		
+
 		for (int i = 0; i < components.size(); ++i) {
 			Component c = components.get(i);
 			c.setId(i);
@@ -87,7 +87,7 @@ public class ComponentRepository {
 			}
 			comps.remove(comp);
 		}
-		
+
 		for (int i = 0; i < components.size(); ++i) {
 			Component c = components.get(i);
 			c.setId(i);
@@ -101,8 +101,8 @@ public class ComponentRepository {
 			components.remove(comp);
 			components.add(idx, comp);
 			comp.setId(idx);
-			Component c = components.get(idx-1);
-			c.setId(idx-1);
+			Component c = components.get(idx - 1);
+			c.setId(idx - 1);
 		}
 	}
 
@@ -113,8 +113,8 @@ public class ComponentRepository {
 			components.remove(comp);
 			components.add(idx, comp);
 			comp.setId(idx);
-			Component c = components.get(idx+1);
-			c.setId(idx+1);
+			Component c = components.get(idx + 1);
+			c.setId(idx + 1);
 		}
 	}
 

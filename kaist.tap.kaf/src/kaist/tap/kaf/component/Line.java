@@ -1,6 +1,5 @@
 package kaist.tap.kaf.component;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.Canvas;
@@ -25,7 +24,7 @@ public class Line extends Component {
 		position.x = position.y = endPosition.x = endPosition.y = 0;
 		startComponent = endComponent = null;
 	}
-	
+
 	public Line(Canvas c) {
 		connected = false;
 		this.setName("Line");
@@ -43,24 +42,24 @@ public class Line extends Component {
 		endPosition.y = y2;
 		canvas = c;
 	}
-	
+
 	public Line(Element el) {
 		setName("Line");
 		portable = false;
-		
+
 		Element posel = el.getChild("POSITION");
 		position.x = Integer.parseInt(posel.getChildText("X"));
 		position.y = Integer.parseInt(posel.getChildText("Y"));
-		
+
 		Element eposel = el.getChild("ENDPOSITION");
 		endPosition.x = Integer.parseInt(eposel.getChildText("X"));
 		endPosition.y = Integer.parseInt(eposel.getChildText("Y"));
-		
-		//line
+
+		// line
 		Element lc = el.getChild("LINECOLOR");
-		setColor(new RGB(Integer.parseInt(lc.getChildText("R")), 
-				         Integer.parseInt(lc.getChildText("G")),
-				         Integer.parseInt(lc.getChildText("B"))));
+		setColor(new RGB(Integer.parseInt(lc.getChildText("R")),
+				Integer.parseInt(lc.getChildText("G")), Integer.parseInt(lc
+						.getChildText("B"))));
 		setLineStyle(Integer.parseInt(el.getChildText("LINESTYLE")));
 		setLineThickness(Integer.parseInt(el.getChildText("LINETHICKNESS")));
 	}
@@ -87,24 +86,27 @@ public class Line extends Component {
 	}
 
 	public boolean setStartComponent(Component c) {
-		if (endComponent == c) return false;  // prevent self connection
+		if (endComponent == c)
+			return false; // prevent self connection
 		startComponent = c;
 		connected = true;
-		
+
 		return true;
 	}
 
-	public boolean  setEndComponent(Component c) {
-		if (startComponent == c) return false; // prevent self connection;
+	public boolean setEndComponent(Component c) {
+		if (startComponent == c)
+			return false; // prevent self connection;
 		endComponent = c;
 		connected = true;
-		
+
 		return true;
 	}
 
 	public void removeStartComponent() {
-		if (startComponent == null) return;
-		
+		if (startComponent == null)
+			return;
+
 		startComponent.removeConnection(this);
 		startComponent = null;
 		if (endComponent == null)
@@ -112,8 +114,9 @@ public class Line extends Component {
 	}
 
 	public void removeEndComponent() {
-		if (endComponent == null) return;
-		
+		if (endComponent == null)
+			return;
+
 		endComponent.removeConnection(this);
 		endComponent = null;
 		if (startComponent == null)
@@ -143,6 +146,7 @@ public class Line extends Component {
 		return mid;
 	}
 
+	@Override
 	public void draw(GC gc) {
 		gc.setForeground(getColor());
 		gc.setLineWidth(lineThickness);
@@ -162,6 +166,7 @@ public class Line extends Component {
 	}
 
 	// return the selected point between satart point and end point
+	@Override
 	public Selection containSelection(int x, int y) {
 		if (Math.abs(x - position.x) < contSize
 				&& Math.abs(y - position.y) < contSize) {
@@ -177,6 +182,7 @@ public class Line extends Component {
 		}
 	}
 
+	@Override
 	public boolean contains(int x, int y) {
 		double xt, yt;
 
@@ -189,39 +195,42 @@ public class Line extends Component {
 			if (selection != Selection.FALSE)
 				return true;
 		}
-		
-		if (Math.abs(endPosition.x-position.x) <= 2) {
-		   if (Math.abs((double) x - position.x) <= 2) {
-			   double min = Math.min(position.y, endPosition.y);
-			   double max = Math.max(position.y, endPosition.y);
-			   if (y >= min && y <= max) return true;
-		   }
-		   
-		   return false;
-		}
-		else if (Math.abs(endPosition.y-position.y) <= 2) {
-			   if (Math.abs((double) y - position.y) <= 2) {
-				   double min = Math.min(position.x, endPosition.x);
-				   double max = Math.max(position.x, endPosition.x);
-				   if (x >= min && x <= max) return true;
-			   }
-			   
-			   return false;
-		}
-		else {
-		
-			xt = ((double) x - position.x) / ((double) endPosition.x - position.x);
-			yt = ((double) y - position.y) / ((double) endPosition.y - position.y);
+
+		if (Math.abs(endPosition.x - position.x) <= 2) {
+			if (Math.abs((double) x - position.x) <= 2) {
+				double min = Math.min(position.y, endPosition.y);
+				double max = Math.max(position.y, endPosition.y);
+				if (y >= min && y <= max)
+					return true;
+			}
+
+			return false;
+		} else if (Math.abs(endPosition.y - position.y) <= 2) {
+			if (Math.abs((double) y - position.y) <= 2) {
+				double min = Math.min(position.x, endPosition.x);
+				double max = Math.max(position.x, endPosition.x);
+				if (x >= min && x <= max)
+					return true;
+			}
+
+			return false;
+		} else {
+
+			xt = ((double) x - position.x)
+					/ ((double) endPosition.x - position.x);
+			yt = ((double) y - position.y)
+					/ ((double) endPosition.y - position.y);
 
 			if (xt < -0.05 || xt > 1.05 || yt < -0.05 || yt > 1.05)
 				return false;
 			if (Math.abs(xt - yt) > 1.0)
 				return false;
 		}
-		
+
 		return true;
 	}
 
+	@Override
 	public void resize(int x, int y) {
 		if (selection == Selection.FALSE)
 			return;
@@ -246,10 +255,11 @@ public class Line extends Component {
 			connected = false;
 	}
 
+	@Override
 	public void move(int x, int y) {
 		if (x < 2 && y < 2)
 			return;
-		
+
 		position.x += x;
 		position.y += y;
 
@@ -271,8 +281,10 @@ public class Line extends Component {
 		connected = false;
 	}
 
+	@Override
 	public Line clone() {
-		Line line = new Line(position.x, position.y, endPosition.x,	endPosition.y, canvas);
+		Line line = new Line(position.x, position.y, endPosition.x,
+				endPosition.y, canvas);
 		line.setColor(color);
 		line.setDrawn(drawn);
 		line.setLineThickness(lineThickness);
@@ -287,6 +299,7 @@ public class Line extends Component {
 		return false;
 	}
 
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		TextPropertyDescriptor nameDiscriptor = new TextPropertyDescriptor(
 				"Name", "Type");
@@ -333,8 +346,9 @@ public class Line extends Component {
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
-		if (canvas != null) canvas.redraw();
-		
+		if (canvas != null)
+			canvas.redraw();
+
 		if ("EndPosition_X".equals(id))
 			endPosition.x = Integer.parseInt((String) value);
 		else if ("EndPosition_Y".equals(id))
@@ -343,6 +357,7 @@ public class Line extends Component {
 			super.setPropertyValue(id, value);
 	}
 
+	@Override
 	public Point[] getBounds() {
 		Point[] bounds = new Point[2];
 
@@ -360,16 +375,16 @@ public class Line extends Component {
 	@Override
 	public void movePort(int x, int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public Element getXMLElement(int id) {
 		Element el = new Element("LINE");
 		el.setAttribute("id", Integer.toString(id));
-		
+
 		el.addContent(getPositionXMLElement());
-		
+
 		Element ep = new Element("ENDPOSITION");
 		Element epx = new Element("X");
 		Element epy = new Element("Y");
@@ -378,11 +393,11 @@ public class Line extends Component {
 		ep.addContent(epx);
 		ep.addContent(epy);
 		el.addContent(ep);
-		
+
 		el.addContent(getLineColorXMLElement());
 		el.addContent(getLineStyleXMLElement());
 		el.addContent(getLineThicknessXMLElement());
-		
+
 		if (connected == true) {
 			Element conn = new Element("CONNECTION");
 			if (startComponent != null) {

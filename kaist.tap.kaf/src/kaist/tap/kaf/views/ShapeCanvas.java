@@ -1,6 +1,5 @@
 package kaist.tap.kaf.views;
 
-import java.beans.PropertyChangeListener;
 import java.util.Vector;
 
 import kaist.tap.kaf.component.Arrow;
@@ -55,6 +54,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		copy = new Vector<Component>();
 
 		this.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection) event
 						.getSelection();
@@ -74,6 +74,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		});
 
 		addPaintListener(new PaintListener() {
+			@Override
 			public void paintControl(PaintEvent e) {
 				if (repo.getNumberOfComponents() > 0) {
 					repo.draw(e.gc);
@@ -86,6 +87,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		});
 
 		addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyPressed(KeyEvent e) {
 
 				if (e.keyCode == SWT.DEL) {
@@ -173,15 +175,13 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						save(e.display);
 					} else if (e.keyCode == 'o' || e.keyCode == 'O') {
 						open(e.display);
-					}
-					else if (e.keyCode == 'p' || e.keyCode == 'P') {
+					} else if (e.keyCode == 'p' || e.keyCode == 'P') {
 						for (int i = 0; i < psel.size(); ++i) {
 							Component c = psel.get(i);
 
 							if (c instanceof Group) {
 								continue;
-							}
-							else {
+							} else {
 								c.addPort();
 							}
 						}
@@ -193,6 +193,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		});
 
 		addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseDown(MouseEvent e) {
 				Component current = null;
 				boolean shift = false;
@@ -235,6 +236,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				redraw();
 			}
 
+			@Override
 			public void mouseUp(MouseEvent e) {
 				int w, h;
 
@@ -306,6 +308,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		});
 
 		addMouseMoveListener(new MouseMoveListener() {
+			@Override
 			public void mouseMove(MouseEvent e) {
 				if (sp == null)
 					return;
@@ -360,7 +363,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 
 	public void checkConnection(Line line, int x, int y) {
 		boolean result = false;
-		
+
 		for (int i = repo.getNumberOfComponents() - 1; i >= 0; i--) {
 			Component comp = repo.get(i);
 			if (comp == line)
@@ -382,7 +385,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 
 				if (result == true) {
 					comp.addConnection(line);
-				
+
 					Rectangle rect = (Rectangle) comp;
 					Point cp = rect.getConnectedPoint(line);
 					if (sel == Selection.START)
@@ -414,6 +417,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		}
 	}
 
+	@Override
 	public ISelection getSelection() {
 		if (selected != null) {
 			return new StructuredSelection(selected);
@@ -422,6 +426,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		return new StructuredSelection();
 	}
 
+	@Override
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
 		listeners.remove(listener);
@@ -444,7 +449,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		String[] filterExt = { "*.jpg", "*.jpeg", "*.*" };
 		fd.setFilterExtensions(filterExt);
 		String filename = fd.open();
-		//System.out.println(selected);
+		// System.out.println(selected);
 
 		loader.save(filename, SWT.IMAGE_JPEG);
 		image.dispose();
@@ -458,14 +463,15 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		String[] filterExt = { "*.xml", "*.XML", "*.*" };
 		fd.setFilterExtensions(filterExt);
 		String filename = fd.open();
-		if (filename != null) vm.WriteXML(filename);
+		if (filename != null)
+			vm.WriteXML(filename);
 	}
-	
+
 	public void open(Display display) {
 		FileDialog fd = new FileDialog(new Shell(display), SWT.OPEN);
 		fd.setText("Open");
 		fd.setFilterPath("C:/");
-		String[] filterExt = {"*.xml", "*.XML", "*.*"};
+		String[] filterExt = { "*.xml", "*.XML", "*.*" };
 		fd.setFilterExtensions(filterExt);
 		String filename = fd.open();
 		if (filename != null) {
@@ -473,7 +479,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 			repo = vm.getRepo(viewType.LOGICAL_VIEW);
 		}
 	}
-	
+
+	@Override
 	public void setSelection(ISelection select) {
 		Object[] list = listeners.getListeners();
 		for (int i = 0; i < listeners.size(); ++i) {

@@ -1,6 +1,5 @@
 package kaist.tap.kaf.manager;
 
-import kaist.tap.kaf.component.Component;
 import kaist.tap.kaf.io.XMLReader;
 import kaist.tap.kaf.io.XMLWriter;
 import kaist.tap.kaf.manager.View.viewType;
@@ -73,39 +72,37 @@ public class ViewManager {
 
 		return null;
 	}
-	
-	
+
 	public void WriteXML(String file) {
 		XMLWriter writer = new XMLWriter("test");
-		
+
 		for (int i = 0; i < mRepos.size(); ++i) {
 			ComponentRepository repo = mRepos.get(i);
 			writer.addView(repo);
 		}
-		
+
 		writer.write(file);
 	}
-	
-	
+
 	public void ReadXML(String file, Canvas canvas) {
 		// clear all repositories
-		while(mRepos.size() > 0) {
+		while (mRepos.size() > 0) {
 			ComponentRepository repo = mRepos.get(0);
-	
-			while(repo.getNumberOfComponents() > 0) {
+
+			while (repo.getNumberOfComponents() > 0) {
 				repo.remove(0);
 			}
-			
+
 			mRepos.remove(repo);
 		}
-		
+
 		XMLReader reader = new XMLReader(file);
-		
+
 		Vector<ComponentRepository> repos = reader.getRepositories(canvas);
-		
+
 		for (int i = 0; i < repos.size(); ++i) {
 			ComponentRepository cr = repos.get(i);
-			
+
 			mRepos.add(cr);
 		}
 	}

@@ -1,10 +1,6 @@
 package kaist.tap.kaf.component;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
-
-import kaist.tap.kaf.component.Component;
 
 public class ComponentTest {
 

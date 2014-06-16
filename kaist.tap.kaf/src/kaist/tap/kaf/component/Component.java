@@ -12,7 +12,6 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.jdom2.Element;
 
-
 public abstract class Component extends ComponentElement implements ISelection {
 
 	public enum Contains {
@@ -45,7 +44,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	protected Vector<Line> connections;
 	protected boolean portable;
 	protected Vector<Port> ports;
-	protected Port selport;  // selected port
+	protected Port selport; // selected port
 	protected int id;
 	protected Canvas canvas;
 
@@ -69,7 +68,8 @@ public abstract class Component extends ComponentElement implements ISelection {
 		id = -1;
 		canvas = null;
 	}
-	
+
+	@Override
 	public abstract Component clone();
 
 	public abstract boolean contains(int x, int y);
@@ -82,19 +82,18 @@ public abstract class Component extends ComponentElement implements ISelection {
 
 	public abstract Point[] getBounds();
 
-	
 	public void setCanvas(Canvas c) {
 		canvas = c;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-		
+
 	public void setId(int i) {
 		id = i;
 	}
-	
+
 	public Color getColor() {
 		return color;
 	}
@@ -230,20 +229,21 @@ public abstract class Component extends ComponentElement implements ISelection {
 	public abstract void move(int x, int y);
 
 	public abstract void movePort(int x, int y);
-	
+
 	public void addPort() {
 		addPort(position.x, position.y);
 	}
-	
+
 	public void addPort(int x, int y) {
-		if (portable == false) return;
-		
+		if (portable == false)
+			return;
+
 		Port port = new Port(this);
 		port.setPosition(x, y);
-		
+
 		ports.add(port);
 	}
-	
+
 	public void reset() {
 		drawn = false;
 		position = new Point(0, 0);
@@ -336,6 +336,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		position.y = y;
 	}
 
+	@Override
 	public void setPropertyValue(Object id, Object value) {
 		if ("Name".equals(id))
 			name = (String) value;
@@ -404,9 +405,9 @@ public abstract class Component extends ComponentElement implements ISelection {
 
 	public void removeConnection(Line line) {
 		connections.remove(line);
-		
+
 		for (int i = 0; i < ports.size(); ++i) {
-			ports.get(i).removeConnection(line);			
+			ports.get(i).removeConnection(line);
 		}
 	}
 
@@ -416,23 +417,24 @@ public abstract class Component extends ComponentElement implements ISelection {
 
 		return connections.get(idx);
 	}
-	
+
 	public Port containPort(int x, int y) {
-		if (portable == false || ports.size() == 0) return null;
-		
+		if (portable == false || ports.size() == 0)
+			return null;
+
 		for (int i = 0; i < ports.size(); ++i) {
 			Port port = ports.get(i);
-			
-			if (port.contains(x,  y) == true) {
+
+			if (port.contains(x, y) == true) {
 				return port;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public abstract Element getXMLElement(int id);
-	
+
 	public Element getPositionXMLElement() {
 		Element pos = new Element("POSITION");
 		Element posx = new Element("X");
@@ -441,10 +443,10 @@ public abstract class Component extends ComponentElement implements ISelection {
 		posy.setText(Integer.toString(position.y));
 		pos.addContent(posx);
 		pos.addContent(posy);
-		
+
 		return pos;
 	}
-	
+
 	public Element getLineColorXMLElement() {
 		Element lc = new Element("LINECOLOR");
 		Element r = new Element("R");
@@ -458,7 +460,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		lc.addContent(b);
 		return lc;
 	}
-	
+
 	public Element getFillColorXMLElement() {
 		Element fc = new Element("FILLCOLOR");
 		Element r = new Element("R");
@@ -472,25 +474,25 @@ public abstract class Component extends ComponentElement implements ISelection {
 		fc.addContent(b);
 		return fc;
 	}
-	
+
 	public Element getLineStyleXMLElement() {
 		Element ls = new Element("LINESTYLE");
 		ls.setText(Integer.toString(lineStyle));
 		return ls;
 	}
-	
+
 	public Element getLineThicknessXMLElement() {
 		Element lt = new Element("LINETHICKNESS");
 		lt.setText(Integer.toString(lineThickness));
 		return lt;
 	}
-	
+
 	public Element getFillXMLElement() {
 		Element f = new Element("FILL");
-		f.setText(Boolean.toString(fill));	
+		f.setText(Boolean.toString(fill));
 		return f;
 	}
-	
+
 	public Element getConnectionXMLElement() {
 		if (connections.size() > 0) {
 			Element conn = new Element("CONNECTION");
@@ -501,12 +503,12 @@ public abstract class Component extends ComponentElement implements ISelection {
 				conns += Integer.toString(line.getId()) + " ";
 			}
 			conn.setText(conns);
-			
+
 			return conn;
-		}
-		else return null;
+		} else
+			return null;
 	}
-	
+
 	public Element getPortXMLElement() {
 		if (ports.size() > 0) {
 			Element pels = new Element("PORTS");
@@ -516,9 +518,9 @@ public abstract class Component extends ComponentElement implements ISelection {
 				Element pel = p.getPortXMLElement(i);
 				pels.addContent(pel);
 			}
-			
-			return pels; 
-		}
-		else return null;		
-	} 
+
+			return pels;
+		} else
+			return null;
+	}
 }

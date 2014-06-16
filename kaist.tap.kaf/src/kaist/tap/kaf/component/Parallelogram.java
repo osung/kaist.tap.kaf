@@ -2,10 +2,6 @@ package kaist.tap.kaf.component;
 
 import java.util.List;
 
-import kaist.tap.kaf.component.Component.SelectMode;
-import kaist.tap.kaf.component.Component.Selection;
-import kaist.tap.kaf.component.Rectangle.Edge;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
@@ -22,6 +18,7 @@ public class Parallelogram extends Rectangle {
 	public enum ParallelType {
 		LEFT, RIGHT, TOP, BOTTOM;
 
+		@Override
 		public String toString() {
 			switch (this) {
 			case LEFT:
@@ -36,23 +33,21 @@ public class Parallelogram extends Rectangle {
 				return "";
 			}
 		}
-		
+
 		static public ParallelType parse(String str) {
-			if (str == null) return null;
-			
+			if (str == null)
+				return null;
+
 			if (str.compareTo("Left") == 0) {
 				return LEFT;
-			}
-			else if (str.compareTo("Right") == 0) {
+			} else if (str.compareTo("Right") == 0) {
 				return RIGHT;
-			}
-			else if (str.compareTo("Top") == 0) {
+			} else if (str.compareTo("Top") == 0) {
 				return TOP;
-			}
-			else if (str.compareTo("Bottom") == 0) {
+			} else if (str.compareTo("Bottom") == 0) {
 				return BOTTOM;
-			}
-			else return null;
+			} else
+				return null;
 		}
 	}
 
@@ -69,8 +64,7 @@ public class Parallelogram extends Rectangle {
 		setControlPoint(10);
 		portable = true;
 	}
-	
-	
+
 	public Parallelogram(Canvas c) {
 		setName("Parallelogram");
 		realPoints = new Point[4];
@@ -85,31 +79,31 @@ public class Parallelogram extends Rectangle {
 	public Parallelogram(Element el) {
 		setName("Parallelogram");
 		portable = true;
-		
+
 		Element posel = el.getChild("POSITION");
 		position.x = Integer.parseInt(posel.getChildText("X"));
 		position.y = Integer.parseInt(posel.getChildText("Y"));
-		
-		//line
+
+		// line
 		Element lc = el.getChild("LINECOLOR");
-		setColor(new RGB(Integer.parseInt(lc.getChildText("R")), 
-				         Integer.parseInt(lc.getChildText("G")),
-				         Integer.parseInt(lc.getChildText("B"))));
+		setColor(new RGB(Integer.parseInt(lc.getChildText("R")),
+				Integer.parseInt(lc.getChildText("G")), Integer.parseInt(lc
+						.getChildText("B"))));
 		setLineStyle(Integer.parseInt(el.getChildText("LINESTYLE")));
 		setLineThickness(Integer.parseInt(el.getChildText("LINETHICKNESS")));
-		
-		//fill
+
+		// fill
 		setFill(Boolean.parseBoolean(el.getChildText("FILL")));
 		Element fc = el.getChild("FILLCOLOR");
-		setFillColor(new RGB(Integer.parseInt(fc.getChildText("R")), 
-				             Integer.parseInt(fc.getChildText("G")),
-				             Integer.parseInt(fc.getChildText("B"))));
-		
+		setFillColor(new RGB(Integer.parseInt(fc.getChildText("R")),
+				Integer.parseInt(fc.getChildText("G")), Integer.parseInt(fc
+						.getChildText("B"))));
+
 		realPoints = new Point[4];
 		Element rp = el.getChild("REALPOINTS");
 		if (rp != null) {
 			List<Element> points = rp.getChildren("POINT");
-		
+
 			for (int i = 0; i < points.size(); ++i) {
 				Element p = points.get(i);
 				int id = Integer.parseInt(p.getAttributeValue("id"));
@@ -117,20 +111,19 @@ public class Parallelogram extends Rectangle {
 				int y = Integer.parseInt(p.getChildText("Y"));
 				realPoints[id] = new Point(x, y);
 			}
-		}
-		else {
+		} else {
 			for (int i = 0; i < 4; ++i) {
-				realPoints[i] = new Point(0,0);
+				realPoints[i] = new Point(0, 0);
 			}
 		}
-		
+
 		super.setWidth(Integer.parseInt(el.getChildText("WIDTH")));
 		super.setHeight(Integer.parseInt(el.getChildText("HEIGHT")));
-		
+
 		type = ParallelType.parse(el.getChildText("PARALLELTYPE"));
 		controlPoint = Integer.parseInt(el.getChildText("CONTROLPOINT"));
 	}
-	
+
 	public void setControlPoint(int cp) {
 		if (cp < 0 || cp > width) {
 			return;
@@ -181,6 +174,7 @@ public class Parallelogram extends Rectangle {
 		return type;
 	}
 
+	@Override
 	public void setPosition(Point p) {
 		super.setPosition(p);
 		setParallelType(type);
@@ -191,11 +185,13 @@ public class Parallelogram extends Rectangle {
 		setParallelType(type);
 	}
 
+	@Override
 	public void setEndPosition(Point p) {
 		super.setEndPosition(p);
 		setParallelType(type);
 	}
 
+	@Override
 	public void setWidth(int width) {
 		if ((type == ParallelType.LEFT || type == ParallelType.RIGHT)
 				&& width < controlPoint) {
@@ -205,6 +201,7 @@ public class Parallelogram extends Rectangle {
 		setParallelType(type);
 	}
 
+	@Override
 	public void setHeight(int height) {
 		if ((type == ParallelType.TOP || type == ParallelType.BOTTOM)
 				&& height < controlPoint) {
@@ -214,6 +211,7 @@ public class Parallelogram extends Rectangle {
 		setParallelType(type);
 	}
 
+	@Override
 	public void draw(GC gc) {
 		gc.setForeground(getColor());
 		gc.setBackground(getFillColor());
@@ -249,34 +247,41 @@ public class Parallelogram extends Rectangle {
 		}
 	}
 
+	@Override
 	public Selection containSelection(int x, int y) {
 		selection = Selection.FALSE;
 
-		if (Math.abs(x - realPoints[0].x) < contSize && Math.abs(y - realPoints[0].y) < contSize) {
+		if (Math.abs(x - realPoints[0].x) < contSize
+				&& Math.abs(y - realPoints[0].y) < contSize) {
 			selection = Selection.UL;
 			return Selection.UL;
-		} else if (Math.abs(x - realPoints[3].x) < contSize && Math.abs(y - realPoints[3].y) < contSize) {
+		} else if (Math.abs(x - realPoints[3].x) < contSize
+				&& Math.abs(y - realPoints[3].y) < contSize) {
 			selection = Selection.LL;
 			return Selection.LL;
-		} else if (Math.abs(x - realPoints[1].x) < contSize && Math.abs(y - realPoints[1].y) < contSize) {
+		} else if (Math.abs(x - realPoints[1].x) < contSize
+				&& Math.abs(y - realPoints[1].y) < contSize) {
 			selection = Selection.UR;
 			return Selection.UR;
-		} else if (Math.abs(x - realPoints[2].x) < contSize && Math.abs(y - realPoints[2].y) < contSize) {
+		} else if (Math.abs(x - realPoints[2].x) < contSize
+				&& Math.abs(y - realPoints[2].y) < contSize) {
 			selection = Selection.LR;
 			return Selection.LR;
-		} else return Selection.FALSE;
+		} else
+			return Selection.FALSE;
 	}
-		
-	
+
+	@Override
 	public boolean contains(int x, int y) {
 		if (grouped == true)
 			return false;
 
 		if (portable == true) {
 			selport = containPort(x, y);
-			if (selport != null) return true;
+			if (selport != null)
+				return true;
 		}
-		
+
 		selport = null;
 		selection = containSelection(x, y);
 
@@ -293,6 +298,7 @@ public class Parallelogram extends Rectangle {
 		return true;
 	}
 
+	@Override
 	public Point getConnectedPoint(Line line) {
 		int idx = connections.indexOf(line);
 		if (idx == -1)
@@ -378,17 +384,19 @@ public class Parallelogram extends Rectangle {
 		}
 	}
 
+	@Override
 	public void move(int x, int y) {
 		super.move(x, y);
 		setParallelType(type);
 	}
-	
-	
+
+	@Override
 	public void resize(int x, int y) {
 		super.resize(x, y);
 		setParallelType(type);
 	}
 
+	@Override
 	public Parallelogram clone() {
 		Parallelogram para = new Parallelogram(canvas);
 		para.setPosition(position);
@@ -406,6 +414,7 @@ public class Parallelogram extends Rectangle {
 		return para;
 	}
 
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		TextPropertyDescriptor nameDiscriptor = new TextPropertyDescriptor(
 				"Name", "Type");
@@ -453,6 +462,7 @@ public class Parallelogram extends Rectangle {
 				ptDiscriptor, pcpDiscriptor };
 	}
 
+	@Override
 	public Object getPropertyValue(Object id) {
 		if ("ControlPoint".equals(id))
 			return Integer.toString(controlPoint);
@@ -462,9 +472,11 @@ public class Parallelogram extends Rectangle {
 			return super.getPropertyValue(id);
 	}
 
+	@Override
 	public void setPropertyValue(Object id, Object value) {
-		if (canvas != null) canvas.redraw();
-		
+		if (canvas != null)
+			canvas.redraw();
+
 		if ("ControlPoint".equals(id))
 			setControlPoint(Integer.parseInt((String) value));
 		else if ("ParallelType".equals(id)) {
@@ -492,25 +504,25 @@ public class Parallelogram extends Rectangle {
 	public Element getXMLElement(int id) {
 		Element el = new Element("PARALLELOGRAM");
 		el.setAttribute("id", Integer.toString(id));
-		
+
 		el.addContent(getPositionXMLElement());
-		
+
 		Element w = new Element("WIDTH");
 		w.setText(Integer.toString(width));
 		el.addContent(w);
-		
+
 		Element h = new Element("HEIGHT");
 		h.setText(Integer.toString(height));
 		el.addContent(h);
-		
+
 		Element cp = new Element("CONTROLPOINT");
 		cp.setText(Integer.toString(controlPoint));
 		el.addContent(cp);
-		
+
 		Element ct = new Element("PARALLELTYPE");
 		ct.setText(type.toString());
 		el.addContent(ct);
-		
+
 		Element rp = new Element("REALPOINTS");
 		for (int i = 0; i < 4; ++i) {
 			Element rpp = new Element("POINT");
@@ -524,18 +536,20 @@ public class Parallelogram extends Rectangle {
 			rp.addContent(rpp);
 		}
 		el.addContent(rp);
-		
+
 		el.addContent(getLineColorXMLElement());
 		el.addContent(getLineStyleXMLElement());
 		el.addContent(getLineThicknessXMLElement());
-		
-		el.addContent(getFillXMLElement());		
+
+		el.addContent(getFillXMLElement());
 		el.addContent(getFillColorXMLElement());
-		
+
 		Element conn = getConnectionXMLElement();
-		if (conn != null) el.addContent(conn);
-		
-		if (ports.size() > 0) el.addContent(getPortXMLElement());
+		if (conn != null)
+			el.addContent(conn);
+
+		if (ports.size() > 0)
+			el.addContent(getPortXMLElement());
 
 		return el;
 	}

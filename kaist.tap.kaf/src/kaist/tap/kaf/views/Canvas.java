@@ -1,16 +1,11 @@
 package kaist.tap.kaf.views;
 
-import kaist.tap.kaf.component.*;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.*;
-import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.SWTResourceManager;
 
@@ -42,10 +37,12 @@ public class Canvas extends ViewPart {
 		initializeMenu();
 
 		canvas.addSelectionListener(new SelectionListener() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("widgetSelected");
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				System.out.println("widgetDefaultSelected");
 			}

@@ -37,19 +37,23 @@ public class ProjectExplorer extends ViewPart {
 			treeRoot[0] = new String("Untitled");
 		}
 
+		@Override
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public Object[] getElements(Object parent) {
 			if (parent instanceof View[]) {
 				children = (View[]) parent;
 			}
-			return (String[]) treeRoot;
+			return treeRoot;
 		}
 
+		@Override
 		public Object getParent(Object child) {
 			if (child instanceof View) {
 				return treeRoot[0];
@@ -57,6 +61,7 @@ public class ProjectExplorer extends ViewPart {
 			return null;
 		}
 
+		@Override
 		public Object[] getChildren(Object parent) {
 			if (parent instanceof View) {
 				return null;
@@ -66,6 +71,7 @@ public class ProjectExplorer extends ViewPart {
 				return null;
 		}
 
+		@Override
 		public boolean hasChildren(Object parent) {
 			if (parent instanceof String)
 				return true;
@@ -75,6 +81,7 @@ public class ProjectExplorer extends ViewPart {
 
 	class ViewLabelProvider extends LabelProvider {
 
+		@Override
 		public String getText(Object obj) {
 			if (obj instanceof View) {
 				View v = (View) obj;
@@ -83,6 +90,7 @@ public class ProjectExplorer extends ViewPart {
 				return obj.toString();
 		}
 
+		@Override
 		public Image getImage(Object obj) {
 			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 			if (obj instanceof String)
@@ -105,6 +113,7 @@ public class ProjectExplorer extends ViewPart {
 	 * This is a callback that will allow us to create the viewer and initialize
 	 * it.
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
@@ -118,6 +127,7 @@ public class ProjectExplorer extends ViewPart {
 				.getTree()) });
 		viewer.setCellModifier(new ICellModifier() {
 
+			@Override
 			public void modify(Object element, String property, Object value) {
 				TreeItem item = (TreeItem) element;
 				Object data = item.getData();
@@ -146,12 +156,14 @@ public class ProjectExplorer extends ViewPart {
 
 		getSite().setSelectionProvider(viewer);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
 			}
 		});
-		
+
 		TreeViewerEditor.create(viewer,
 				new ColumnViewerEditorActivationStrategy(viewer) {
+					@Override
 					protected boolean isEditorActivationEvent(
 							ColumnViewerEditorActivationEvent event) {
 						return event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION;
@@ -172,6 +184,7 @@ public class ProjectExplorer extends ViewPart {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				ProjectExplorer.this.fillContextMenu(manager);
 			}
@@ -211,6 +224,7 @@ public class ProjectExplorer extends ViewPart {
 
 	private void makeActions() {
 		action1 = new Action() {
+			@Override
 			public void run() {
 				showMessage("Action 1 executed");
 			}
@@ -221,6 +235,7 @@ public class ProjectExplorer extends ViewPart {
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 
 		action2 = new Action() {
+			@Override
 			public void run() {
 				showMessage("Action 2 executed");
 			}
@@ -230,6 +245,7 @@ public class ProjectExplorer extends ViewPart {
 		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 		doubleClickAction = new Action() {
+			@Override
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection) selection)
@@ -243,6 +259,7 @@ public class ProjectExplorer extends ViewPart {
 
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				doubleClickAction.run();
 			}
@@ -257,6 +274,7 @@ public class ProjectExplorer extends ViewPart {
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
+	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}

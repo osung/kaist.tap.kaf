@@ -1,7 +1,5 @@
 package kaist.tap.kaf.component;
 
-import kaist.tap.kaf.component.Component.Selection;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.Canvas;
@@ -28,15 +26,13 @@ public class Rectangle extends Component {
 		canvas = null;
 	}
 
-	
 	public Rectangle(Canvas c) {
 		this.setName("Rectangle");
 		position.x = position.y = endPosition.x = endPosition.y = width = height = 0;
 		portable = true;
 		canvas = c;
 	}
-	
-	
+
 	public Rectangle(int x, int y, int w, int h) {
 		setName("Rectangle");
 		position.x = x;
@@ -51,30 +47,31 @@ public class Rectangle extends Component {
 	public Rectangle(Element el) {
 		portable = true;
 		setName("Rectangle");
-		
+
 		Element posel = el.getChild("POSITION");
 		position.x = Integer.parseInt(posel.getChildText("X"));
 		position.y = Integer.parseInt(posel.getChildText("Y"));
-		
-		//line
+
+		// line
 		Element lc = el.getChild("LINECOLOR");
-		setColor(new RGB(Integer.parseInt(lc.getChildText("R")), 
-				         Integer.parseInt(lc.getChildText("G")),
-				         Integer.parseInt(lc.getChildText("B"))));
+		setColor(new RGB(Integer.parseInt(lc.getChildText("R")),
+				Integer.parseInt(lc.getChildText("G")), Integer.parseInt(lc
+						.getChildText("B"))));
 		setLineStyle(Integer.parseInt(el.getChildText("LINESTYLE")));
 		setLineThickness(Integer.parseInt(el.getChildText("LINETHICKNESS")));
-		
-		//fill
+
+		// fill
 		setFill(Boolean.parseBoolean(el.getChildText("FILL")));
 		Element fc = el.getChild("FILLCOLOR");
-		setFillColor(new RGB(Integer.parseInt(fc.getChildText("R")), 
-				             Integer.parseInt(fc.getChildText("G")),
-				             Integer.parseInt(fc.getChildText("B"))));
-		
+		setFillColor(new RGB(Integer.parseInt(fc.getChildText("R")),
+				Integer.parseInt(fc.getChildText("G")), Integer.parseInt(fc
+						.getChildText("B"))));
+
 		setWidth(Integer.parseInt(el.getChildText("WIDTH")));
 		setHeight(Integer.parseInt(el.getChildText("HEIGHT")));
 	}
-	
+
+	@Override
 	public void setPosition(Point p) {
 		super.setPosition(p);
 
@@ -82,6 +79,7 @@ public class Rectangle extends Component {
 		height = Math.abs(endPosition.y - position.y);
 	}
 
+	@Override
 	public void setEndPosition(Point p) {
 		endPosition.x = p.x;
 		endPosition.y = p.y;
@@ -176,6 +174,7 @@ public class Rectangle extends Component {
 		endPosition.y = position.y + h;
 	}
 
+	@Override
 	public void draw(GC gc) {
 		gc.setForeground(getColor());
 		gc.setBackground(getFillColor());
@@ -191,9 +190,10 @@ public class Rectangle extends Component {
 			Port port = ports.get(i);
 			port.draw(gc);
 		}
-		
-		if (selport != null) return;
-		
+
+		if (selport != null)
+			return;
+
 		if (selectMode == SelectMode.SELECTED) {
 			gc.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 			gc.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
@@ -209,6 +209,7 @@ public class Rectangle extends Component {
 		}
 	}
 
+	@Override
 	public Selection containSelection(int x, int y) {
 		selection = Selection.FALSE;
 
@@ -233,32 +234,31 @@ public class Rectangle extends Component {
 		} else
 			return Selection.FALSE;
 	}
-	
-	
+
 	public Point getConnectedPointFromPorts(Line line) {
 		Port minport = null;
 		float mindist = Float.MAX_VALUE;
 		Point opp = line.getOppositePosition(this);
-		
-		for (int i = 0; i < ports.size(); ++i)
-		{
+
+		for (int i = 0; i < ports.size(); ++i) {
 			Port port = ports.get(i);
 			Point p = port.getPosition();
-			float dist = (opp.x-p.x)*(opp.x-p.x)+(opp.y-p.y)*(opp.y-p.y);
+			float dist = (opp.x - p.x) * (opp.x - p.x) + (opp.y - p.y)
+					* (opp.y - p.y);
 			if (mindist > dist) {
 				mindist = dist;
 				minport = port;
 			}
 		}
-		
-		if (minport == null) return null;
+
+		if (minport == null)
+			return null;
 
 		minport.addConnection(line);
 		Point p = minport.getPosition();
 		return new Point(p.x, p.y);
 	}
-	
-	
+
 	public Point getConnectedPointByMidPoint(Line line) {
 		Point opposite = line.getOppositePosition(this);
 
@@ -339,7 +339,6 @@ public class Rectangle extends Component {
 			return null;
 		}
 	}
-	
 
 	public Point getConnectedPoint(Line line) {
 		int idx = connections.indexOf(line);
@@ -347,18 +346,21 @@ public class Rectangle extends Component {
 			return null;
 		if (portable == true && ports.size() > 0) {
 			return getConnectedPointFromPorts(line);
-		} else return getConnectedPointByMidPoint(line);
+		} else
+			return getConnectedPointByMidPoint(line);
 	}
 
+	@Override
 	public boolean contains(int x, int y) {
 		if (grouped == true)
 			return false;
 
 		if (portable == true) {
 			selport = containPort(x, y);
-			if (selport != null) return true;
+			if (selport != null)
+				return true;
 		}
-		
+
 		selport = null;
 		selection = containSelection(x, y);
 
@@ -375,12 +377,13 @@ public class Rectangle extends Component {
 		return true;
 	}
 
+	@Override
 	public void move(int x, int y) {
 		if (selport != null) {
 			movePort(x, y);
 			return;
 		}
-		
+
 		position.x += x;
 		position.y += y;
 		endPosition.x += x;
@@ -396,55 +399,62 @@ public class Rectangle extends Component {
 				line.setEndPosition(p.x + x, p.y + y);
 			}
 		}
-		
+
 		for (int i = 0; i < ports.size(); ++i) {
 			Port port = ports.get(i);
 			port.move(x, y);
 		}
 	}
 
-	
 	public void updatePorts(int x, int y, Selection sel) {
 		if (sel == Selection.UL) {
 			for (int i = 0; i < ports.size(); ++i) {
 				Port port = ports.get(i);
 				Point p = port.getPosition();
-				if (p.y < position.y) p.y = position.y;
-				if (p.x < position.x) p.x = position.x;
-				
+				if (p.y < position.y)
+					p.y = position.y;
+				if (p.x < position.x)
+					p.x = position.x;
+
 				port.updateConnection();
 			}
 		} else if (sel == Selection.LR) {
 			for (int i = 0; i < ports.size(); ++i) {
 				Port port = ports.get(i);
 				Point p = port.getPosition();
-				if (p.y > endPosition.y) p.y = endPosition.y;
-				if (p.x > endPosition.x) p.x = endPosition.x;
-				
+				if (p.y > endPosition.y)
+					p.y = endPosition.y;
+				if (p.x > endPosition.x)
+					p.x = endPosition.x;
+
 				port.updateConnection();
 			}
 		} else if (sel == Selection.LL) {
 			for (int i = 0; i < ports.size(); ++i) {
 				Port port = ports.get(i);
 				Point p = port.getPosition();
-				if (p.y > endPosition.y) p.y = endPosition.y;
-				if (p.x < position.x) p.x = position.x;
-				
+				if (p.y > endPosition.y)
+					p.y = endPosition.y;
+				if (p.x < position.x)
+					p.x = position.x;
+
 				port.updateConnection();
-			}			
+			}
 		} else if (sel == Selection.UR) {
 			for (int i = 0; i < ports.size(); ++i) {
 				Port port = ports.get(i);
 				Point p = port.getPosition();
-				if (p.y < position.y) p.y = position.y;
-				if (p.x > endPosition.x) p.x = endPosition.x;
-				
+				if (p.y < position.y)
+					p.y = position.y;
+				if (p.x > endPosition.x)
+					p.x = endPosition.x;
+
 				port.updateConnection();
-			}			
+			}
 		}
 	}
-	
-	
+
+	@Override
 	public void resize(int x, int y) {
 		if (portable == true) {
 			updatePorts(x, y, selection);
@@ -462,6 +472,7 @@ public class Rectangle extends Component {
 		}
 	}
 
+	@Override
 	public Rectangle clone() {
 		Rectangle rect = new Rectangle(position.x, position.y, width, height);
 		rect.setCanvas(canvas);
@@ -481,6 +492,7 @@ public class Rectangle extends Component {
 		return false;
 	}
 
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		TextPropertyDescriptor nameDiscriptor = new TextPropertyDescriptor(
 				"Name", "Type");
@@ -519,6 +531,7 @@ public class Rectangle extends Component {
 				ltDiscriptor, lsDiscriptor, pcDiscriptor, pfDiscriptor };
 	}
 
+	@Override
 	public Object getPropertyValue(Object id) {
 		if ("Width".equals(id))
 			return Integer.toString(width);
@@ -528,11 +541,12 @@ public class Rectangle extends Component {
 			return super.getPropertyValue(id);
 	}
 
+	@Override
 	public void setPropertyValue(Object id, Object value) {
 		if (canvas != null) {
 			canvas.redraw();
 		}
-		
+
 		if ("Width".equals(id)) {
 			width = Integer.parseInt((String) value);
 			endPosition.x = position.x + width;
@@ -543,6 +557,7 @@ public class Rectangle extends Component {
 			super.setPropertyValue(id, value);
 	}
 
+	@Override
 	public Point[] getBounds() {
 		Point[] bounds = new Point[2];
 
@@ -557,36 +572,47 @@ public class Rectangle extends Component {
 		return bounds;
 	}
 
+	@Override
 	public void addPort() {
-		addPort(position.x, position.y+ (int) (height*0.5));
-	} 
-	
+		addPort(position.x, position.y + (int) (height * 0.5));
+	}
+
 	@Override
 	public void movePort(int x, int y) {
 		int dx, dy;
-		if (selport == null) return;
-		
-		dx = x; dy = y;
+		if (selport == null)
+			return;
+
+		dx = x;
+		dy = y;
 		Point pos = selport.getPosition();
-		if (pos.x == position.x || pos.x == endPosition.x) dx = 0;
-		if (pos.y == position.y || pos.y == endPosition.y) dy = 0;
-		
-		if ((pos.x == position.x || pos.x == endPosition.x) &&
-		    (pos.y == position.y || pos.y == endPosition.y)	) {
-			if (Math.abs(x) > Math.abs(y)) dx = x;
-			else dy = y;
+		if (pos.x == position.x || pos.x == endPosition.x)
+			dx = 0;
+		if (pos.y == position.y || pos.y == endPosition.y)
+			dy = 0;
+
+		if ((pos.x == position.x || pos.x == endPosition.x)
+				&& (pos.y == position.y || pos.y == endPosition.y)) {
+			if (Math.abs(x) > Math.abs(y))
+				dx = x;
+			else
+				dy = y;
 		}
-		
+
 		Point newpos = new Point(pos.x, pos.y);
-		
+
 		newpos.x += dx;
 		newpos.y += dy;
-		
-		if (newpos.x < position.x) newpos.x = position.x;
-		if (newpos.x > endPosition.x) newpos.x = endPosition.x;
-		if (newpos.y < position.y) newpos.y = position.y;
-		if (newpos.y > endPosition.y) newpos.y = endPosition.y;
-		
+
+		if (newpos.x < position.x)
+			newpos.x = position.x;
+		if (newpos.x > endPosition.x)
+			newpos.x = endPosition.x;
+		if (newpos.y < position.y)
+			newpos.y = position.y;
+		if (newpos.y > endPosition.y)
+			newpos.y = endPosition.y;
+
 		selport.move(newpos.x - pos.x, newpos.y - pos.y);
 	}
 
@@ -594,29 +620,31 @@ public class Rectangle extends Component {
 	public Element getXMLElement(int id) {
 		Element el = new Element("RECT");
 		el.setAttribute("id", Integer.toString(id));
-		
+
 		el.addContent(getPositionXMLElement());
-		
+
 		Element w = new Element("WIDTH");
 		w.setText(Integer.toString(width));
 		el.addContent(w);
-		
+
 		Element h = new Element("HEIGHT");
 		h.setText(Integer.toString(height));
 		el.addContent(h);
-		
+
 		el.addContent(getLineColorXMLElement());
 		el.addContent(getLineStyleXMLElement());
 		el.addContent(getLineThicknessXMLElement());
-		
-		el.addContent(getFillXMLElement());		
+
+		el.addContent(getFillXMLElement());
 		el.addContent(getFillColorXMLElement());
-		
+
 		Element conn = getConnectionXMLElement();
-		if (conn != null) el.addContent(conn);
-		
-		if (ports.size() > 0) el.addContent(getPortXMLElement());
-		
+		if (conn != null)
+			el.addContent(conn);
+
+		if (ports.size() > 0)
+			el.addContent(getPortXMLElement());
+
 		return el;
 	}
 }

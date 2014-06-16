@@ -4,12 +4,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
-
-import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-public abstract class ComponentElement implements IPropertySource { 
+public abstract class ComponentElement implements IPropertySource {
 
 	private transient PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(
 			this);

@@ -1,14 +1,7 @@
 package kaist.tap.kaf.component;
 
-import java.awt.Polygon;
-import java.awt.geom.AffineTransform;
-
-import kaist.tap.kaf.component.Component.SelectMode;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
@@ -60,8 +53,6 @@ public class Arrow extends Line {
 		portable = false;
 	}
 
-	
-	
 	public void setArrowHeadSize(int index, int size) {
 		if (index > 1)
 			return;
@@ -133,6 +124,7 @@ public class Arrow extends Line {
 		tx.dispose();
 	}
 
+	@Override
 	public void draw(GC gc) {
 		gc.setForeground(getColor());
 		gc.setBackground(getColor());
@@ -160,6 +152,7 @@ public class Arrow extends Line {
 		}
 	}
 
+	@Override
 	public Arrow clone() {
 		Arrow arrow = new Arrow(position.x, position.y, endPosition.x,
 				endPosition.y);
@@ -181,6 +174,7 @@ public class Arrow extends Line {
 		return false;
 	}
 
+	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		TextPropertyDescriptor nameDiscriptor = new TextPropertyDescriptor(
 				"Name", "Type");
@@ -239,9 +233,9 @@ public class Arrow extends Line {
 	public Element getXMLElement(int id) {
 		Element el = new Element("ARROW");
 		el.setAttribute("id", Integer.toString(id));
-		
+
 		el.addContent(getPositionXMLElement());
-		
+
 		Element ep = new Element("ENDPOSITION");
 		Element epx = new Element("X");
 		Element epy = new Element("Y");
@@ -250,11 +244,11 @@ public class Arrow extends Line {
 		ep.addContent(epx);
 		ep.addContent(epy);
 		el.addContent(ep);
-		
+
 		el.addContent(getLineColorXMLElement());
 		el.addContent(getLineStyleXMLElement());
 		el.addContent(getLineThicknessXMLElement());
-	
+
 		if (connected == true) {
 			Element conn = new Element("CONNECTION");
 			if (startComponent != null) {
@@ -269,7 +263,7 @@ public class Arrow extends Line {
 			}
 			el.addContent(conn);
 		}
-				
+
 		return el;
 	}
 }

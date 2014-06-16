@@ -35,6 +35,7 @@ public class View implements ISelection {
 		this.mRestrictedComponent = mRestrictedComponent;
 	}
 
+	@Override
 	public String toString() {
 		return mName;
 	}
