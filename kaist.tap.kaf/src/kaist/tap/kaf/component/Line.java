@@ -3,6 +3,7 @@ package kaist.tap.kaf.component;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -24,14 +25,23 @@ public class Line extends Component {
 		position.x = position.y = endPosition.x = endPosition.y = 0;
 		startComponent = endComponent = null;
 	}
+	
+	public Line(Canvas c) {
+		connected = false;
+		this.setName("Line");
+		position.x = position.y = endPosition.x = endPosition.y = 0;
+		startComponent = endComponent = null;
+		canvas = c;
+	}
 
-	public Line(int x1, int y1, int x2, int y2) {
+	public Line(int x1, int y1, int x2, int y2, Canvas c) {
 		setName("Line");
 		connected = false;
 		position.x = x1;
 		position.y = y1;
 		endPosition.x = x2;
 		endPosition.y = y2;
+		canvas = c;
 	}
 	
 	public Line(Element el) {
@@ -262,8 +272,7 @@ public class Line extends Component {
 	}
 
 	public Line clone() {
-		Line line = new Line(position.x, position.y, endPosition.x,
-				endPosition.y);
+		Line line = new Line(position.x, position.y, endPosition.x,	endPosition.y, canvas);
 		line.setColor(color);
 		line.setDrawn(drawn);
 		line.setLineThickness(lineThickness);
@@ -324,6 +333,8 @@ public class Line extends Component {
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
+		if (canvas != null) canvas.redraw();
+		
 		if ("EndPosition_X".equals(id))
 			endPosition.x = Integer.parseInt((String) value);
 		else if ("EndPosition_Y".equals(id))

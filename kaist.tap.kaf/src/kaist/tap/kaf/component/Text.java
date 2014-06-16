@@ -7,6 +7,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -27,6 +28,16 @@ public class Text extends Rectangle {
 		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
 		portable = true;
 	}
+	
+	
+	public Text(Canvas c) {
+		setName("Text");
+		text = new String();
+		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
+		portable = true;
+		canvas = c;
+	}
+	
 
 	public Text(int x, int y, int w, int h, String str) {
 		setName("Text");
@@ -40,6 +51,7 @@ public class Text extends Rectangle {
 		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
 		fontSize = 20;
 		fontStyle = SWT.NORMAL;
+		color = SWTResourceManager.getColor(SWT.COLOR_WHITE);
 		portable = true;
 	}
 	
@@ -229,6 +241,8 @@ public class Text extends Rectangle {
 	}
 
 	public void setPropertyValue(Object id, Object value) {
+		if (canvas != null) canvas.redraw();
+		
 		if ("Text".equals(id))
 			text = (String) value;
 		else if ("FontColor".equals(id)) {

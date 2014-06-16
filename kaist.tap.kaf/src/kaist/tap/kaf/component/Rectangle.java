@@ -4,6 +4,7 @@ import kaist.tap.kaf.component.Component.Selection;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -24,8 +25,18 @@ public class Rectangle extends Component {
 		this.setName("Rectangle");
 		position.x = position.y = endPosition.x = endPosition.y = width = height = 0;
 		portable = true;
+		canvas = null;
 	}
 
+	
+	public Rectangle(Canvas c) {
+		this.setName("Rectangle");
+		position.x = position.y = endPosition.x = endPosition.y = width = height = 0;
+		portable = true;
+		canvas = c;
+	}
+	
+	
 	public Rectangle(int x, int y, int w, int h) {
 		setName("Rectangle");
 		position.x = x;
@@ -453,6 +464,7 @@ public class Rectangle extends Component {
 
 	public Rectangle clone() {
 		Rectangle rect = new Rectangle(position.x, position.y, width, height);
+		rect.setCanvas(canvas);
 		rect.setColor(color);
 		rect.setFillColor(fillColor);
 		rect.setFill(fill);
@@ -517,6 +529,10 @@ public class Rectangle extends Component {
 	}
 
 	public void setPropertyValue(Object id, Object value) {
+		if (canvas != null) {
+			canvas.redraw();
+		}
+		
 		if ("Width".equals(id)) {
 			width = Integer.parseInt((String) value);
 			endPosition.x = position.x + width;

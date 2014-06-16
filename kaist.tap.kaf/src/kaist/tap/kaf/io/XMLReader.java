@@ -16,6 +16,7 @@ import kaist.tap.kaf.component.Text;
 import kaist.tap.kaf.views.ComponentRepository;
 
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Canvas;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -89,7 +90,7 @@ public class XMLReader {
 		}
 	}
 	
-	public Vector<ComponentRepository> getRepositories() {
+	public Vector<ComponentRepository> getRepositories(Canvas canvas) {
 		Vector<ComponentRepository> repos = new Vector<ComponentRepository>();
 		
 		for (int i = 0; i < views.size(); ++i) {
@@ -106,6 +107,7 @@ public class XMLReader {
 				if (name.compareTo("RECT")==0) {
 					Rectangle rect = new Rectangle(el);
 					rect.setDrawn(true);
+					rect.setCanvas(canvas);
 					repo.register(rect);
 					addPort(el, rect);
 					addConnection(el, repo, rect);
@@ -113,6 +115,7 @@ public class XMLReader {
 				else if (name.compareTo("TEXT")==0) {
 					Text text = new Text(el);
 					text.setDrawn(true);
+					text.setCanvas(canvas);
 					repo.register(text);
 					addPort(el, text);
 					addConnection(el, repo, text);
@@ -120,6 +123,7 @@ public class XMLReader {
 				else if (name.compareTo("PARALLELOGRAM")==0) {
 					Parallelogram parallel = new Parallelogram(el);
 					parallel.setDrawn(true);
+					parallel.setCanvas(canvas);
 					repo.register(parallel);
 					addPort(el, parallel);
 					addConnection(el, repo, parallel);
@@ -127,6 +131,7 @@ public class XMLReader {
 				else if (name.compareTo("LINE")==0) {
 					Line line = new Line(el);
 					line.setDrawn(true);
+					line.setCanvas(canvas);
 					repo.register(line);
 					
 					Element conn = el.getChild("CONNECTION");
@@ -161,6 +166,7 @@ public class XMLReader {
 				else if (name.compareTo("ARROW")==0) {
 					Arrow arrow = new Arrow(el);
 					arrow.setDrawn(true);
+					arrow.setCanvas(canvas);
 					repo.register(arrow);
 					
 					Element conn = el.getChild("CONNECTION");

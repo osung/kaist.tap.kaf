@@ -10,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -67,6 +68,18 @@ public class Parallelogram extends Rectangle {
 		setParallelType(ParallelType.LEFT);
 		setControlPoint(10);
 		portable = true;
+	}
+	
+	
+	public Parallelogram(Canvas c) {
+		setName("Parallelogram");
+		realPoints = new Point[4];
+		for (int i = 0; i < 4; ++i)
+			realPoints[i] = new Point(0, 0);
+		setParallelType(ParallelType.LEFT);
+		setControlPoint(10);
+		portable = true;
+		canvas = c;
 	}
 
 	public Parallelogram(Element el) {
@@ -377,7 +390,7 @@ public class Parallelogram extends Rectangle {
 	}
 
 	public Parallelogram clone() {
-		Parallelogram para = new Parallelogram();
+		Parallelogram para = new Parallelogram(canvas);
 		para.setPosition(position);
 		para.setWidth(width);
 		para.setHeight(height);
@@ -450,6 +463,8 @@ public class Parallelogram extends Rectangle {
 	}
 
 	public void setPropertyValue(Object id, Object value) {
+		if (canvas != null) canvas.redraw();
+		
 		if ("ControlPoint".equals(id))
 			setControlPoint(Integer.parseInt((String) value));
 		else if ("ParallelType".equals(id)) {

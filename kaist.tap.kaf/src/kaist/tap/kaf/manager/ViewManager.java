@@ -1,12 +1,14 @@
 package kaist.tap.kaf.manager;
 
-import kaist.tap.kaf.views.*;
 import kaist.tap.kaf.component.Component;
 import kaist.tap.kaf.io.XMLReader;
 import kaist.tap.kaf.io.XMLWriter;
 import kaist.tap.kaf.manager.View.viewType;
+import kaist.tap.kaf.views.ComponentRepository;
 
 import java.util.*;
+
+import org.eclipse.swt.widgets.Canvas;
 
 public class ViewManager {
 	protected ArrayList<View> mViews;
@@ -85,7 +87,7 @@ public class ViewManager {
 	}
 	
 	
-	public void ReadXML(String file) {
+	public void ReadXML(String file, Canvas canvas) {
 		// clear all repositories
 		while(mRepos.size() > 0) {
 			ComponentRepository repo = mRepos.get(0);
@@ -99,7 +101,7 @@ public class ViewManager {
 		
 		XMLReader reader = new XMLReader(file);
 		
-		Vector<ComponentRepository> repos = reader.getRepositories();
+		Vector<ComponentRepository> repos = reader.getRepositories(canvas);
 		
 		for (int i = 0; i < repos.size(); ++i) {
 			ComponentRepository cr = repos.get(i);

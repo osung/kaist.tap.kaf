@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -46,6 +47,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 	protected Vector<Port> ports;
 	protected Port selport;  // selected port
 	protected int id;
+	protected Canvas canvas;
 
 	public Component() {
 		drawn = false;
@@ -65,6 +67,7 @@ public abstract class Component extends ComponentElement implements ISelection {
 		ports = new Vector<Port>();
 		selport = null;
 		id = -1;
+		canvas = null;
 	}
 	
 	public abstract Component clone();
@@ -79,11 +82,15 @@ public abstract class Component extends ComponentElement implements ISelection {
 
 	public abstract Point[] getBounds();
 
+	
+	public void setCanvas(Canvas c) {
+		canvas = c;
+	}
+	
 	public int getId() {
 		return id;
 	}
-	
-	
+		
 	public void setId(int i) {
 		id = i;
 	}

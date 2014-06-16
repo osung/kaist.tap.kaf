@@ -169,7 +169,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						repo.lower(c);
 					} else if (e.keyCode == 'i' || e.keyCode == 'I') {
 						saveImage(e.display);
-					} else if (e.keyCode == 'v' || e.keyCode == 'V') {
+					} else if (e.keyCode == 's' || e.keyCode == 'S') {
 						save(e.display);
 					} else if (e.keyCode == 'o' || e.keyCode == 'O') {
 						open(e.display);
@@ -257,6 +257,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 
 						Parallelogram src = (Parallelogram) selected;
 						Parallelogram para = src.clone();
+						para.setCanvas(canvas);
 						para.setControlPoint(w / 4);
 						para.setDrawn(true);
 						repo.register(para);
@@ -268,16 +269,19 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 
 						Rectangle src = (Rectangle) selected;
 						Rectangle rect = src.clone();
+						rect.setCanvas(canvas);
 						rect.setDrawn(true);
 						repo.register(rect);
 					} else if (selected instanceof Arrow) {
 						Arrow src = (Arrow) selected;
 						Arrow arrow = src.clone();
+						arrow.setCanvas(canvas);
 						arrow.setDrawn(true);
 						repo.register(arrow);
 					} else if (selected instanceof Line) {
 						Line src = (Line) selected;
 						Line line = src.clone();
+						line.setCanvas(canvas);
 						line.setDrawn(true);
 						repo.register(line);
 						checkConnection(line, e.x, e.y);
@@ -465,7 +469,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		fd.setFilterExtensions(filterExt);
 		String filename = fd.open();
 		if (filename != null) {
-			vm.ReadXML(filename);
+			vm.ReadXML(filename, canvas);
 			repo = vm.getRepo(viewType.LOGICAL_VIEW);
 		}
 	}
