@@ -104,7 +104,6 @@ public class PaletteView extends ViewPart {
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
-				System.out.println("Selection changed");
 				// IStructuredSelection selection = (IStructuredSelection)
 				// event.getSelection();
 			}

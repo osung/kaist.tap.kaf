@@ -145,8 +145,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					} else if (e.keyCode == 'G' || e.keyCode == 'g') {
 						if (psel.size() <= 1)
 							return;
-						System.out.println("G is pressed");
-
 						Group group = new Group();
 						for (int i = 0; i < psel.size(); ++i) {
 							Component c = psel.get(i);
@@ -181,7 +179,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						repo.lower(c);
 					} else if (e.keyCode == 'i' || e.keyCode == 'I') {
 						saveImage(e.display);
-					} else if (e.keyCode == 's' || e.keyCode == 'S') {
+					} else if (e.keyCode == 'a' || e.keyCode == 'A') {
 						save(e.display);
 					} else if (e.keyCode == 'o' || e.keyCode == 'O') {
 						open(e.display);
