@@ -14,9 +14,9 @@ import kaist.tap.kaf.component.Component;
 
 public class Line extends Component {
 
-	boolean connected;
-	Component startComponent;
-	Component endComponent;
+	protected boolean connected;
+	protected Component startComponent;
+	protected Component endComponent;
 
 	public Line() {
 		connected = false;

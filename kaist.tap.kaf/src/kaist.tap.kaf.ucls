@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.4" icons="true" automaticImage="JPEG" always-add-relationships="false" 
+  generalizations="false" realizations="false" associations="false" dependencies="false" nesting-relationships="false">  
+  <class id="1" language="java" name="kaist.tap.kaf.component.Component" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Component.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="381" width="160" x="1133" y="677"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="kaist.tap.kaf.component.Line" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Line.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="75" width="134" x="1154" y="1249"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="3" language="java" name="kaist.tap.kaf.component.Rectangle.Edge" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Rectangle.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="147" width="137" x="452" y="1249"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="4" language="java" name="kaist.tap.kaf.component.Rectangle" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Rectangle.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="93" width="121" x="790" y="1098"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="kaist.tap.kaf.component.Arrow" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Arrow.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="121" x="1154" y="1436"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="kaist.tap.kaf.component.Group" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Group.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="121" x="951" y="1249"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="7" language="java" name="kaist.tap.kaf.component.Parallelogram.ParallelType" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Parallelogram.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="129" width="151" x="629" y="1436"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="8" language="java" name="kaist.tap.kaf.component.Parallelogram" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Parallelogram.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="93" width="121" x="629" y="1249"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="kaist.tap.kaf.component.Port" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Port.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="111" width="121" x="991" y="1098"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="kaist.tap.kaf.component.Text" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/component/Text.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="129" width="121" x="790" y="1249"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="kaist.tap.kaf.io.XMLWriter" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/io/XMLWriter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="75" width="108" x="764" y="544"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="kaist.tap.kaf.manager.LogicalView" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/manager/LogicalView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="110" x="702" y="677"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="kaist.tap.kaf.manager.RunTimeView" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/manager/RunTimeView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="117" x="545" y="677"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="14" language="java" name="kaist.tap.kaf.manager.View.ViewType" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/manager/View.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="93" width="176" x="329" y="677"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="15" language="java" name="kaist.tap.kaf.manager.View" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/manager/View.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="93" width="174" x="369" y="544"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="kaist.tap.kaf.manager.ViewManager" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/manager/ViewManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="115" x="583" y="447"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="kaist.tap.kaf.views.Canvas" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/Canvas.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="75" width="98" x="1133" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="kaist.tap.kaf.views.ComponentRepository" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/ComponentRepository.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="75" width="179" x="912" y="544"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="kaist.tap.kaf.views.ComponentSelectionListener" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/ComponentSelectionListener.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="93" width="224" x="526" y="224"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="kaist.tap.kaf.views.PaletteView.NameSorter" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/PaletteView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="103" x="790" y="224"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="kaist.tap.kaf.views.PaletteView.ViewLabelProvider" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/PaletteView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="151" x="933" y="224"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="kaist.tap.kaf.views.PaletteView" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/PaletteView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="147" width="165" x="790" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="kaist.tap.kaf.views.ProjectExplorer.ViewLabelProvider" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/ProjectExplorer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="151" x="41" y="447"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="kaist.tap.kaf.views.ProjectExplorer.ViewContentProvider" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/ProjectExplorer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="168" x="375" y="447"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="kaist.tap.kaf.views.ProjectExplorer.NameSorter" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/ProjectExplorer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="57" width="103" x="232" y="447"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="kaist.tap.kaf.views.ProjectExplorer" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/ProjectExplorer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="183" width="224" x="232" y="224"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="kaist.tap.kaf.views.ShapeCanvas" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/views/ShapeCanvas.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="111" width="141" x="1133" y="224"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="kaist.tap.kaf.io.XMLReader" project="kaist.tap.kaf" 
+    file="/kaist.tap.kaf/src/kaist/tap/kaf/io/XMLReader.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="93" width="141" x="583" y="544"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <association id="29">    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="30" name="selectionListener"/>      
+      <multiplicity id="31" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="32">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="33">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="34" name="selport"/>      
+      <multiplicity id="35" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="36">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="37" name="comp"/>      
+      <multiplicity id="38" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="39">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="25"/>  
+  </nesting>  
+  <nesting id="40">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </nesting>  
+  <association id="41">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="42" name="canvas"/>      
+      <multiplicity id="43" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="44">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="15"/>  
+  </generalization>  
+  <association id="45">    
+    <bendpoint x="1142" y="447"/>    
+    <bendpoint x="1142" y="544"/>    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="46" name="copy"/>      
+      <multiplicity id="47" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="48">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="20"/>  
+  </nesting>  
+  <association id="49">    
+    <bendpoint x="1031" y="447"/>    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="50" name="repo"/>      
+      <multiplicity id="51" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="52">    
+    <bendpoint x="1121" y="447"/>    
+    <bendpoint x="1121" y="544"/>    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="53" name="psel"/>      
+      <multiplicity id="54" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="55">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
+  </nesting>  
+  <association id="56">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="57" name="repos"/>      
+      <multiplicity id="58" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="59">    
+    <bendpoint x="960" y="1098"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="60" name="components"/>      
+      <multiplicity id="61" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="62">    
+    <bendpoint x="338" y="544"/>    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="14"/>  
+  </dependency>  
+  <association id="63">    
+    <bendpoint x="1142" y="1098"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="64" name="connections"/>      
+      <multiplicity id="65" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="66">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="28"/>  
+  </dependency>  
+  <nesting id="67">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="21"/>  
+  </nesting>  
+  <generalization id="68">    
+    <bendpoint x="1163" y="1098"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="69">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="70">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="71" name="type"/>      
+      <multiplicity id="72" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="73">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="74">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="75">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="76" name="vm"/>      
+      <multiplicity id="77" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="78">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="79" name="ports"/>      
+      <multiplicity id="80" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="81">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="82" name="components"/>      
+      <multiplicity id="83" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="84">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="14"/>  
+  </nesting>  
+  <association id="85">    
+    <bendpoint x="1205" y="1098"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="86" name="startComponent"/>      
+      <multiplicity id="87" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="88">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="89" name="views"/>      
+      <multiplicity id="90" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="91">    
+    <bendpoint x="1163" y="447"/>    
+    <bendpoint x="1163" y="544"/>    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="92" name="tmpComp"/>      
+      <multiplicity id="93" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="94">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="95" name="viewType"/>      
+      <multiplicity id="96" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="97">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="15"/>  
+  </generalization>  
+  <nesting id="98">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="24"/>  
+  </nesting>  
+  <nesting id="99">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="23"/>  
+  </nesting>  
+  <association id="100">    
+    <bendpoint x="1184" y="447"/>    
+    <bendpoint x="1184" y="544"/>    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="101" name="selected"/>      
+      <multiplicity id="102" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="103">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <generalization id="104">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="105">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="106" name="connections"/>      
+      <multiplicity id="107" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="108">    
+    <bendpoint x="1184" y="1098"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="109" name="endComponent"/>      
+      <multiplicity id="110" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="111">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="112" name="children"/>      
+      <multiplicity id="113" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

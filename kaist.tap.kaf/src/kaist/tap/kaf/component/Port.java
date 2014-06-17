@@ -11,7 +11,7 @@ import org.jdom2.Element;
 public class Port {
 	protected Point position;
 	protected Vector<Line> connections;
-	protected final int width = 10;
+	protected final int width = 12;
 	protected final int halfWidth = (int) (width * 0.5);
 	protected Component comp;
 
@@ -102,15 +102,6 @@ public class Port {
 		pos.addContent(posx);
 		pos.addContent(posy);
 		pel.addContent(pos);
-		/*
-		 * if (connections.size() > 0) { Element conn = new
-		 * Element("CONNECTION"); conn.setAttribute("num",
-		 * Integer.toString(connections.size())); String conns = new String("");
-		 * 
-		 * for (int i = 0; i < connections.size(); ++i) { conns +=
-		 * Integer.toString(connections.get(i).getId()) + " "; }
-		 * conn.setText(conns); pel.addContent(conn); }
-		 */
 
 		return pel;
 	}

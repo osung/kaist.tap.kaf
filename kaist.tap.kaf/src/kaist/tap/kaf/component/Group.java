@@ -12,7 +12,7 @@ import org.jdom2.Element;
 
 public class Group extends Rectangle {
 
-	Vector<Component> components;
+	protected Vector<Component> components;
 
 	public Group() {
 		components = new Vector<Component>();

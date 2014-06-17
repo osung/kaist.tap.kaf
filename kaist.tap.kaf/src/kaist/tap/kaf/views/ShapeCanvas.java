@@ -11,7 +11,7 @@ import kaist.tap.kaf.component.Rectangle;
 import kaist.tap.kaf.component.Group;
 import kaist.tap.kaf.component.Component.Selection;
 import kaist.tap.kaf.manager.*;
-import kaist.tap.kaf.manager.View.viewType;
+import kaist.tap.kaf.manager.View.ViewType;
 
 import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
@@ -39,6 +39,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 	private Point sp = null;
 	private Component tmpComp = null;
 	protected ViewManager vm;
+	protected View view;
 
 	public ShapeCanvas(Composite parent, int style) {
 		super(parent, style);
@@ -49,7 +50,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		vm.addView(new RunTimeView());
 		vm.addRepo(new ComponentRepository(new String("Runtime View")));
 
-		repo = vm.getRepo(viewType.LOGICAL_VIEW);
+		repo = vm.getRepo(ViewType.LOGICAL_VIEW);
+		view = vm.getView("LogicalView");
 
 		psel = new Vector<Component>();
 		copy = new Vector<Component>();
@@ -66,6 +68,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					} else if (select instanceof View) {
 						View v = (View) select;
 						repo = vm.getRepo(v.getViewType());
+						view = vm.getView(v.getName());
 						psel.clear();
 						copy.clear();
 						redraw();
@@ -183,6 +186,9 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					} else if (e.keyCode == 'o' || e.keyCode == 'O') {
 						open(e.display);
 					} else if (e.keyCode == 'p' || e.keyCode == 'P') {
+						// forbid port
+						if (view.isRestricted("Port") == true) return;
+						
 						for (int i = 0; i < psel.size(); ++i) {
 							Component c = psel.get(i);
 
@@ -244,8 +250,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 
 				sp = new Point(e.x, e.y);
 				redraw();
-				
-				
 			}
 
 			@Override
@@ -257,6 +261,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					sp = null;
 					return;
 				}
+				
+				if (view.isRestricted(selected.getName())==true) return;
 
 				if (selected.getDrawn() == false) {
 					if (selected instanceof Group) {
@@ -326,6 +332,8 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 					return;
 
 				if (selected != null) {
+					if (view.isRestricted(selected.getName())==true) return;
+					
 					if (selected.getDrawn() == true) {
 						for (int i = 0; i < psel.size(); ++i) {
 							Component sel = psel.get(i);
@@ -488,7 +496,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		String filename = fd.open();
 		if (filename != null) {
 			vm.ReadXML(filename, canvas);
-			repo = vm.getRepo(viewType.LOGICAL_VIEW);
+			repo = vm.getRepo(ViewType.LOGICAL_VIEW);
 		}
 	}
 
