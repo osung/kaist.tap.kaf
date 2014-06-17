@@ -181,7 +181,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						repo.lower(c);
 					} else if (e.keyCode == 'i' || e.keyCode == 'I') {
 						saveImage(e.display);
-					} else if (e.keyCode == 's' || e.keyCode == 'S') {
+					} else if (e.keyCode == 'a' || e.keyCode == 'A') {
 						save(e.display);
 					} else if (e.keyCode == 'o' || e.keyCode == 'O') {
 						open(e.display);
@@ -200,7 +200,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						}
 					} else if (e.keyCode == 'n' || e.keyCode == 'N') {
 						vm.clear();
-						
 					}
 				}
 
