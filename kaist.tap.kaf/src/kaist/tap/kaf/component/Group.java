@@ -193,10 +193,8 @@ public class Group extends Rectangle {
 
 		Element members = new Element("MEMBERS");
 		String mem = new String("");
-		System.out.println("size : " + components.size());
 
 		for (int i = 0; i < components.size(); ++i) {
-			System.out.println(" id : " + components.get(i).getId());
 			mem += Integer.toString(components.get(i).getId()) + " ";
 		}
 

@@ -51,7 +51,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		vm.addRepo(new ComponentRepository(new String("Runtime View")));
 
 		repo = vm.getRepo(ViewType.LOGICAL_VIEW);
-		view = vm.getView("LogicalView");
+		view = vm.getView("Logical View");
 
 		psel = new Vector<Component>();
 		copy = new Vector<Component>();
@@ -367,15 +367,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 				}
 			}
 		});
-
-		addModifyListener(new ModifyListener() {
-
-			@Override
-			public void modifyText(ModifyEvent e) {
-				System.out.println(e.getSource());
-				System.out.println(e.data);
-			}
-		});
 	}
 
 	public void checkConnection(Line line, int x, int y) {
@@ -466,7 +457,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 		String[] filterExt = { "*.jpg", "*.jpeg", "*.*" };
 		fd.setFilterExtensions(filterExt);
 		String filename = fd.open();
-		// System.out.println(selected);
 
 		loader.save(filename, SWT.IMAGE_JPEG);
 		image.dispose();

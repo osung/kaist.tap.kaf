@@ -40,21 +40,6 @@ public class PaletteView extends ViewPart {
 	private Action doubleClickAction;
 	private ComponentSelectionListener selectionListener;
 
-	/*
-	 * The content provider class is responsible for providing objects to the
-	 * view. It can wrap existing objects in adapters or simply return objects
-	 * as-is. These objects may be sensitive to the current input of the view,
-	 * or ignore it and always show the same content (like Task List, for
-	 * example).
-	 */
-	/*
-	 * class ViewContentProvider implements IStructuredContentProvider { public
-	 * void inputChanged(Viewer v, Object oldInput, Object newInput) { } public
-	 * void dispose() { }
-	 * 
-	 * public Object[] getElements(Object parent) { if (parent instanceof ) } }
-	 */
-
 	class ViewLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		@Override
@@ -115,10 +100,6 @@ public class PaletteView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
-
-		// selectionListener = new ComponentSelectionListener(viewer,
-		// getSite().getPart());
-		// getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 
 	@Override

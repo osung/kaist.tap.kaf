@@ -26,6 +26,7 @@ public class Text extends Rectangle {
 		setName("Text");
 		text = new String();
 		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
+		color = SWTResourceManager.getColor(SWT.COLOR_WHITE);
 		portable = true;
 	}
 
@@ -33,6 +34,7 @@ public class Text extends Rectangle {
 		setName("Text");
 		text = new String();
 		fontColor = SWTResourceManager.getColor(SWT.COLOR_BLACK);
+		color = SWTResourceManager.getColor(SWT.COLOR_WHITE);
 		portable = true;
 		canvas = c;
 	}
