@@ -198,7 +198,6 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 						}
 					} else if (e.keyCode == 'n' || e.keyCode == 'N') {
 						vm.clear();
-						
 					}
 				}
 
