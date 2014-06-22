@@ -196,7 +196,7 @@ public class ShapeCanvas extends Canvas implements ISelectionProvider {
 								c.addPort();
 							}
 						}
-					} else if (e.keyCode == 'n' || e.keyCode == 'N') {
+					} else if (e.keyCode == '0') {
 						vm.clear();
 					}
 				}

@@ -16,10 +16,10 @@ import kaist.tap.kaf.views.ComponentRepository;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Canvas;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 public class XMLReader {
 	protected Document docu = null;
